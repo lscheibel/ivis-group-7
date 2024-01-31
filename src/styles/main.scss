@@ -1,0 +1,10 @@
+@import 'normalize';
+@import 'font-faces';
+@import 'variables';
+
+html,
+body {
+    background: var(--white);
+    font-family: 'Syne', sans-serif;
+    color: var(--black);
+}
