@@ -1,0 +1,8 @@
+.dashboardContainer {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); // Defines 3 columns of equal size.
+    grid-template-areas:
+        'averageSkillScore averageSkillScore averageSkillScore'
+        'maxScore          description       description';
+}
