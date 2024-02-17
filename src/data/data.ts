@@ -201,6 +201,30 @@ export class CountryDatum {
 
 export const data = jsonData.map((rawEntry) => new CountryDatum(rawEntry));
 
+const averageAvailableFood = {};
+
+let buket: Array<[string, number]> = [];
+//buket[0] = new Array<[string, number]>(2);
+
+let dataPointsCouter: number[] = new Array(Object.entries(data[0].availableFood).length).fill(0);
+
+data.forEach((countryDatum) => {
+    Object.entries(countryDatum.availableFood).forEach(buketFiller);
+
+    function buketFiller(food: [string, number | null], index: number) {
+        if (!buket[index]) {
+            // Initialize the sub-array if it doesn't exist
+            buket[index] = [food[0], 0];
+        }
+
+        const value = food[1] !== null ? food[1] : 0;
+        if (value !== 0) {
+            buket[index][1] += value;
+            dataPointsCouter[index]++;
+        }
+    }
+});
+
 export const metaData = {
     totalCountries: data.length,
     averagePisaMathScore: data.reduce((acc, c) => acc + c.pisaScores.math, 0) / data.length,
@@ -208,6 +232,9 @@ export const metaData = {
     averagePisaScienceScore: data.reduce((acc, c) => acc + c.pisaScores.science, 0) / data.length,
     averagePisaScore: data.reduce((acc, c) => acc + c.pisaScores.average, 0) / data.length,
     nutrientList: data.map((countryDatum) => Object.entries(countryDatum.availableFood)),
+    averageAvailableFood: buket.map((foodTotal, i) => {
+        return [foodTotal[0], foodTotal[1] / dataPointsCouter[i]];
+    }),
 };
 
 const nutrientList = data.map((countryDatum) => Object.entries(countryDatum.availableFood));
@@ -219,9 +246,7 @@ const nutrientList = data.map((countryDatum) => Object.entries(countryDatum.avai
 
 //const averageMiscellaneous = nutrientList.reduce(nutrientsReducer, 0);
 
-const averageAvailableFood = {};
-
-data.forEach((countryDatum) => {
+/*data.forEach((countryDatum) => {
     Object.entries(countryDatum.availableFood).forEach(([food, value]) => {
         //availableFood[food] ??= 0;
         //availableFood[food] += value;
