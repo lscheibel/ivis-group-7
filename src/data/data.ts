@@ -1,3 +1,4 @@
+import { forEach } from 'lodash';
 import jsonData from './data.json';
 import { StringParser } from './StringParser';
 
@@ -206,4 +207,33 @@ export const metaData = {
     averagePisaReadingScore: data.reduce((acc, c) => acc + c.pisaScores.reading, 0) / data.length,
     averagePisaScienceScore: data.reduce((acc, c) => acc + c.pisaScores.science, 0) / data.length,
     averagePisaScore: data.reduce((acc, c) => acc + c.pisaScores.average, 0) / data.length,
+    nutrientList: data.map((countryDatum) => Object.entries(countryDatum.availableFood)),
 };
+
+const nutrientList = data.map((countryDatum) => Object.entries(countryDatum.availableFood));
+/*
+0: Array(25)
+    0: ['food', ###]
+    i: ['n', ###]
+*/
+
+//const averageMiscellaneous = nutrientList.reduce(nutrientsReducer, 0);
+
+const averageAvailableFood = {};
+
+data.forEach((countryDatum) => {
+    Object.entries(countryDatum.availableFood).forEach(([food, value]) => {
+        //availableFood[food] ??= 0;
+        //availableFood[food] += value;
+    });
+});
+
+function nutrientsReducer(accumulator: number, currentValue: Array<[string, number | null]>) {
+    if (currentValue[0][1] === null) return accumulator;
+    return (accumulator += currentValue[0][1]);
+}
+
+/*
+averageAvailableFood = [ ["miscellaneous", 123.1], ["...", ###]  ]
+
+*/
