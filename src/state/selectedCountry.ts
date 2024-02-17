@@ -5,7 +5,7 @@ export type CountryIndex = number;
 //CountryDatum;
 //?Works for static Data
 
-const selectedCountryAtom = atom<CountryIndex | null>(9); // atom<type | type>(initialValue)
+const selectedCountryAtom = atom<CountryIndex | null>(14); // atom<type | type>(initialValue)
 
 //? Custom Hook
 export const useSelectedCountry = () => {

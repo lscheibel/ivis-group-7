@@ -6,6 +6,15 @@
     color: red;
 }
 
+table {
+    width: 400px;
+}
+
+td {
+    padding: 4px 0 4px 0;
+    border-bottom: solid 1px rgb(229, 221, 218);
+}
+
 .numberCell {
     text-align: right;
 }
