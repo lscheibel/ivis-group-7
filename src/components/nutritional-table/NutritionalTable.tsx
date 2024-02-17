@@ -3,9 +3,8 @@ import { CountryDatum } from '../../data/data';
 export interface NutriotionalTableProps {
     data: CountryDatum;
 }
-// const DashboardView = ({ exampleProp, ...props }: DashboardViewProps) => {
 
-const NutriotionalTable = ({ data }: NutriotionalTableProps) => {
+const NutritionalTable = ({ data }: NutriotionalTableProps) => {
     console.log(data);
     return (
         <div>
@@ -15,4 +14,4 @@ const NutriotionalTable = ({ data }: NutriotionalTableProps) => {
     );
 };
 
-export default NutriotionalTable;
+export default NutritionalTable;
