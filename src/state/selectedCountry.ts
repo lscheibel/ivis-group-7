@@ -1,8 +1,19 @@
 import { atom, useAtom } from 'react-atomic-state';
+import { CountryDatum, data } from '../data/data';
 
-export type CountryTLD = string;
+export type CountryIndex = number;
+//CountryDatum;
+//?Works for static Data
 
-const selectedCountryAtom = atom<CountryTLD | null>(null);
+const selectedCountryAtom = atom<CountryIndex | null>(9); // atom<type | type>(initialValue)
 
-export const useSelectedCountry = () => useAtom(selectedCountryAtom);
+//? Custom Hook
+export const useSelectedCountry = () => {
+    const countyIndex = useAtom(selectedCountryAtom);
+
+    if (countyIndex == null) return null;
+
+    return data[countyIndex];
+};
+
 export const setSelectedCountry = selectedCountryAtom.set;
