@@ -5,11 +5,9 @@ import AverageSkillScoresCard from '../AverageSkillScoresCard/AverageSkillScores
 import { metadata } from '../../../data/ivis-survey/data';
 import cn from 'classnames';
 
-export interface DashboardViewProps extends React.HTMLAttributes<HTMLDivElement> {
-    exampleProp: string | null;
-}
+export interface DashboardViewProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const DashboardView = ({ exampleProp, ...props }: DashboardViewProps) => {
+const DashboardView = ({ ...props }: DashboardViewProps) => {
     return (
         <div {...props} className={cn(styles.dashboardContainer, props.className)}>
             <AverageSkillScoresCard />
