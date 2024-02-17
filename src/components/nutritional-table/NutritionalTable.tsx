@@ -33,12 +33,22 @@ const NutritionalTable = ({ data }: NutriotionalTableProps) => {
             <h2>Nutritional Data</h2>
             <p>
                 {' '}
-                <span className={styles.high}>▲</span> Above the average - <span className={styles.low}>▼</span> Bellow
-                the average
+                <span className={styles.high}>▲</span> Above the average <br />
+                <span className={styles.low}>▼</span> Bellow the average
             </p>
-            {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-            {/* <p>Alcoholic Beverages: {data.availableFood.alcoholicBeverages}</p> */}
-            <table>{nutritionalData.map(renderRowNutrient)}</table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Food type</th>
+                        <th>value</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Kg calories</td>
+                    </tr>
+                </thead>
+                <tbody>{nutritionalData.map(renderRowNutrient)}</tbody>
+            </table>
         </div>
     );
 };
