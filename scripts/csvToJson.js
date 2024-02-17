@@ -14,7 +14,7 @@ const main = async () => {
         const json = await parseCsv(fileContents);
         const filename = basename(csvFile.name, '.csv');
 
-        await fs.writeFile(resolve(csvFile.path, `${filename}.json`), JSON.stringify(json));
+        await fs.writeFile(resolve(csvFile.path, `${filename}.json`), JSON.stringify(json, null, 2));
     });
 };
 
