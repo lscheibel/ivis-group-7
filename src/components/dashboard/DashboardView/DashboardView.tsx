@@ -3,17 +3,16 @@ import DashboardCard from '../DashboardCard/DashboardCard';
 import styles from './DashboardView.module.scss';
 import AverageSkillScoresCard from '../AverageSkillScoresCard/AverageSkillScoresCard';
 import { metadata } from '../../../data/ivis-survey/data';
+import cn from 'classnames';
 
-export interface DashboardViewProps {
+export interface DashboardViewProps extends React.HTMLAttributes<HTMLDivElement> {
     exampleProp: string | null;
 }
 
-const DashboardView = ({ exampleProp }: DashboardViewProps) => {
+const DashboardView = ({ exampleProp, ...props }: DashboardViewProps) => {
     return (
-        <div className={styles.dashboardContainer}>
+        <div {...props} className={cn(styles.dashboardContainer, props.className)}>
             <AverageSkillScoresCard />
-
-            
             <DashboardCard>
                 <span>The max skill score is</span>
                 <strong style={{ gridArea: 'maxScore', fontSize: '40px' }}>{metadata.maxSkillScore}</strong>
