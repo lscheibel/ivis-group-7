@@ -236,11 +236,11 @@ data.forEach((countryDatum) => {
 
 export const metaData = {
     totalCountries: data.length,
-    averagePisaMathScore: data.reduce((acc, c) => acc + c.pisaScores.math, 0) / data.length,
-    averagePisaReadingScore: data.reduce((acc, c) => acc + c.pisaScores.reading, 0) / data.length,
-    averagePisaScienceScore: data.reduce((acc, c) => acc + c.pisaScores.science, 0) / data.length,
-    averagePisaScore: data.reduce((acc, c) => acc + c.pisaScores.average, 0) / data.length,
     pisaScores: {
+        average: data.reduce((acc, c) => acc + c.pisaScores.average, 0) / data.length,
+        math: data.reduce((acc, c) => acc + c.pisaScores.math, 0) / data.length,
+        reading: data.reduce((acc, c) => acc + c.pisaScores.reading, 0) / data.length,
+        science: data.reduce((acc, c) => acc + c.pisaScores.science, 0) / data.length,
         maxAverage: Math.max(...data.map((c) => c.pisaScores.average)),
         maxMath: Math.max(...data.map((c) => c.pisaScores.math)),
         maxReading: Math.max(...data.map((c) => c.pisaScores.reading)),

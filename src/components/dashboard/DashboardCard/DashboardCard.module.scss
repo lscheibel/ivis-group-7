@@ -1,7 +1,10 @@
 .card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    border-radius: var(--radius-normal);
-    border: 3px solid var(--black);
-    padding: 40px;
+    max-width: 100%;
+
+    padding: var(--padding-large);
+    background: var(--background);
+    color: var(--font-color);
 }
