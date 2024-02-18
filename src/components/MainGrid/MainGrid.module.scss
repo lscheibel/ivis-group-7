@@ -1,0 +1,10 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+        'redBox1   redBox1   redBox1   greenBox1 greenBox1 greenBox1 greenBox1 blackBox1 blackBox1'
+        'redBox1   redBox1   redBox1   whiteBox1 pinkBox1  pinkBox1  pinkBox1  blackBox1 blackBox1'
+        'redBox1   redBox1   redBox1   whiteBox1 pinkBox1  pinkBox1  pinkBox1  blackBox1 blackBox1'
+        'blackBox2 blackBox3 blackBox4 whiteBox1 pinkBox1  pinkBox1  pinkBox1  blackBox1 blackBox1';
+}

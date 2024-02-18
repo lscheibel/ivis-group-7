@@ -1,11 +1,23 @@
 @font-face {
-    font-family: 'Syne';
-    src: local('Syne'), url('../assets/fonts/syne/Syne-ExtraBold.ttf') format('truetype');
+    font-family: 'Space Grotesk';
+    src: local('Space Grotesk'), url('../assets/fonts/space-grotesk/SpaceGrotesk-Bold.ttf') format('truetype');
     font-weight: bold;
 }
 
 @font-face {
-    font-family: 'Syne';
-    src: local('Syne'), url('../assets/fonts/syne/Syne-SemiBold.ttf') format('truetype');
+    font-family: 'Space Grotesk';
+    src: local('Space Grotesk'), url('../assets/fonts/space-grotesk/SpaceGrotesk-Medium.ttf') format('truetype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: local('Space Grotesk'), url('../assets/fonts/space-grotesk/SpaceGrotesk-Regular.ttf') format('truetype');
     font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Space Mono';
+    src: local('Space Mono'), url('../assets/fonts/space-mono/SpaceMono-Bold.ttf') format('truetype');
+    font-weight: bold;
 }

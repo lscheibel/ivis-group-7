@@ -39,7 +39,7 @@ const ScatterPlot = ({ width, height, data, axis, margin: maybeMargin = {} }: Sc
 
     const [pointerValue, setPointerValue] = useState<{ x: number; y: number } | null>(null);
 
-    const margin = { top: 8, right: 8, bottom: 30, left: 40, ...maybeMargin };
+    const margin = { top: 40, right: 40, bottom: 40, left: 40, ...maybeMargin };
 
     const getX = axis.x.getValue;
     const getY = axis.y.getValue;
@@ -69,8 +69,8 @@ const ScatterPlot = ({ width, height, data, axis, margin: maybeMargin = {} }: Sc
         [axis.y.from, axis.y.to, margin.bottom, margin.top, height]
     );
 
-    let ticksX = [Math.round(dataMinX), Math.round(dataMaxX)];
-    let ticksY = [Math.round(dataMinY), Math.round(dataMaxY)];
+    let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), axis.x.to];
+    let ticksY = [Math.round(dataMinY), Math.round(dataMaxY), axis.y.to];
 
     if (pointerValue) {
         ticksX = [...ticksX.filter((value) => !approxEq(x(value), x(pointerValue.x), 20)), pointerValue.x];
@@ -174,11 +174,11 @@ const DatumCircle = ({ x, y, title, highlight, selected }: DatumCircleProps) => 
     return (
         <>
             {selected && (
-                <circle cx={x} cy={y} r={5} fill={'var(--white)'}>
+                <circle cx={x} cy={y} r={5} fill={'var(--background)'}>
                     {title && <title>{title}</title>}
                 </circle>
             )}
-            <circle cx={x} cy={y} r={3} fill={highlight || selected ? 'var(--red)' : 'var(--black)'}>
+            <circle cx={x} cy={y} r={3} fill={highlight || selected ? 'var(--accent-color)' : 'var(--font-color)'}>
                 {title && <title>{title}</title>}
             </circle>
         </>

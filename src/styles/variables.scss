@@ -1,14 +1,17 @@
 :root {
-    --black: #111;
-    --white: #fcf3f4;
-    --off-white: #f7dddc;
-    --red: #e6857e;
+    --pink: #ee34b1;
+    --green: #4faf66;
+    --red: #f5521d;
+    --black: #000;
+    --almost-black: #171717;
+    --almost-white: #e3e4e3;
+    --white: #fff;
 
     --font-size-small: 16px;
-    --font-size-middle: 24px;
     --font-size-large: 32px;
-    --font-size-huge: 40px;
+    --font-size-huge: 64px;
 
-    --radius-normal: 24px;
-    --radius-small: 12px;
+    --padding-tiny: 8px;
+    --padding-small: 16px;
+    --padding-large: 32px;
 }

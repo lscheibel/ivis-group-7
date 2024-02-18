@@ -2,9 +2,18 @@
 @import 'font-faces';
 @import 'variables';
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    min-height: 0;
+    min-width: 0;
+}
+
 html,
 body {
-    background: var(--white);
-    font-family: 'Syne', sans-serif;
-    color: var(--black);
+    background: var(--almost-black);
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--almost-white);
+    font-weight: 500;
 }

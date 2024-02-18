@@ -28,9 +28,15 @@ const Tick = ({ x, y, up, down, left, right, text, textMargin = 0 }: TickProps) 
 
     return (
         <React.Fragment>
-            <line x1={x} y1={y} x2={x2} y2={y2} strokeWidth={'var(--stroke-width, 2)'} stroke={'var(--black)'} />
+            <line x1={x} y1={y} x2={x2} y2={y2} strokeWidth={'var(--stroke-width, 2)'} stroke={'var(--font-color)'} />
 
-            <text x={textX} y={textY} textAnchor={textAlignX} alignmentBaseline={textAlignY}>
+            <text
+                x={textX}
+                y={textY}
+                textAnchor={textAlignX}
+                alignmentBaseline={textAlignY}
+                color={'var(--font-color)'}
+            >
                 {text}
             </text>
         </React.Fragment>
