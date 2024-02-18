@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './App.module.scss';
 import DashboardView from '../dashboard/DashboardView/DashboardView';
-import { useSelectedCountry } from '../../state/selectedCountry';
+import { useActiveCountry } from '../../state/selectedCountry';
 import { Link, Route } from 'wouter';
 import NutritionalTable from '../nutritional-table/NutritionalTable';
 
 const App = () => {
-    const selectedCountry = useSelectedCountry();
+    const activeCountry = useActiveCountry();
 
     return (
         <div className={styles.wrapper}>
@@ -22,7 +22,7 @@ const App = () => {
             <Route path={'/about'}>About us, Todo.</Route>
             <Route path={'/'}>
                 <DashboardView />
-                {selectedCountry ? <NutritionalTable data={selectedCountry} /> : null}
+                {activeCountry ? <NutritionalTable data={activeCountry} /> : null}
             </Route>
         </div>
     );

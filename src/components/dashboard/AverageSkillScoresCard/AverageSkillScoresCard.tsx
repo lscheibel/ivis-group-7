@@ -36,4 +36,4 @@ const AverageSkillScoresCard = () => {
     );
 };
 
-export default AverageSkillScoresCard;
+export default React.forwardRef(AverageSkillScoresCard);

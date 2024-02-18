@@ -13,7 +13,6 @@ export interface D3Props<DataType> extends React.HTMLAttributes<HTMLDivElement> 
     fn: (args: D3BuilderArgs<DataType>) => SVGElement | null;
 }
 
-
 // Use this component to render any D3 code into the app.
 const D3 = <DataType,>({ fn, data, ...props }: D3Props<DataType>) => {
     const ref = useRef<HTMLDivElement | null>(null);
@@ -30,7 +29,7 @@ const D3 = <DataType,>({ fn, data, ...props }: D3Props<DataType>) => {
     });
 
     // Update graph when data changes.
-    useEffect(() => execute(data), [data]);
+    useEffect(() => execute(data), [data, execute]);
     useResizeObserver(ref, () => execute(data));
 
     return <div {...props} style={{ display: 'flex', height: '100%', ...props.style }} ref={ref} />;

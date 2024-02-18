@@ -1,4 +1,3 @@
-import { forEach } from 'lodash';
 import jsonData from './data.json';
 import { StringParser } from './StringParser';
 
@@ -49,6 +48,8 @@ export interface RawDataEntry {
 }
 
 export class CountryDatum {
+    id: number;
+
     countryName: string;
     countryCode: string;
 
@@ -93,7 +94,8 @@ export class CountryDatum {
     availableFoodRice: number | null;
     availableFoodWheat: number | null;
 
-    constructor(raw: RawDataEntry) {
+    constructor(id: number, raw: RawDataEntry) {
+        this.id = id;
         this.countryName = raw.country;
         this.countryCode = raw.countryCode;
         this.pisaMathScore = StringParser.parseAsNumber(raw.pisaMathScore)!;
@@ -145,7 +147,7 @@ export class CountryDatum {
     }
 
     get skippedMeals() {
-        if (this.skippedMealsNever != null) return null;
+        if (this.skippedMealsNever == null) return null;
 
         return {
             never: this.skippedMealsNever!,
@@ -199,7 +201,14 @@ export class CountryDatum {
     }
 }
 
-export const data = jsonData.map((rawEntry) => new CountryDatum(rawEntry));
+export const data = jsonData.map((rawEntry, index) => {
+    if (rawEntry.country === 'Cambodia') console.log(new CountryDatum(index, rawEntry));
+    return new CountryDatum(index, rawEntry);
+});
+
+export const getDatumById = (id: CountryDatum['id']) => {
+    return data[id];
+};
 
 const averageAvailableFood = {};
 
@@ -231,6 +240,12 @@ export const metaData = {
     averagePisaReadingScore: data.reduce((acc, c) => acc + c.pisaScores.reading, 0) / data.length,
     averagePisaScienceScore: data.reduce((acc, c) => acc + c.pisaScores.science, 0) / data.length,
     averagePisaScore: data.reduce((acc, c) => acc + c.pisaScores.average, 0) / data.length,
+    pisaScores: {
+        maxAverage: Math.max(...data.map((c) => c.pisaScores.average)),
+        maxMath: Math.max(...data.map((c) => c.pisaScores.math)),
+        maxReading: Math.max(...data.map((c) => c.pisaScores.reading)),
+        maxScience: Math.max(...data.map((c) => c.pisaScores.science)),
+    },
     nutrientList: data.map((countryDatum) => Object.entries(countryDatum.availableFood)),
     averageAvailableFood: buket.map((foodTotal, i) => {
         return [foodTotal[0], foodTotal[1] / dataPointsCouter[i]];

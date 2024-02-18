@@ -2,6 +2,7 @@ import React from 'react';
 import { SvgChartProps } from '../common';
 import { data, IvisSurveyDataEntry } from '../../../data/ivis-survey/data';
 import * as d3 from 'd3';
+import { animated, useSpring } from '@react-spring/web';
 
 export interface AverageSkillScoresChartProps extends SvgChartProps {
     skill: string;
@@ -53,12 +54,24 @@ const AverageSkillScoresChart = ({
 
     const whiskerSize = 24;
 
+    const [spring, api] = useSpring(() => ({ x: 0, y: 0, size: 0 }));
+
+    const handleMouseEnter = () => {
+        api.start({ size: 1 });
+    };
+
+    const handleMouseLeave = () => {
+        api.start({ size: 0 });
+    };
+
     return (
         <svg
             width={outerWidth}
             height={outerHeight}
             viewBox={`0, 0, ${outerWidth}, ${outerHeight}`}
             style={{ maxWidth: '100%', height: 'auto' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             {...props}
         >
             {/* Violin Chart */}
@@ -96,10 +109,10 @@ const AverageSkillScoresChart = ({
                 </text>
 
                 {/* Max Count Tick */}
-                <line
+                <animated.line
                     x1={x(maxCountSkill)}
                     x2={x(maxCountSkill)}
-                    y1={-whiskerSize / 2 / 2}
+                    y1={(-whiskerSize / 2 / 2) * spring.size}
                     y2={whiskerSize / 2 / 2}
                     stroke={'var(--black)'}
                     strokeWidth={3}
