@@ -1,19 +1,28 @@
 import { atom, useAtom } from 'react-atomic-state';
-import { CountryDatum, data } from '../data/data';
+import { getDatumById } from '../data/data';
 
-export type CountryIndex = number;
-//CountryDatum;
-//?Works for static Data
+export type CountryId = number;
 
-const selectedCountryAtom = atom<CountryIndex | null>(14); // atom<type | type>(initialValue)
+const selectedCountryAtom = atom<CountryId | null>(null);
+const hoveredCountryAtom = atom<CountryId | null>(null);
 
-//? Custom Hook
 export const useSelectedCountry = () => {
-    const countyIndex = useAtom(selectedCountryAtom);
+    const countryId = useAtom(selectedCountryAtom);
+    return countryId == null ? null : getDatumById(countryId);
+};
 
-    if (countyIndex == null) return null;
+export const useHoveredCountry = () => {
+    const countryId = useAtom(hoveredCountryAtom);
+    return countryId == null ? null : getDatumById(countryId);
+};
 
-    return data[countyIndex];
+export const useActiveCountry = () => {
+    const selected = useAtom(selectedCountryAtom);
+    const hovered = useAtom(hoveredCountryAtom);
+    const id = hovered ?? selected;
+    return id == null ? null : getDatumById(id);
 };
 
 export const setSelectedCountry = selectedCountryAtom.set;
+export const setHoveredCountry = hoveredCountryAtom.set;
+export const getHoveredCountry = hoveredCountryAtom.get;

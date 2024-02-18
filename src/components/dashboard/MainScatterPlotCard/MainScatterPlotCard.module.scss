@@ -1,0 +1,10 @@
+.chartWrapper {
+    position: relative;
+    display: flex;
+    aspect-ratio: 1;
+
+    & > svg {
+        position: absolute;
+        inset: 0;
+    }
+}

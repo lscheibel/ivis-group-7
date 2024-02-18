@@ -12,7 +12,8 @@
         "preview": "vite preview",
         "test": "vitest",
         "coverage": "vitest run --coverage",
-        "csv": "node scripts/csvToJson.js"
+        "csv": "node scripts/csvToJson.js",
+        "lint": "eslint src"
     },
     "dependencies": {
         "@react-spring/web": "^9.7.3",
@@ -38,9 +39,10 @@
         "@vitejs/plugin-react": "^3.1.0",
         "@vitest/coverage-c8": "^0.28.4",
         "@vitest/ui": "^0.28.4",
-        "eslint": "^8.33.0",
-        "eslint-config-prettier": "^8.6.0",
-        "eslint-plugin-react": "^7.32.2",
+        "eslint": "^8.56.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-react": "^7.33.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
         "jsdom": "^21.1.0",
         "neat-csv": "^7.0.0",
         "prettier": "^2.8.4",

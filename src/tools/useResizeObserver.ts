@@ -18,5 +18,5 @@ export const useResizeObserver = <HTMLElementType extends HTMLElement | SVGEleme
         resizeObserver.observe(node);
 
         return () => resizeObserver?.disconnect();
-    }, []);
+    }, [_onResize, ref]);
 };

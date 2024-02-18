@@ -1,24 +1,34 @@
 import React from 'react';
 import DashboardCard from '../DashboardCard/DashboardCard';
 import styles from './DashboardView.module.scss';
-import AverageSkillScoresCard from '../AverageSkillScoresCard/AverageSkillScoresCard';
-import { metadata } from '../../../data/ivis-survey/data';
 import cn from 'classnames';
+import MainScatterPlotCard from '../MainScatterPlotCard/MainScatterPlotCard';
+import { useActiveCountry } from '../../../state/selectedCountry';
+import { metaData } from '../../../data/data';
+import ParentalSupportChartCard from '../ParentalSupportChartCard/ParentalSupportChartCard';
 
 export interface DashboardViewProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const DashboardView = ({ ...props }: DashboardViewProps) => {
+    const activeCountry = useActiveCountry();
+
     return (
         <div {...props} className={cn(styles.dashboardContainer, props.className)}>
-            <AverageSkillScoresCard />
+            <MainScatterPlotCard />
             <DashboardCard>
-                <span>The max skill score is</span>
-                <strong style={{ gridArea: 'maxScore', fontSize: '40px' }}>{metadata.maxSkillScore}</strong>
+                {activeCountry ? (
+                    <span>
+                        {activeCountry.countryName}&apos;s average PISA score is: {activeCountry.pisaScores.average}
+                    </span>
+                ) : (
+                    <span>Here is some global pisa data :) Average Pisa Score: {metaData.averagePisaScore}</span>
+                )}
             </DashboardCard>
             <DashboardCard style={{ gridArea: 'description' }}>
                 This is a long block of text for all your description needs. In general this entire layout is very
                 flexible.
             </DashboardCard>
+            <ParentalSupportChartCard />
         </div>
     );
 };

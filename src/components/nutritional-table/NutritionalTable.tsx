@@ -1,3 +1,4 @@
+import React from 'react';
 import { CountryDatum } from '../../data/data';
 import { metaData } from '../../data/data';
 import styles from './NutritionalTable.module.scss';
@@ -11,13 +12,13 @@ const NutritionalTable = ({ data }: NutriotionalTableProps) => {
     const nutritionalData = Object.entries(data.availableFood);
     const averageNutritionalData = metaData.averageAvailableFood;
 
-    function renderRowNutrient(nutrient: [string, number | null], index: number) {
-        const nutrientValue = nutrient[1] || 0;
+    function renderRowNutrient([food, value]: [string, number | null], index: number) {
+        const nutrientValue = value || 0;
         const isAdoveAverage =
             nutrientValue === 0 ? '' : nutrientValue >= averageNutritionalData[index][1] ? styles.high : styles.low;
         return (
-            <tr>
-                <td> {fromCamelCaseToUserFormat(nutrient[0])} </td>
+            <tr key={food}>
+                <td> {fromCamelCaseToUserFormat(food)} </td>
                 <td className={`${styles.numberCell} ${isAdoveAverage}`}>
                     {nutrientValue ? nutrientValue.toFixed(2) : 'No data'}
                 </td>
