@@ -1,8 +1,8 @@
 import React from 'react';
-import { CountryDatum } from '../../data/data';
-import { metaData } from '../../data/data';
+import { CountryDatum } from '../../../data/data';
+import { metaData } from '../../../data/data';
 import styles from './NutritionalTable.module.scss';
-import { fromCamelCaseToUserFormat } from '../../tools/stringsOperators';
+import { fromCamelCaseToUserFormat } from '../../../tools/stringsOperators';
 
 export interface NutriotionalTableProps {
     data: CountryDatum;
