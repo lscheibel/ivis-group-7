@@ -6,7 +6,8 @@ import ScatterPlot from '../../charts/ScatterPlot/ScatterPlot';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import ParentalSupportScatterPlot from '../../charts/ParentalSupportScatterPlot/ParentalSupportScatterPlot';
 import { useActiveCountry } from '../../../state/selectedCountry';
-import NutritionalTable from '../../nutritional-table/NutritionalTable';
+import NutritionalTable from '../../tables/NutritionalTable/NutritionalTable';
+import PisaScoresTable from '../../tables/PisaScoresTable/PisaScoresTable';
 import { call } from '../../../tools/call';
 
 const DashboardView = () => {
@@ -58,7 +59,8 @@ const DashboardView = () => {
             </DashboardCard>
 
             <DashboardCard area={'whiteBox1'} color={'white'}>
-                Pisa Scores
+                .
+                {/* Pisa Scores
                 <br />
                 {activeCountry?.countryName || 'Global'}
                 {call(() => {
@@ -72,7 +74,7 @@ const DashboardView = () => {
                             <li>Science: {Math.round(data.science)}</li>
                         </ul>
                     );
-                })}
+                })} */}
             </DashboardCard>
 
             <DashboardCard area={'pinkBox1'} color={'pink'}>
@@ -86,6 +88,7 @@ const DashboardView = () => {
 
             <DashboardCard area={'blackBox1'} color={'black'}>
                 <div style={{ position: 'absolute', inset: 'var(--padding-large)', overflow: 'auto' }}>
+                    {activeCountry ? <PisaScoresTable data={activeCountry} /> : null}
                     {activeCountry && <NutritionalTable data={activeCountry} />}
                 </div>
             </DashboardCard>
