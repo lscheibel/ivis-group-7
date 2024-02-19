@@ -11,6 +11,33 @@ export interface NutriotionalTableProps {
 const NutritionalTable = ({ data }: NutriotionalTableProps) => {
     const nutritionalData = Object.entries(data.availableFood);
     const averageNutritionalData = metaData.averageAvailableFood;
+    const nutrionalIcon = [
+        '🍱',
+        '🍺',
+        '🐷',
+        '🫒',
+        '🌻',
+        '🐟',
+        '🎋',
+        '🍭',
+        '🫚',
+        '🦃',
+        '🐐',
+        '🐖',
+        '🐓',
+        '🐄',
+        '🥚',
+        '🥛',
+        '🥜',
+        '🍌',
+        '🥦',
+        '🫘',
+        '🥣',
+        '🫛',
+        '🌽',
+        '🍙',
+        '🌾',
+    ];
 
     function renderRowNutrient([food, value]: [string, number | null], index: number) {
         const nutrientValue = value;
@@ -18,7 +45,10 @@ const NutritionalTable = ({ data }: NutriotionalTableProps) => {
             nutrientValue == null ? '' : nutrientValue >= averageNutritionalData[index][1] ? styles.high : styles.low;
         return (
             <tr key={food}>
-                <td> {fromCamelCaseToUserFormat(food)} </td>
+                <td>
+                    {' '}
+                    {nutrionalIcon[index]} {fromCamelCaseToUserFormat(food)}{' '}
+                </td>
                 <td className={`${styles.numberCell} ${isAboveAverage}`}>
                     {nutrientValue ? nutrientValue.toFixed(2) : 'No data'}
                 </td>
