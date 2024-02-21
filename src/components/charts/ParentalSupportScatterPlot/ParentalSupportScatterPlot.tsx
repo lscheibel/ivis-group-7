@@ -14,19 +14,17 @@ const ParentalSupportScatterPlot = ({ width, height, data }: ParentalSupportScat
             width={width}
             height={height}
             data={data}
-            axis={{
-                x: {
-                    label: 'SKIPPED AT LEAST ONE MEAL PER WEEK',
-                    getValue: (c) => c.skippedMealAtLeastOnce,
-                    from: 0,
-                    to: 100,
-                },
-                y: {
-                    label: 'PARENTAL CARE',
-                    getValue: (c) => c.parentsFrequentlyAskingAboutDay,
-                    from: 0,
-                    to: 100,
-                },
+            xAxis={{
+                label: 'SKIPPED AT LEAST ONE MEAL PER WEEK',
+                getValue: (c) => c.skippedMealAtLeastOnce,
+                from: 0,
+                to: 100,
+            }}
+            yAxis={{
+                label: 'PARENTAL CARE',
+                getValue: (c) => c.parentsFrequentlyAskingAboutDay,
+                from: 0,
+                to: 100,
             }}
         />
     );

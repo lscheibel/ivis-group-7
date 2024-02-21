@@ -23,19 +23,17 @@ const DashboardView = () => {
                             width={dimensions.width}
                             height={dimensions.height}
                             data={data}
-                            axis={{
-                                x: {
-                                    label: 'SKIPPED AT LEAST ONE MEAL PER WEEK',
-                                    getValue: (c) => c.skippedMealAtLeastOnce,
-                                    from: 0,
-                                    to: 100,
-                                },
-                                y: {
-                                    label: 'AVERAGE PISA SCORE',
-                                    getValue: (c) => c.pisaScores.average,
-                                    from: 0,
-                                    to: metaData.pisaScores.maxAverage,
-                                },
+                            xAxis={{
+                                label: 'SKIPPED AT LEAST ONE MEAL PER WEEK',
+                                getValue: (c) => c.skippedMealAtLeastOnce,
+                                from: 0,
+                                to: 100,
+                            }}
+                            yAxis={{
+                                label: 'AVERAGE PISA SCORE',
+                                getValue: (c) => c.pisaScores.average,
+                                from: 0,
+                                to: metaData.pisaScores.maxAverage,
                             }}
                         />
                     )}
@@ -59,8 +57,7 @@ const DashboardView = () => {
             </DashboardCard>
 
             <DashboardCard area={'whiteBox1'} color={'white'}>
-                .
-                {/* Pisa Scores
+                Pisa Scores
                 <br />
                 {activeCountry?.countryName || 'Global'}
                 {call(() => {
@@ -74,7 +71,7 @@ const DashboardView = () => {
                             <li>Science: {Math.round(data.science)}</li>
                         </ul>
                     );
-                })} */}
+                })}
             </DashboardCard>
 
             <DashboardCard area={'pinkBox1'} color={'pink'}>

@@ -16,14 +16,19 @@ import { notNullish } from '../../../tools/notNullish';
 import InteractiveScatterPoints, { ScatterPlotAttributes } from './InteractiveScatterPoints';
 import { call } from '../../../tools/call';
 
+export interface AxisDefinition {
+    getValue: (country: CountryDatum) => number | Nullish;
+    from: number;
+    to: number;
+    label: React.ReactNode;
+}
+
 export interface ScatterPlotProps {
     width: number;
     height: number;
     data: CountryDatum[];
-    axis: {
-        x: { getValue: (country: CountryDatum) => number | Nullish; from: number; to: number; label: React.ReactNode };
-        y: { getValue: (country: CountryDatum) => number | Nullish; from: number; to: number; label: React.ReactNode };
-    };
+    xAxis: AxisDefinition;
+    yAxis: AxisDefinition;
     margin?: {
         top?: number;
         right?: number;
@@ -32,7 +37,7 @@ export interface ScatterPlotProps {
     };
 }
 
-const ScatterPlot = ({ width, height, data, axis, margin: maybeMargin = {} }: ScatterPlotProps) => {
+const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = {} }: ScatterPlotProps) => {
     const selectedCountry = useSelectedCountry();
     const hoveredCountry = useHoveredCountry();
     const svgRef = useRef<SVGSVGElement | null>(null);
@@ -41,8 +46,8 @@ const ScatterPlot = ({ width, height, data, axis, margin: maybeMargin = {} }: Sc
 
     const margin = { top: 40, right: 40, bottom: 40, left: 40, ...maybeMargin };
 
-    const getX = axis.x.getValue;
-    const getY = axis.y.getValue;
+    const getX = xAxis.getValue;
+    const getY = yAxis.getValue;
 
     const dataMinX = Math.min(...data.map((c) => getX(c) || Infinity));
     const dataMaxX = Math.max(...data.map((c) => getX(c) || -Infinity));
@@ -54,23 +59,23 @@ const ScatterPlot = ({ width, height, data, axis, margin: maybeMargin = {} }: Sc
         () =>
             d3
                 .scaleLinear()
-                .domain([axis.x.from, axis.x.to])
+                .domain([xAxis.from, xAxis.to])
                 .range([margin.left, width - margin.right])
                 .clamp(true),
-        [axis.x.from, axis.x.to, margin.left, margin.right, width]
+        [xAxis.from, xAxis.to, margin.left, margin.right, width]
     );
     const y = useMemo(
         () =>
             d3
                 .scaleLinear()
-                .domain([axis.y.from, axis.y.to])
+                .domain([yAxis.from, yAxis.to])
                 .range([height - margin.bottom, margin.top])
                 .clamp(true),
-        [axis.y.from, axis.y.to, margin.bottom, margin.top, height]
+        [yAxis.from, yAxis.to, margin.bottom, margin.top, height]
     );
 
-    let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), axis.x.to];
-    let ticksY = [Math.round(dataMinY), Math.round(dataMaxY), axis.y.to];
+    let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), xAxis.to];
+    let ticksY = [Math.round(dataMinY), Math.round(dataMaxY), yAxis.to];
 
     if (pointerValue) {
         ticksX = [...ticksX.filter((value) => !approxEq(x(value), x(pointerValue.x), 20)), pointerValue.x];
@@ -111,10 +116,10 @@ const ScatterPlot = ({ width, height, data, axis, margin: maybeMargin = {} }: Sc
             <Axis axisScale={y} x={x(0)} ticks={ticksY} formatter={(v) => Math.round(v)} />
 
             <AxisLabel yAxis axisScale={{ x, y }}>
-                {axis.y.label}
+                {yAxis.label}
             </AxisLabel>
             <AxisLabel xAxis axisScale={{ x, y }}>
-                {axis.x.label}
+                {xAxis.label}
             </AxisLabel>
 
             <g style={{ pointerEvents: 'none' }}>
@@ -143,7 +148,7 @@ const ScatterPlot = ({ width, height, data, axis, margin: maybeMargin = {} }: Sc
                     setSelectedCountry(null);
                 }}
                 renderDatum={({ x, y, id, title }) => {
-                    if (selectedCountry?.id === id || hoveredCountry?.id === id) return null;
+                    if (selectedCountry?.id === id || hoveredCountry?.id === id) return null; // Skip render here and instead render them on top.
                     return <DatumCircle key={id} x={x} y={y} title={title} />;
                 }}
             />
