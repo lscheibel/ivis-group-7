@@ -1,0 +1,10 @@
+.svg {
+    [data-level='1']:hover {
+        [data-level='2'] text {
+            fill: var(--white);
+        }
+        [data-level='2'] rect {
+            stroke: var(--white);
+        }
+    }
+}

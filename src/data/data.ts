@@ -250,6 +250,13 @@ export const metaData = {
     averageAvailableFood: buket.map((foodTotal, i) => {
         return [foodTotal[0], foodTotal[1] / dataPointsCouter[i]];
     }),
+
+    globalAvailableFood: Object.fromEntries(
+        Object.keys(data[0].availableFood).map((foodKey) => [
+            foodKey,
+            data.reduce((acc, c) => acc + ((c.availableFood as any)[foodKey] || 0), 0),
+        ])
+    ),
 };
 
 const nutrientList = data.map((countryDatum) => Object.entries(countryDatum.availableFood));

@@ -6,9 +6,8 @@ import ScatterPlot from '../../charts/ScatterPlot/ScatterPlot';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import ParentalSupportScatterPlot from '../../charts/ParentalSupportScatterPlot/ParentalSupportScatterPlot';
 import { useActiveCountry } from '../../../state/selectedCountry';
-import NutritionalTable from '../../tables/NutritionalTable/NutritionalTable';
-import PisaScoresTable from '../../tables/PisaScoresTable/PisaScoresTable';
 import { call } from '../../../tools/call';
+import AvailableFoodTreemap from '../../charts/AvailableFoodTreemap/AvailableFoodTreemap';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -84,10 +83,7 @@ const DashboardView = () => {
             </DashboardCard>
 
             <DashboardCard area={'blackBox1'} color={'black'}>
-                <div style={{ position: 'absolute', inset: 'var(--padding-large)', overflow: 'auto' }}>
-                    {activeCountry ? <PisaScoresTable data={activeCountry} /> : null}
-                    {activeCountry && <NutritionalTable data={activeCountry} />}
-                </div>
+                <AvailableFoodTreemap data={activeCountry ? [activeCountry] : []} />
             </DashboardCard>
         </MainGrid>
     );
