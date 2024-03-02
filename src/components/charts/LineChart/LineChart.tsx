@@ -60,11 +60,11 @@ const LineChart = ({ width, height, data, yAxis, xAxis, margin: maybeMargin = {}
     //let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), xAxis.to];
     let ticksY = [yAxis.from, yAxis.to];
     //[Math.round(dataMinY), Math.round(dataMaxY), yAxis.to];
-    if (data[0] == null) return null;
-    let lineData = xAxis.keys.map((key) => ({
-        x: x(key) || 0, //TODO Fix this!
-        y: y(yAxis.getValue(data[0], key) || 0), //TODO Fix this!
-    }));
+    // if (data[0] == null) return null;
+    // let lineData = xAxis.keys.map((key) => ({
+    //     x: x(key) || 0, //TODO Fix this!
+    //     y: y(yAxis.getValue(data[0], key) || 0), //TODO Fix this!
+    // }));
 
     let line = d3
         .line<{ x: number; y: number }>()
@@ -82,7 +82,13 @@ const LineChart = ({ width, height, data, yAxis, xAxis, margin: maybeMargin = {}
             <AxisLabel xAxis axisScale={{ x, y }}>
                 {xAxis.label}
             </AxisLabel>
-            <path fill={'none'} stroke={'var(--font-color)'} d={line(lineData) || ''} />
+            {data.map((datum) => {
+                let lineData = xAxis.keys.map((key) => ({
+                    x: x(key) || 0, //TODO Fix this!
+                    y: y(yAxis.getValue(datum, key) || 0), //TODO Fix this!
+                }));
+                return <path fill={'none'} stroke={'var(--font-color)'} d={line(lineData) || ''} />;
+            })}
         </svg>
     );
 };
