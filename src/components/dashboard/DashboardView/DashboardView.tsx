@@ -26,7 +26,15 @@ const DashboardView = () => {
                 Search: {activeCountry?.countryName || 'Global'}
             </DashboardCard>
 
-            <DashboardCard area={'stats'} color={'white'}>
+            <DashboardCard
+                area={'stats'}
+                color={'white'}
+                help={
+                    <>
+                        <strong>All the pisa scores</strong> <p>This card shows you things.</p>
+                    </>
+                }
+            >
                 Pisa Scores
                 <br />
                 {activeCountry?.countryName || 'Global'}
