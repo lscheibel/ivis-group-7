@@ -325,6 +325,7 @@ export class CountryDatum {
         );
     }
 
+    /** @deprecated Use foodInGrams instead. **/
     get availableFood() {
         return {
             miscellaneous: this.availableFoodMiscellaneous,
