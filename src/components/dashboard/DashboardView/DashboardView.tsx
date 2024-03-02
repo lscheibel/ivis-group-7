@@ -4,7 +4,6 @@ import { data, metaData } from '../../../data/data';
 import MainGrid from '../../MainGrid/MainGrid';
 import ScatterPlot from '../../charts/ScatterPlot/ScatterPlot';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
-import ParentalSupportScatterPlot from '../../charts/ParentalSupportScatterPlot/ParentalSupportScatterPlot';
 import { useActiveCountry } from '../../../state/selectedCountry';
 import { call } from '../../../tools/call';
 import AvailableFoodTreemap from '../../charts/AvailableFoodTreemap/AvailableFoodTreemap';
@@ -79,11 +78,7 @@ const DashboardView = () => {
             </DashboardCard>
 
             <DashboardCard area={'line'} color={'white'}>
-                <ChartsWrapper
-                    render={(dimensions) => (
-                        <PisaScoreLineChart {...dimensions} data={activeCountry ? [activeCountry] : []} />
-                    )}
-                />
+                <PisaScoreLineChart data={activeCountry ? [activeCountry] : []} />
             </DashboardCard>
         </MainGrid>
     );

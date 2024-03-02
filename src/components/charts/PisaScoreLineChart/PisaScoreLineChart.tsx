@@ -1,33 +1,42 @@
 import React from 'react';
 import LineChart from '../LineChart/LineChart';
 import { CountryDatum, metaData } from '../../../data/data';
+import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
+import styles from './PisaScoreLineChart.module.scss';
 
 export interface PisaScoreLineChartProps {
-    width: number;
-    height: number;
     data: CountryDatum[];
 }
 
-const PisaScoreLineChart = ({ width, height, data }: PisaScoreLineChartProps) => {
+const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
     return (
-        <LineChart
-            width={width}
-            height={height}
-            data={data}
-            xAxis={{
-                label: 'Todo',
-                keys: ['2008', '2012', '2055'],
-            }}
-            yAxis={{
-                label: 'Todo',
-                getValue: (c, key) => {
-                    return metaData.pisaScores.average;
-                    // return c.pisaScores[key]; // Todo: Get data over the years.
-                },
-                from: 0,
-                to: metaData.pisaScores.maxAverage,
-            }}
-        />
+        <div>
+            PISA scores over the years.
+            <div className={styles.chartContainer}>
+                <ChartsWrapper
+                    render={(dimensions) => (
+                        <LineChart
+                            width={dimensions.width}
+                            height={dimensions.height}
+                            data={data}
+                            xAxis={{
+                                label: 'Todo',
+                                keys: ['2008', '2012', '2055'],
+                            }}
+                            yAxis={{
+                                label: 'Score',
+                                getValue: (country, key) => {
+                                    return metaData.pisaScores.average;
+                                    // return country.pisaScores[key]; // Todo: Get data over the years.
+                                },
+                                from: 0,
+                                to: metaData.pisaScores.maxAverage,
+                            }}
+                        />
+                    )}
+                />
+            </div>
+        </div>
     );
 };
 
