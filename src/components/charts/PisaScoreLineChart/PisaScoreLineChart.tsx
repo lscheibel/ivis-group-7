@@ -26,7 +26,8 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                             yAxis={{
                                 label: 'Score',
                                 getValue: (scores, year) => {
-                                    return scores[year as PisaScoreYears].average;
+                                    const type = 'average'; // Todo: Let user choose type.
+                                    return scores[year as PisaScoreYears][type];
                                 },
                                 from: 0,
                                 to: metaData.pisaScores.maxAverage,
