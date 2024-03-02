@@ -1,6 +1,6 @@
 import React from 'react';
 import LineChart from '../LineChart/LineChart';
-import { CountryDatum, metaData } from '../../../data/data';
+import { CountryDatum, metaData, PisaScoreYears } from '../../../data/data';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import styles from './PisaScoreLineChart.module.scss';
 
@@ -21,13 +21,12 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                             data={data}
                             xAxis={{
                                 label: 'Todo',
-                                keys: ['2008', '2012', '2055'],
+                                keys: metaData.pisaScores.years,
                             }}
                             yAxis={{
                                 label: 'Score',
-                                getValue: (country, key) => {
-                                    return metaData.pisaScores.average;
-                                    // return country.pisaScores[key]; // Todo: Get data over the years.
+                                getValue: (country, year) => {
+                                    return country.pisaScores[year as PisaScoreYears].average;
                                 },
                                 from: 0,
                                 to: metaData.pisaScores.maxAverage,

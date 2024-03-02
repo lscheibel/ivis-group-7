@@ -303,7 +303,10 @@ export class CountryDatum {
             reading: this.pisaReadingScore2022,
             science: this.pisaScienceScore2022,
             '2003': {
-                average: null,
+                average:
+                    this.pisaMathScore2003 != null && this.pisaReadingScore2003 != null
+                        ? (this.pisaMathScore2003 + this.pisaReadingScore2003) / 2
+                        : null,
                 math: this.pisaMathScore2003,
                 reading: this.pisaReadingScore2003,
                 science: null,
@@ -454,9 +457,12 @@ data.forEach((countryDatum) => {
     }
 });
 
+export type PisaScoreYears = '2003' | '2006' | '2009' | '2012' | '2015' | '2018' | '2022';
+
 export const metaData = {
     totalCountries: data.length,
     pisaScores: {
+        years: ['2003', '2006', '2009', '2012', '2015', '2018', '2022'],
         average: data.reduce((acc, c) => acc + c.pisaScores.average, 0) / data.length,
         math: data.reduce((acc, c) => acc + c.pisaScores.math, 0) / data.length,
         reading: data.reduce((acc, c) => acc + c.pisaScores.reading, 0) / data.length,
