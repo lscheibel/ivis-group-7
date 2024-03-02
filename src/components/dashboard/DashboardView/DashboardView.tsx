@@ -14,7 +14,37 @@ const DashboardView = () => {
 
     return (
         <MainGrid>
-            <DashboardCard area={'redBox1'} color={'red'} style={{ aspectRatio: 1, height: '100%' }}>
+            <DashboardCard area={'title'} color={'pink'}>
+                <h2>Food for thoughts?</h2>
+            </DashboardCard>
+
+            <DashboardCard area={'about'} color={'black'} style={{ aspectRatio: '3 / 2', height: '100%' }}>
+                About
+            </DashboardCard>
+
+            <DashboardCard area={'search'} color={'green'}>
+                Search: {activeCountry?.countryName || 'Global'}
+            </DashboardCard>
+
+            <DashboardCard area={'stats'} color={'white'}>
+                Pisa Scores
+                <br />
+                {activeCountry?.countryName || 'Global'}
+                {call(() => {
+                    const data = activeCountry?.pisaScores || metaData.pisaScores;
+
+                    return (
+                        <ul>
+                            <li>Average: {Math.round(data.average)}</li>
+                            <li>Math: {Math.round(data.math)}</li>
+                            <li>Reading: {Math.round(data.reading)}</li>
+                            <li>Science: {Math.round(data.science)}</li>
+                        </ul>
+                    );
+                })}
+            </DashboardCard>
+
+            <DashboardCard area={'scatter'} color={'red'}>
                 <ChartsWrapper
                     style={{ inset: 'var(--padding-large)' }}
                     render={(dimensions) => (
@@ -39,51 +69,16 @@ const DashboardView = () => {
                 />
             </DashboardCard>
 
-            <DashboardCard area={'blackBox2'} color={'black'}>
-                Tiny Math Scatter
-            </DashboardCard>
-
-            <DashboardCard area={'blackBox3'} color={'black'}>
-                Tiny Reading Scatter
-            </DashboardCard>
-
-            <DashboardCard area={'blackBox4'} color={'black'}>
-                Tiny Science Scatter
-            </DashboardCard>
-
-            <DashboardCard area={'greenBox1'} color={'green'}>
-                {activeCountry?.countryName || 'Global'}
-            </DashboardCard>
-
-            <DashboardCard area={'whiteBox1'} color={'white'}>
-                Pisa Scores
-                <br />
-                {activeCountry?.countryName || 'Global'}
-                {call(() => {
-                    const data = activeCountry?.pisaScores || metaData.pisaScores;
-
-                    return (
-                        <ul>
-                            <li>Average: {Math.round(data.average)}</li>
-                            <li>Math: {Math.round(data.math)}</li>
-                            <li>Reading: {Math.round(data.reading)}</li>
-                            <li>Science: {Math.round(data.science)}</li>
-                        </ul>
-                    );
-                })}
-            </DashboardCard>
-
-            <DashboardCard area={'pinkBox1'} color={'pink'}>
-                <ChartsWrapper
-                    style={{ inset: 'var(--padding-large)' }}
-                    render={(dimensions) => (
-                        <ParentalSupportScatterPlot width={dimensions.width} height={dimensions.height} data={data} />
-                    )}
-                />
-            </DashboardCard>
-
-            <DashboardCard area={'blackBox1'} color={'black'}>
+            <DashboardCard area={'food'} color={'black'}>
                 <AvailableFoodTreemap data={activeCountry ? [activeCountry] : []} />
+            </DashboardCard>
+
+            <DashboardCard area={'waffle'} color={'black'}>
+                🧇
+            </DashboardCard>
+
+            <DashboardCard area={'line'} color={'pink'}>
+                📈
             </DashboardCard>
         </MainGrid>
     );
