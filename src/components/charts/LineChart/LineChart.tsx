@@ -1,8 +1,6 @@
-import React from 'react';
-import { CountryDatum } from '../../../data/data';
+import React, { useRef, useState } from 'react';
 import AxisLinear from '../ScatterPlot/Axis';
 import { useSelectedCountry } from '../../../state/selectedCountry';
-import { useState, useRef, useMemo } from 'react';
 import * as d3 from 'd3';
 import Tick from '../ScatterPlot/Tick';
 import AxisLabel from '../ScatterPlot/AxisLabel';
@@ -13,20 +11,19 @@ export interface XAxisDefinition {
     label: React.ReactNode;
 }
 
-export interface YAxisDefinition {
-    //
-    getValue: (country: CountryDatum, key: string) => number | Nullish;
+export interface YAxisDefinition<T> {
+    getValue: (country: T, key: string) => number | Nullish;
     from: number;
     to: number;
     label: React.ReactNode;
 }
 
-export interface LineChartProps {
+export interface LineChartProps<T> {
     width: number;
     height: number;
-    data: CountryDatum[];
+    data: T[];
     xAxis: XAxisDefinition;
-    yAxis: YAxisDefinition;
+    yAxis: YAxisDefinition<T>;
     margin?: {
         top?: number;
         right?: number;
@@ -35,14 +32,13 @@ export interface LineChartProps {
     };
 }
 
-const LineChart = ({ width, height, data, yAxis, xAxis, margin: maybeMargin = {} }: LineChartProps) => {
+const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin = {} }: LineChartProps<T>) => {
     const selectedCountry = useSelectedCountry();
     const [pointerValue, setPointerValue] = useState<{ x: number; y: number } | null>(null);
     const svgRef = useRef<SVGSVGElement | null>(null);
     const margin = { top: 40, right: 40, bottom: 40, left: 40, ...maybeMargin };
 
     const getY = yAxis.getValue;
-    //const values = xAxis.keys.map( key => { key. });
     //const dataMinY = Math.min(...xAxis.keys.map((c) => getY(c) || Infinity));
     //const dataMaxY = Math.max(...data.map((c) => getY(c) || -Infinity));
 
@@ -57,14 +53,7 @@ const LineChart = ({ width, height, data, yAxis, xAxis, margin: maybeMargin = {}
         .range([height - margin.bottom, margin.top])
         .clamp(true);
 
-    //let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), xAxis.to];
     let ticksY = [yAxis.from, yAxis.to];
-    //[Math.round(dataMinY), Math.round(dataMaxY), yAxis.to];
-    // if (data[0] == null) return null;
-    // let lineData = xAxis.keys.map((key) => ({
-    //     x: x(key) || 0, //TODO Fix this!
-    //     y: y(yAxis.getValue(data[0], key) || 0), //TODO Fix this!
-    // }));
 
     let line = d3
         .line<{ x: number; y: number }>()

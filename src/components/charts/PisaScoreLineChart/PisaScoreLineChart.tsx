@@ -18,15 +18,15 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                         <LineChart
                             width={dimensions.width}
                             height={dimensions.height}
-                            data={data}
+                            data={[metaData.pisaScores, ...data.map((d) => d.pisaScores)]}
                             xAxis={{
                                 label: 'Todo',
                                 keys: metaData.pisaScores.years,
                             }}
                             yAxis={{
                                 label: 'Score',
-                                getValue: (country, year) => {
-                                    return country.pisaScores[year as PisaScoreYears].average;
+                                getValue: (scores, year) => {
+                                    return scores[year as PisaScoreYears].average;
                                 },
                                 from: 0,
                                 to: metaData.pisaScores.maxAverage,
