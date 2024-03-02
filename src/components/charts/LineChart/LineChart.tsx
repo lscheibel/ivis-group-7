@@ -1,10 +1,11 @@
 import React from 'react';
 import { CountryDatum } from '../../../data/data';
-import Axis from '../ScatterPlot/Axis';
+import AxisLinear from '../ScatterPlot/Axis';
 import { useSelectedCountry } from '../../../state/selectedCountry';
 import { useState, useRef, useMemo } from 'react';
 import * as d3 from 'd3';
 import Tick from '../ScatterPlot/Tick';
+import AxisLabel from '../ScatterPlot/AxisLabel';
 
 export interface XAxisDefinition {
     //Discrete (categorical) values
@@ -57,11 +58,31 @@ const LineChart = ({ width, height, data, yAxis, xAxis, margin: maybeMargin = {}
         .clamp(true);
 
     //let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), xAxis.to];
-    //let ticksY = [Math.round(dataMinY), Math.round(dataMaxY), yAxis.to];
+    let ticksY = [yAxis.from, yAxis.to];
+    //[Math.round(dataMinY), Math.round(dataMaxY), yAxis.to];
+    if (data[0] == null) return null;
+    let lineData = xAxis.keys.map((key) => ({
+        x: x(key) || 0, //TODO Fix this!
+        y: y(yAxis.getValue(data[0], key) || 0), //TODO Fix this!
+    }));
+
+    let line = d3
+        .line<{ x: number; y: number }>()
+        .x((d) => d.x)
+        .y((d) => d.y);
 
     return (
         <svg width={width} height={height} viewBox={`0, 0, ${width}, ${height}`}>
             <AxisOrdinal axisScale={x} y={y(0)}></AxisOrdinal>
+            <AxisLinear axisScale={y} x={x.range()[0]} ticks={ticksY} />
+
+            <AxisLabel yAxis axisScale={{ x, y }}>
+                {yAxis.label}
+            </AxisLabel>
+            <AxisLabel xAxis axisScale={{ x, y }}>
+                {xAxis.label}
+            </AxisLabel>
+            <path fill={'none'} stroke={'var(--font-color)'} d={line(lineData) || ''} />
         </svg>
     );
 };
