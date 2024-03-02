@@ -5,7 +5,7 @@ import Tick from './Tick';
 export interface AxisProps {
     x?: number;
     y?: number;
-    axisScale: d3.ScaleLinear<any, any>;
+    axisScale: d3.ScaleContinuousNumeric<any, any>;
     ticks: number[];
     formatter?: (value: number) => React.ReactNode;
 }
