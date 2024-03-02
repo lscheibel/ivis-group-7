@@ -10,7 +10,7 @@ export interface PisaScoreLineChartProps {
 
 const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
     return (
-        <div>
+        <div className={styles.pisaLineChart}>
             PISA scores over the years.
             <div className={styles.chartContainer}>
                 <ChartsWrapper
