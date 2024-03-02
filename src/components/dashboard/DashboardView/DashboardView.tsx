@@ -8,6 +8,7 @@ import ParentalSupportScatterPlot from '../../charts/ParentalSupportScatterPlot/
 import { useActiveCountry } from '../../../state/selectedCountry';
 import { call } from '../../../tools/call';
 import AvailableFoodTreemap from '../../charts/AvailableFoodTreemap/AvailableFoodTreemap';
+import PisaScoreLineChart from '../../charts/PisaScoreLineChart/PisaScoreLineChart';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -77,8 +78,12 @@ const DashboardView = () => {
                 🧇
             </DashboardCard>
 
-            <DashboardCard area={'line'} color={'pink'}>
-                📈
+            <DashboardCard area={'line'} color={'white'}>
+                <ChartsWrapper
+                    render={(dimensions) => (
+                        <PisaScoreLineChart {...dimensions} data={activeCountry ? [activeCountry] : []} />
+                    )}
+                />
             </DashboardCard>
         </MainGrid>
     );
