@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './DashboardCard.module.scss';
 import cn from 'classnames';
 
 export interface DashboardCardProps extends React.HTMLAttributes<HTMLDivElement> {
     area: string;
     color: Theme;
+    help?: React.ReactNode;
     children: React.ReactNode;
 }
 
@@ -50,13 +51,33 @@ const themes = {
 } satisfies Themes;
 
 const DashboardCard = (props: DashboardCardProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+    const [helpOpen, setHelpOpen] = useState(false);
+    const toggleHelp = () => setHelpOpen(!helpOpen);
+
     return (
         <div
             {...props}
             style={{ gridArea: props.area, ...themes[props.color], ...props.style }}
             className={cn(styles.card, props.className)}
             ref={ref}
-        />
+        >
+            {props.help && (
+                <>
+                    <button className={styles.helpButton} onClick={toggleHelp}>
+                        ?
+                    </button>
+                    {helpOpen && (
+                        <div className={cn(styles.helpContainer, { [styles.open]: helpOpen })}>
+                            <span className={styles.help}>{props.help}</span>
+                            <button className={styles.helpDismiss} onClick={toggleHelp}>
+                                okay
+                            </button>
+                        </div>
+                    )}
+                </>
+            )}
+            {props.children}
+        </div>
     );
 };
 
