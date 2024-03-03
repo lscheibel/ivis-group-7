@@ -22,7 +22,15 @@ const Axis = ({ x, y, axisScale, ticks, formatter = (v) => v }: AxisProps) => {
 
     return (
         <g>
-            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={'var(--font-color)'} strokeWidth={2} />
+            <line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke={'var(--font-color)'}
+                strokeWidth={2}
+                strokeLinecap={'square'}
+            />
             {ticks.map((tick, index) => {
                 const posX = x != null ? x : axisScale(tick);
                 const posY = y != null ? y : axisScale(tick);

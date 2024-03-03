@@ -1,0 +1,106 @@
+.container {
+    display: flex;
+    height: 100%;
+
+    font-size: 64px;
+    font-family: var(--font-family-mono);
+    font-weight: 700;
+    color: var(--font-color);
+
+    .wrapper {
+        width: 100%;
+    }
+
+    .menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--background);
+        margin: 0;
+        padding: 0;
+        height: 300%;
+    }
+
+    .control {
+        height: 100%;
+        background-color: transparent;
+        border: none !important;
+        box-shadow: none;
+        padding: var(--padding-large) var(--padding-huge);
+    }
+
+    .valueContainer {
+        padding: 0;
+        color: var(--font-color);
+    }
+
+    .menuList {
+        padding: 0;
+        max-height: 100%;
+    }
+
+    //.option {
+    //    color: var(--font-color);
+    //    background-color: transparent;
+    //}
+
+    .optionWrapper {
+        cursor: pointer;
+        background: var(--background);
+        padding: var(--padding-small) var(--padding-huge);
+
+        .value {
+            width: 100%;
+            display: inline-flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        &:hover,
+        &.focused {
+            background-color: var(--font-color);
+            color: var(--background);
+
+            .value {
+                color: var(--background);
+            }
+
+            .selectionIndicator {
+                color: var(--background);
+            }
+        }
+    }
+
+    .selectionIndicator {
+        color: var(--font-color);
+    }
+
+    .value {
+        margin: 0;
+        padding: 0;
+        color: var(--font-color);
+    }
+
+    .input {
+        margin: 0;
+        padding: 0;
+        color: var(--font-color);
+    }
+
+    .dropdownIndicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--font-color);
+        background: transparent;
+        border: none;
+        padding: 0;
+        padding-left: 1ch;
+        margin: 0;
+
+        svg {
+            width: 64px;
+        }
+    }
+}

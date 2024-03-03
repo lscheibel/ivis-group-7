@@ -154,12 +154,16 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
             />
             {call(() => {
                 if (selectedCountry?.id == null) return null;
-                return <DatumCircle x={x(getX(selectedCountry)!)} y={y(getY(selectedCountry)!)} selected />;
+                const pos = { x: getX(selectedCountry), y: getY(selectedCountry) };
+                if (pos.x == null || pos.y == null) return null;
+                return <DatumCircle x={x(pos.x)} y={y(pos.y)} selected />;
             })}
             {call(() => {
                 if (hoveredCountry?.id == null) return null;
-                if (hoveredCountry.id === selectedCountry?.id) return null; // We're already displaying this data point above.
-                return <DatumCircle x={x(getX(hoveredCountry)!)} y={y(getY(hoveredCountry)!)} selected />;
+                if (hoveredCountry.id === selectedCountry?.id) return null; // We're already displaying this data point above.;
+                const pos = { x: getX(hoveredCountry), y: getY(hoveredCountry) };
+                if (pos.x == null || pos.y == null) return null;
+                return <DatumCircle x={x(pos.x)} y={y(pos.y)} selected />;
             })}
         </svg>
     );
