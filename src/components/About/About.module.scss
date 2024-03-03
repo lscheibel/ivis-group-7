@@ -1,0 +1,21 @@
+.container {
+    z-index: 1;
+    position: absolute;
+    inset: var(--padding-tiny);
+    padding: var(--padding-large);
+    background: var(--almost-white);
+    color: var(--almost-black);
+}
+
+.portraits {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    list-style: none;
+}
+
+.portraitFigure {
+    img {
+        width: 256px;
+    }
+}

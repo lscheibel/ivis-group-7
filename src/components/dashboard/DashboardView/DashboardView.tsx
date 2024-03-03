@@ -9,6 +9,7 @@ import { call } from '../../../tools/call';
 import AvailableFoodTreemap from '../../charts/AvailableFoodTreemap/AvailableFoodTreemap';
 import PisaScoreLineChart from '../../charts/PisaScoreLineChart/PisaScoreLineChart';
 import Search from '../../Search/Search';
+import { Link } from 'wouter';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -21,10 +22,15 @@ const DashboardView = () => {
 
             <DashboardCard area={'title'} color={'white'}>
                 <h2>Food for thoughts?</h2>
+                <p>
+                    Research suggests that acute lack of nutritional resources can lead to reduced learning rates and
+                    hindered cognitive abilities. Using this dashboard we can explore the connection between PISA scores
+                    and various nourishment attributes of several countries.
+                </p>
             </DashboardCard>
 
             <DashboardCard area={'about'} color={'pink'} style={{ aspectRatio: '1', height: '100%' }}>
-                About
+                <Link href={'/about'}>About</Link>
             </DashboardCard>
 
             <DashboardCard area={'stats'} color={'black'}>
