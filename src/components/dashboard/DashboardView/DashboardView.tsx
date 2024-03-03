@@ -8,25 +8,26 @@ import { useActiveCountry } from '../../../state/selectedCountry';
 import { call } from '../../../tools/call';
 import AvailableFoodTreemap from '../../charts/AvailableFoodTreemap/AvailableFoodTreemap';
 import PisaScoreLineChart from '../../charts/PisaScoreLineChart/PisaScoreLineChart';
+import Search from '../../Search/Search';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
 
     return (
         <MainGrid>
-            <DashboardCard area={'title'} color={'pink'}>
+            <DashboardCard area={'search'} color={'green'} style={{ zIndex: 1, padding: 0 }}>
+                <Search />
+            </DashboardCard>
+
+            <DashboardCard area={'title'} color={'white'}>
                 <h2>Food for thoughts?</h2>
             </DashboardCard>
 
-            <DashboardCard area={'about'} color={'black'} style={{ aspectRatio: '3 / 2', height: '100%' }}>
+            <DashboardCard area={'about'} color={'pink'} style={{ aspectRatio: '1', height: '100%' }}>
                 About
             </DashboardCard>
 
-            <DashboardCard area={'search'} color={'green'}>
-                Search: {activeCountry?.countryName || 'Global'}
-            </DashboardCard>
-
-            <DashboardCard area={'stats'} color={'white'}>
+            <DashboardCard area={'stats'} color={'black'}>
                 Pisa Scores
                 <br />
                 {activeCountry?.countryName || 'Global'}
@@ -73,11 +74,11 @@ const DashboardView = () => {
                 <AvailableFoodTreemap data={activeCountry ? [activeCountry] : []} />
             </DashboardCard>
 
-            <DashboardCard area={'waffle'} color={'black'}>
+            <DashboardCard area={'waffle'} color={'white'}>
                 🧇
             </DashboardCard>
 
-            <DashboardCard area={'line'} color={'white'}>
+            <DashboardCard area={'line'} color={'green'}>
                 <PisaScoreLineChart data={activeCountry ? [activeCountry] : []} />
             </DashboardCard>
         </MainGrid>

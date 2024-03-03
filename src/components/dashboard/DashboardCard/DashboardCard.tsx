@@ -19,19 +19,19 @@ export type Themes = {
 const themes = {
     red: {
         '--background': 'var(--red)',
-        '--font-color': 'var(--almost-black)',
+        '--font-color': 'var(--black)',
         '--font-color-secondary': 'var(--almost-white)',
         '--accent-color': 'var(--white)',
     },
     green: {
         '--background': 'var(--green)',
-        '--font-color': 'var(--almost-black)',
+        '--font-color': 'var(--black)',
         '--font-color-secondary': 'var(--almost-white)',
         '--accent-color': 'var(--white)',
     },
     pink: {
         '--background': 'var(--pink)',
-        '--font-color': 'var(--almost-black)',
+        '--font-color': 'var(--black)',
         '--font-color-secondary': 'var(--almost-white)',
         '--accent-color': 'var(--white)',
     },
@@ -49,11 +49,11 @@ const themes = {
     },
 } satisfies Themes;
 
-const DashboardCard = (props: DashboardCardProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+const DashboardCard = ({ area, color, ...props }: DashboardCardProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     return (
         <div
             {...props}
-            style={{ gridArea: props.area, ...themes[props.color], ...props.style }}
+            style={{ gridArea: area, ...themes[color], ...props.style }}
             className={cn(styles.card, props.className)}
             ref={ref}
         />
