@@ -45,18 +45,18 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                 <div className={styles.filterContainer}>{pisaScoresLabels.map(renderFilterButtons)}</div>
                 <div className={styles.visualStructureContainer}>
                     <div className={styles.legendsContainer}>
-                        <p>PISA score (Higher is better)</p>
+                        <p>PISA score (higher the better)</p>
                         {selectedCountry !== null ? (
                             <div className={styles.legendContainer}>
                                 <svg width="16px" height="16px" viewBox={`0, 0, 16, 16`}>
-                                    <rect width="100%" height="100%" fill="yellow" />
+                                    <rect width="100%" height="100%" fill="#FFCB00" />
                                 </svg>
                                 <p> {selectedCountry?.countryName}</p>
                             </div>
                         ) : null}
                         <div className={styles.legendContainer}>
                             <svg width="16px" height="16px" viewBox={`0, 0, 16, 16`}>
-                                <rect width="100%" height="100%" fill="red" />
+                                <rect width="100%" height="100%" fill="#F22F29" />
                             </svg>
                             <p> Global</p>
                         </div>

@@ -77,7 +77,7 @@ const DashboardView = () => {
                 🧇
             </DashboardCard>
 
-            <DashboardCard area={'line'} color={'white'}>
+            <DashboardCard area={'line'} color={'beige'}>
                 <PisaScoreLineChart data={activeCountry ? [activeCountry] : []} />
             </DashboardCard>
         </MainGrid>

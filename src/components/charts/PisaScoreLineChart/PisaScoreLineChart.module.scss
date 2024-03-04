@@ -1,11 +1,16 @@
 .pisaLineChart {
     height: 100%;
+    //background-color: white;
+    border-radius: 16px;
+    border: solid 2px black;
+    padding: 8px;
 }
 
 .row {
     display: flex;
     flex-direction: row;
     width: 100%;
+    gap: 16px;
 }
 
 .filterContainer {
@@ -29,11 +34,12 @@ button {
     padding: 0 4px;
 }
 .filterSelected {
-    background-color: red;
+    background-color: #f22f29;
     color: white;
+    font-weight: 500;
 }
 .filterUnselected {
-    background-color: beige;
+    background-color: #f6eee3;
     color: black;
 }
 .chartContainer {
@@ -45,7 +51,7 @@ button {
     display: flex;
     flex-direction: row;
     justify-content: left;
-    gap: 16px;
+    gap: 40px;
     font-size: 14px;
 }
 .legendContainer {

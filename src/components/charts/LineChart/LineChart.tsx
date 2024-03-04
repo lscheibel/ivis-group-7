@@ -55,7 +55,7 @@ const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin 
         .range([height - margin.bottom, margin.top])
         .clamp(true);
 
-    let ticksY = [yAxis.from, yAxis.to];
+    let ticksY = [yAxis.from, 270, yAxis.to]; //y.ticks(4);
 
     let line = d3
         .line<{ x: number; y: number }>()
@@ -70,9 +70,9 @@ const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin 
             <AxisLabel yAxis axisScale={{ x, y }}>
                 {yAxis.label}
             </AxisLabel>
-            <AxisLabel xAxis axisScale={{ x, y }}>
+            {/* <AxisLabel xAxis axisScale={{ x, y }}>
                 {xAxis.label}
-            </AxisLabel>
+            </AxisLabel> */}
             {data.map((datum, index) => {
                 let lineData = xAxis.keys.map((key) => ({
                     x: x(key) || 0, //TODO Fix this!
@@ -82,7 +82,7 @@ const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin 
                 return (
                     <path
                         fill={'none'}
-                        stroke={index === 0 ? 'red' : 'yellow'}
+                        stroke={index === 0 ? '#F22F29' : '#FFCB00'}
                         stroke-width="2px"
                         d={line(lineData) || ''}
                     />
@@ -96,7 +96,7 @@ const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin 
 
                 console.log('xAxis', xAxis.keys);
                 return circleCoordinates.map((circle) => {
-                    return <circle r="6px" fill={index === 0 ? 'red' : 'yellow'} cx={circle.x} cy={circle.y} />;
+                    return <circle r="6px" fill={index === 0 ? '#F22F29' : '#FFCB00'} cx={circle.x} cy={circle.y} />;
                 });
             })}
         </svg>

@@ -8,7 +8,7 @@ export interface DashboardCardProps extends React.HTMLAttributes<HTMLDivElement>
     children: React.ReactNode;
 }
 
-export type Theme = 'red' | 'green' | 'pink' | 'black' | 'white';
+export type Theme = 'red' | 'green' | 'pink' | 'black' | 'white' | 'beige';
 export type ThemeVariables = 'background' | 'font-color' | 'font-color-secondary' | 'accent-color';
 export type Themes = {
     [key in Theme]: {
@@ -43,6 +43,12 @@ const themes = {
     },
     white: {
         '--background': 'var(--almost-white)',
+        '--font-color': 'var(--almost-black)',
+        '--font-color-secondary': 'var(--red)',
+        '--accent-color': 'var(--red)',
+    },
+    beige: {
+        '--background': '#F6EEE3',
         '--font-color': 'var(--almost-black)',
         '--font-color-secondary': 'var(--red)',
         '--accent-color': 'var(--red)',
