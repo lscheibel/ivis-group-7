@@ -4,6 +4,7 @@ import { CountryDatum, metaData, PisaScoreYears } from '../../../data/data';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import styles from './PisaScoreLineChart.module.scss';
 import { fromCamelCaseToUserFormat } from '../../../tools/stringsOperators';
+import { useSelectedCountry } from '../../../state/selectedCountry';
 
 export interface PisaScoreLineChartProps {
     data: CountryDatum[];
@@ -11,10 +12,12 @@ export interface PisaScoreLineChartProps {
 
 const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
     //Filter types: 'average', 'math', 'reading', 'science'
-    const pisaScoresLabels = ['Average', 'Math', 'Reading', 'Science'];
+    const pisaScoresLabels = ['average', 'math', 'reading', 'science'];
     const pisaScoresIcons = ['📊', '🧮', '🧪', '📚']; //TODO cnage for URL to SVGs.
-    const [activeFilter, setActiveFilter] = useState('average');
+    const [activeFilter, setActiveFilter] = useState(pisaScoresLabels[0]);
     const [filtersState, setFilterState] = useState([1, 0, 0, 0]);
+    const selectedCountry = useSelectedCountry();
+    console.log(selectedCountry);
 
     function renderFilterButtons(label: string, index: number) {
         function filterHandler() {
@@ -30,7 +33,7 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                 className={filtersState[index] == 1 ? styles.filterSelected : styles.filterUnselected}
             >
                 <img src="" alt={`${pisaScoresIcons[index]}`} />
-                {label}
+                {fromCamelCaseToUserFormat(label)}
             </button>
         );
     }
@@ -47,7 +50,7 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                             <svg width="16px" height="16px" viewBox={`0, 0, 16, 16`}>
                                 <rect width="100%" height="100%" fill="yellow" />
                             </svg>
-                            <p> Ukrainian regions{/*TODO chnage for selected country*/}</p>
+                            <p> {selectedCountry?.countryName}</p>
                         </div>
                         <div className={styles.legendContainer}>
                             <svg width="16px" height="16px" viewBox={`0, 0, 16, 16`}>
@@ -70,8 +73,8 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                                     yAxis={{
                                         label: 'Score',
                                         getValue: (scores, year) => {
-                                            const type = 'average'; // Todo: Let user choose type.
-                                            return scores[year as PisaScoreYears][type];
+                                            const type = activeFilter;
+                                            return scores[year as PisaScoreYears][type]; //TODO Fix this typeScript ERROR
                                         },
                                         from: 0,
                                         to: metaData.pisaScores.maxAverage,
