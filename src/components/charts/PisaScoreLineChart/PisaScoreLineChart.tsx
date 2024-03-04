@@ -1,37 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LineChart from '../LineChart/LineChart';
 import { CountryDatum, metaData, PisaScoreYears } from '../../../data/data';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import styles from './PisaScoreLineChart.module.scss';
+import { fromCamelCaseToUserFormat } from '../../../tools/stringsOperators';
 
 export interface PisaScoreLineChartProps {
     data: CountryDatum[];
 }
 
 const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
+    //Filter types: 'average', 'math', 'reading', 'science'
+    const pisaScoresLabels = ['Average', 'Math', 'Reading', 'Science'];
+    const pisaScoresIcons = ['📊', '🧮', '🧪', '📚']; //TODO cnage for URL to SVGs.
+    const [activeFilter, setActiveFilter] = useState('average');
+    const [filtersState, setFilterState] = useState([1, 0, 0, 0]);
+
+    function renderFilterButtons(label: string, index: number) {
+        function filterHandler() {
+            let temporalArray = [0, 0, 0, 0];
+            temporalArray[index] = 1;
+            setFilterState(temporalArray);
+            setActiveFilter(label);
+            console.log('activeFilter: ', activeFilter);
+        }
+        return (
+            <button
+                onClick={filterHandler}
+                className={filtersState[index] == 1 ? styles.filterSelected : styles.filterUnselected}
+            >
+                <img src="" alt={`${pisaScoresIcons[index]}`} />
+                {label}
+            </button>
+        );
+    }
     //TODO update icons
     return (
         <div className={styles.pisaLineChart}>
             <h2>PISA scores over the years</h2>
             <div className={styles.row}>
-                <div className={styles.filterContainer}>
-                    <button>
-                        <img src="" alt="📊" />
-                        Average
-                    </button>
-                    <button>
-                        <img src="" alt="🧮" />
-                        Math
-                    </button>
-                    <button>
-                        <img src="" alt="🧪" />
-                        Science
-                    </button>
-                    <button>
-                        <img src="" alt="📚" />
-                        Reading
-                    </button>
-                </div>
+                <div className={styles.filterContainer}>{pisaScoresLabels.map(renderFilterButtons)}</div>
                 <div className={styles.visualStructureContainer}>
                     <div className={styles.legendsContainer}>
                         <p>PISA score (Higher is better)</p>
