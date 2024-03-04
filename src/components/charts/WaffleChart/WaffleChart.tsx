@@ -48,10 +48,15 @@ const WaffleChart = ({ width, height, data, minSize, onHover }: WaffleChartProps
     const totalValue = data.reduce((acc, d) => acc + d.value, 0);
 
     let nextOffset = 0;
-    const waffleData = data.map((d) => {
+    const waffleData = data.map((d, i, all) => {
         const offset = nextOffset;
         const fraction = d.value / totalValue;
-        const count = Math.round(totalWaffles * fraction);
+        let count = Math.round(totalWaffles * fraction);
+
+        if (i === all.length - 1) {
+            // Todo: Rounding errors can lead to over or undershooting the totalWaffles count. This is a very dirty fix :]
+            count = totalWaffles - offset;
+        }
 
         nextOffset += count;
 
