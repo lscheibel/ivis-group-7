@@ -36,7 +36,7 @@ const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin 
     const selectedCountry = useSelectedCountry();
     const [pointerValue, setPointerValue] = useState<{ x: number; y: number } | null>(null);
     const svgRef = useRef<SVGSVGElement | null>(null);
-    const margin = { top: 40, right: 40, bottom: 40, left: 40, ...maybeMargin };
+    const margin = { top: 16, right: 40, bottom: 40, left: 40, ...maybeMargin };
 
     const getY = yAxis.getValue;
     //const dataMinY = Math.min(...xAxis.keys.map((c) => getY(c) || Infinity));
