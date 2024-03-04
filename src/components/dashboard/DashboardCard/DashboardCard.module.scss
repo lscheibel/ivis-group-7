@@ -4,7 +4,7 @@
     flex-direction: column;
     max-width: 100%;
 
-    padding: var(--padding-large);
+    padding: 8px; //var(--padding-large); SORRY I brute-forced changed this
     background: var(--background);
     color: var(--font-color);
 }
