@@ -38,6 +38,8 @@ const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin 
     const svgRef = useRef<SVGSVGElement | null>(null);
     const margin = { top: 16, right: 40, bottom: 40, left: 40, ...maybeMargin };
 
+    //console.log('data:', data);
+
     const getY = yAxis.getValue;
     //const dataMinY = Math.min(...xAxis.keys.map((c) => getY(c) || Infinity));
     //const dataMaxY = Math.max(...data.map((c) => getY(c) || -Infinity));
@@ -71,12 +73,12 @@ const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin 
             <AxisLabel xAxis axisScale={{ x, y }}>
                 {xAxis.label}
             </AxisLabel>
-            {data.map((datum) => {
+            {data.map((datum, index) => {
                 let lineData = xAxis.keys.map((key) => ({
                     x: x(key) || 0, //TODO Fix this!
                     y: y(yAxis.getValue(datum, key) || 0), //TODO Fix this!
                 }));
-                return <path fill={'none'} stroke={'var(--font-color)'} d={line(lineData) || ''} />;
+                return <path fill={'none'} stroke={index === 0 ? 'red' : 'yellow'} d={line(lineData) || ''} />;
             })}
         </svg>
     );
