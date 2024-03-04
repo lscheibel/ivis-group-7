@@ -10,6 +10,7 @@ import AvailableFoodTreemap from '../../charts/AvailableFoodTreemap/AvailableFoo
 import PisaScoreLineChart from '../../charts/PisaScoreLineChart/PisaScoreLineChart';
 import Search from '../../Search/Search';
 import { Link } from 'wouter';
+import SkippedMealsWaffleChart from '../../charts/SkippedMealsWaffleChart/SkippedMealsWaffleChart';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -81,7 +82,7 @@ const DashboardView = () => {
             </DashboardCard>
 
             <DashboardCard area={'waffle'} color={'white'}>
-                🧇
+                <SkippedMealsWaffleChart data={activeCountry} />
             </DashboardCard>
 
             <DashboardCard area={'line'} color={'green'}>
