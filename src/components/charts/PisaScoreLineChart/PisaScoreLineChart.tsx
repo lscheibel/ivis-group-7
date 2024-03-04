@@ -12,7 +12,7 @@ export interface PisaScoreLineChartProps {
 
 const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
     //Filter types: 'average', 'math', 'reading', 'science'
-    const pisaScoresLabels = ['average', 'math', 'reading', 'science'];
+    const pisaScoresLabels = ['average', 'math', 'science', 'reading'];
     const pisaScoresIcons = ['📊', '🧮', '🧪', '📚']; //TODO cnage for URL to SVGs.
     const [activeFilter, setActiveFilter] = useState(pisaScoresLabels[0]);
     const [filtersState, setFilterState] = useState([1, 0, 0, 0]);
