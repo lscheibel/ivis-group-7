@@ -46,17 +46,19 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                 <div className={styles.visualStructureContainer}>
                     <div className={styles.legendsContainer}>
                         <p>PISA score (Higher is better)</p>
-                        <div className={styles.legendContainer}>
-                            <svg width="16px" height="16px" viewBox={`0, 0, 16, 16`}>
-                                <rect width="100%" height="100%" fill="yellow" />
-                            </svg>
-                            <p> {selectedCountry?.countryName}</p>
-                        </div>
+                        {selectedCountry !== null ? (
+                            <div className={styles.legendContainer}>
+                                <svg width="16px" height="16px" viewBox={`0, 0, 16, 16`}>
+                                    <rect width="100%" height="100%" fill="yellow" />
+                                </svg>
+                                <p> {selectedCountry?.countryName}</p>
+                            </div>
+                        ) : null}
                         <div className={styles.legendContainer}>
                             <svg width="16px" height="16px" viewBox={`0, 0, 16, 16`}>
                                 <rect width="100%" height="100%" fill="red" />
                             </svg>
-                            <p> Global {/*TODO chnage for selected country*/}</p>
+                            <p> Global</p>
                         </div>
                     </div>
                     <div className={styles.chartContainer}>
