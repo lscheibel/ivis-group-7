@@ -46,7 +46,7 @@ const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin 
 
     const x = d3
         .scalePoint()
-        .domain(xAxis.keys)
+        .domain(['', ...xAxis.keys])
         .range([margin.left, width - margin.right]);
 
     const y = d3
@@ -78,12 +78,40 @@ const LineChart = <T,>({ width, height, data, yAxis, xAxis, margin: maybeMargin 
                     x: x(key) || 0, //TODO Fix this!
                     y: y(yAxis.getValue(datum, key) || 0), //TODO Fix this!
                 }));
-                return <path fill={'none'} stroke={index === 0 ? 'red' : 'yellow'} d={line(lineData) || ''} />;
+
+                return (
+                    <path
+                        fill={'none'}
+                        stroke={index === 0 ? 'red' : 'yellow'}
+                        stroke-width="2px"
+                        d={line(lineData) || ''}
+                    />
+                );
+            })}
+            {data.map((datum, index) => {
+                let circleCoordinates = xAxis.keys.map((k) => ({ x: x(k), y: y(yAxis.getValue(datum, k) || 0) }));
+
+                console.log('datum', datum);
+                console.log('circleCoordinates', circleCoordinates);
+
+                console.log('xAxis', xAxis.keys);
+                return circleCoordinates.map((circle) => {
+                    return <circle r="6px" fill={index === 0 ? 'red' : 'yellow'} cx={circle.x} cy={circle.y} />;
+                });
             })}
         </svg>
     );
 };
-
+/*
+return (
+                    <circle
+                        r="6px"
+                        fill={index === 0 ? 'red' : 'yellow'}
+                        cx={circleData[index].x}
+                        cy={circleData[index].y}
+                    />
+                );
+*/
 export interface AxisProps {
     x?: number;
     y?: number;
