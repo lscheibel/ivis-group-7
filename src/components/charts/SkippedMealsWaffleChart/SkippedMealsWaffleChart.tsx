@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './SkippedMealsWaffleChart.module.scss';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import WaffleChart from '../WaffleChart/WaffleChart';
-import { CountryDatum } from '../../../data/data';
+import { CountryDatum, metaData } from '../../../data/data';
 import { mapRange } from '../../../tools/math';
 
 export interface SkippedMealsWaffleChartProps {
@@ -23,6 +23,7 @@ const getLabel = (key: string, value: number) => {
             return `${formattedValue}% skip a meal four to five times per week.`;
         case 'always':
             return `${formattedValue}% skip a meal everyday.`;
+        case 'atLeastOncePerWeek':
         default:
             return `${formattedValue}% skip a meal at least once per week.`;
     }
@@ -30,9 +31,7 @@ const getLabel = (key: string, value: number) => {
 
 const SkippedMealsWaffleChart = ({ data }: SkippedMealsWaffleChartProps) => {
     const [activeGroup, setActiveGroup] = useState<string | null>(null);
-    const skippedMealsData = data?.skippedMeals;
-
-    if (!data || !skippedMealsData) return <>no data :c</>;
+    const skippedMealsData = data?.skippedMeals || metaData.averageSkippedMeals;
 
     const dataOrder = ['never', 'oncePerWeek', 'twoToThreePerWeek', 'fourToFivePerWeek', 'always'] as const;
     const waffleData = dataOrder.map((key, index) => ({
@@ -46,7 +45,9 @@ const SkippedMealsWaffleChart = ({ data }: SkippedMealsWaffleChartProps) => {
     const activeData = waffleData.find((d) => d.id === activeGroup);
 
     let subtitle = activeData?.label ?? null;
-    subtitle ??= data.skippedMealAtLeastOnce ? getLabel('', data.skippedMealAtLeastOnce) : null;
+    if (!subtitle) {
+        subtitle = getLabel('atLeastOncePerWeek', skippedMealsData.atLeastOncePerWeek);
+    }
 
     return (
         <div className={styles.container}>
