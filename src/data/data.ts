@@ -1,5 +1,6 @@
 import jsonData from './data.json';
 import { StringParser } from './StringParser';
+import { notNullish } from '../tools/notNullish';
 
 export interface RawDataEntry {
     country: string;
@@ -459,18 +460,49 @@ data.forEach((countryDatum) => {
 
 export type PisaScoreYears = '2003' | '2006' | '2009' | '2012' | '2015' | '2018' | '2022';
 
+type PisaScores = Record<
+    PisaScoreYears, // year
+    {
+        average: number | null;
+        math: number | null;
+        reading: number | null;
+        science: number | null;
+    }
+>;
+
+const globalPisaScoreAverages = {} as PisaScores;
+
+['2003', '2006', '2009', '2012', '2015', '2018', '2022'].forEach((year) => {
+    // @ts-ignore
+    globalPisaScoreAverages[year] = {};
+    ['average', 'math', 'reading', 'science'].forEach((type) => {
+        // @ts-ignore
+        const values = data.map((d) => d.pisaScores[year][type as PisaScoreYears]).filter(notNullish);
+
+        if (values.length === 0) {
+            // @ts-ignore
+            globalPisaScoreAverages[year][type] = null;
+            return;
+        }
+
+        // @ts-ignore
+        globalPisaScoreAverages[year][type] = values.reduce((acc, c) => acc + c, 0) / values.length;
+    });
+});
+
 export const metaData = {
     totalCountries: data.length,
     pisaScores: {
         years: ['2003', '2006', '2009', '2012', '2015', '2018', '2022'],
-        average: data.reduce((acc, c) => acc + c.pisaScores.average, 0) / data.length,
-        math: data.reduce((acc, c) => acc + c.pisaScores.math, 0) / data.length,
-        reading: data.reduce((acc, c) => acc + c.pisaScores.reading, 0) / data.length,
-        science: data.reduce((acc, c) => acc + c.pisaScores.science, 0) / data.length,
-        maxAverage: Math.max(...data.map((c) => c.pisaScores.average)),
-        maxMath: Math.max(...data.map((c) => c.pisaScores.math)),
-        maxReading: Math.max(...data.map((c) => c.pisaScores.reading)),
-        maxScience: Math.max(...data.map((c) => c.pisaScores.science)),
+        average: data.reduce((acc, c) => acc + c.pisaScores['2022'].average, 0) / data.length,
+        math: data.reduce((acc, c) => acc + c.pisaScores['2022'].math, 0) / data.length,
+        reading: data.reduce((acc, c) => acc + c.pisaScores['2022'].reading, 0) / data.length,
+        science: data.reduce((acc, c) => acc + c.pisaScores['2022'].science, 0) / data.length,
+        maxAverage: Math.max(...data.map((c) => c.pisaScores['2022'].average)),
+        maxMath: Math.max(...data.map((c) => c.pisaScores['2022'].math)),
+        maxReading: Math.max(...data.map((c) => c.pisaScores['2022'].reading)),
+        maxScience: Math.max(...data.map((c) => c.pisaScores['2022'].science)),
+        ...globalPisaScoreAverages,
     },
     nutrientList: data.map((countryDatum) => Object.entries(countryDatum.availableFood)),
     averageAvailableFood: buket.map((foodTotal, i) => {
