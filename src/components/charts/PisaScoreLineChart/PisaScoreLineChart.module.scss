@@ -1,4 +1,63 @@
+.pisaLineChart {
+    height: 100%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 16px;
+}
+
+.filterContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 20%;
+    padding: 0 10px 0 0;
+}
+
+.visualStructureContainer {
+    flex: 80%;
+}
+
+.button {
+    background-color: #f6eee3;
+    color: black;
+    display: flex;
+    gap: 4px;
+    text-align: left;
+    font-size: 14px;
+    height: 40px;
+    border-radius: 20px;
+    align-items: center;
+    padding: 0 4px;
+}
+
+.filterSelected {
+    background-color: #f22f29;
+    color: white;
+    font-weight: 500;
+}
+
 .chartContainer {
     position: relative;
+    width: 100%;
+    height: 180px;
+}
+
+.legendsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 40px;
+    font-size: 14px;
+}
+
+.legendContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
     height: 100%;
 }
