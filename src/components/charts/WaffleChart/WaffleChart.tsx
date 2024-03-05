@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '../Treemap/Treemap.module.scss';
 import * as d3 from 'd3';
 import { range } from 'd3';
+import { call } from '../../../tools/call';
 
 export interface WaffleChartData {
     id: string;
@@ -16,9 +17,10 @@ export interface WaffleChartProps {
     data: WaffleChartData[];
     minSize: number;
     onHover: (id: string | null) => void;
+    highlight?: string | null;
 }
 
-const WaffleChart = ({ width, height, data, minSize, onHover }: WaffleChartProps) => {
+const WaffleChart = ({ width, height, data, minSize, onHover, highlight }: WaffleChartProps) => {
     const margin = { top: 0, right: 0, bottom: 0, left: 0 };
 
     const effectiveWidth = width - margin.right - margin.left;
@@ -67,39 +69,94 @@ const WaffleChart = ({ width, height, data, minSize, onHover }: WaffleChartProps
         };
     });
 
-    return (
-        <svg width={width} height={height} className={styles.svg}>
-            {waffleData.map(({ count, offset, data }) => {
-                return (
-                    <g key={data.id} onPointerEnter={() => onHover?.(data.id)} onPointerLeave={() => onHover?.(null)}>
-                        {d3.range(count).map((index) => {
-                            const linearIndex = index + offset;
-                            const xIndex = linearIndex % xCount;
-                            const yIndex = Math.floor(linearIndex / xCount);
+    const highlightedDataGroup = waffleData.find((d) => d.data.id === highlight);
 
-                            const posX = xScale('' + xIndex)!;
-                            const posY = yScale('' + yIndex)!;
+    const linearToXY = (linearIndex: number) => {
+        const x = linearIndex % xCount;
+        const y = Math.floor(linearIndex / xCount);
+        return { x, y };
+    };
 
+    type DataGroup = (typeof waffleData)[number];
+    const toWafflePositions = (dataGroup: DataGroup) => {
+        return d3.range(dataGroup.count).map((index) => {
+            const { x, y } = linearToXY(index + dataGroup.offset);
+            return {
+                x: xScale('' + x)!,
+                y: yScale('' + y)!,
+                index: index + dataGroup.offset,
+            };
+        });
+    };
+
+    const renderWaffleGroup = (group: DataGroup) => {
+        return toWafflePositions(group).map(({ x, y, index }) => {
+            return (
+                <>
+                    {group.data.strength !== 1 && (
+                        <Waffle
+                            key={`bg:${index}`}
+                            x={x}
+                            y={y}
+                            xSize={xScale.bandwidth()}
+                            ySize={yScale.bandwidth()}
+                            bg={group.data.color}
+                        />
+                    )}
+                    {group.data.strength !== 0 &&
+                        call(() => {
+                            const xSize = xScale.bandwidth() * group.data.strength;
+                            const ySize = yScale.bandwidth() * group.data.strength;
                             return (
                                 <Waffle
-                                    key={index + offset}
-                                    x={posX}
-                                    y={posY}
-                                    xSize={xScale.bandwidth()}
-                                    ySize={yScale.bandwidth()}
-                                    strength={data.strength}
-                                    bg={data.color}
-                                >
-                                    <title>
-                                        index: {index + offset}
-                                        xIndex: {xIndex}; yIndex: {yIndex}
-                                    </title>
-                                </Waffle>
+                                    key={`dot:${index}`}
+                                    x={x}
+                                    y={y}
+                                    xSize={xSize}
+                                    ySize={ySize}
+                                    offset={(xScale.bandwidth() - xSize) / 2}
+                                    bg={'var(--black)'}
+                                />
                             );
                         })}
+                </>
+            );
+        });
+    };
+
+    return (
+        <svg width={width} height={height} className={styles.svg}>
+            {waffleData.map((dataGroup) => {
+                return (
+                    <g
+                        key={dataGroup.data.id}
+                        onPointerEnter={() => onHover?.(dataGroup.data.id)}
+                        onPointerLeave={() => onHover?.(null)}
+                    >
+                        {renderWaffleGroup(dataGroup)}
                     </g>
                 );
             })}
+
+            {highlightedDataGroup && (
+                <g style={{ pointerEvents: 'none' }}>
+                    {toWafflePositions(highlightedDataGroup).map(({ x, y, index }) => {
+                        const borderWidth = 4;
+                        return (
+                            <Waffle
+                                key={index}
+                                x={x}
+                                y={y}
+                                xSize={xScale.bandwidth()}
+                                ySize={yScale.bandwidth()}
+                                bg={'var(--background)'}
+                                padding={borderWidth}
+                            />
+                        );
+                    })}
+                    {renderWaffleGroup(highlightedDataGroup)}
+                </g>
+            )}
         </svg>
     );
 };
@@ -111,32 +168,16 @@ export interface WaffleProps {
     y: number;
     xSize: number;
     ySize: number;
-    strength: number;
     bg: string;
-    children: React.ReactNode;
+    padding?: number;
+    offset?: number; // Can be used to effectively center the inner element. Bit hacky :]
 }
 
-const Waffle = ({ x, y, xSize, ySize, strength, bg, children }: WaffleProps) => {
-    const getRect = (x: number, y: number, xRectSize: number, yRectSize: number) => {
-        return {
-            x: x + (xSize - xRectSize) / 2,
-            y: y + (xSize - xRectSize) / 2,
-            width: xRectSize,
-            height: yRectSize,
-        };
-    };
+const Waffle = ({ x, y, xSize, ySize, bg, offset = 0, padding = 0 }: WaffleProps) => {
+    const xPos = x - padding + offset;
+    const yPos = y - padding + offset;
+    const width = xSize + padding * 2;
+    const height = ySize + padding * 2;
 
-    return (
-        <g>
-            {strength !== 1 && <rect {...getRect(x, y, xSize, ySize)} fill={bg} shapeRendering={'crispEdges'} />}
-            {strength !== 0 && (
-                <rect
-                    {...getRect(x, y, xSize * strength, ySize * strength)}
-                    fill={'var(--black)'}
-                    shapeRendering={'crispEdges'}
-                />
-            )}
-            {children}
-        </g>
-    );
+    return <rect x={xPos} y={yPos} width={width} height={height} fill={bg} shapeRendering={'crispEdges'} />;
 };

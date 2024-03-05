@@ -58,7 +58,13 @@ const SkippedMealsWaffleChart = ({ data }: SkippedMealsWaffleChartProps) => {
             <div className={styles.chartContainer}>
                 <ChartsWrapper
                     render={(dimensions) => (
-                        <WaffleChart {...dimensions} data={waffleData} minSize={24} onHover={setActiveGroup} />
+                        <WaffleChart
+                            {...dimensions}
+                            data={waffleData}
+                            minSize={24 + 4}
+                            onHover={setActiveGroup}
+                            highlight={activeGroup}
+                        />
                     )}
                 />
             </div>
