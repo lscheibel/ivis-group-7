@@ -360,6 +360,11 @@ export class CountryDatum {
             twoToThreePerWeek: this.skippedMealsTwoToThreePerWeek!,
             fourToFivePerWeek: this.skippedMealsFourToFivePerWeek!,
             always: this.skippedMealsAlways!,
+            atLeastOncePerWeek:
+                this.skippedMealsOncePerWeek! +
+                this.skippedMealsTwoToThreePerWeek! +
+                this.skippedMealsFourToFivePerWeek! +
+                this.skippedMealsAlways!,
         };
     }
 
@@ -490,6 +495,39 @@ const globalPisaScoreAverages = {} as PisaScores;
     });
 });
 
+type SkippedMeals = {
+    never: number;
+    oncePerWeek: number;
+    twoToThreePerWeek: number;
+    fourToFivePerWeek: number;
+    always: number;
+    atLeastOncePerWeek: number;
+};
+
+const averageSkippedMeals: SkippedMeals = {
+    never: 0,
+    oncePerWeek: 0,
+    twoToThreePerWeek: 0,
+    fourToFivePerWeek: 0,
+    always: 0,
+    atLeastOncePerWeek: 0,
+};
+const countriesWithSkippedMealsData = data.filter((d) => d.skippedMeals);
+countriesWithSkippedMealsData.forEach((d) => {
+    averageSkippedMeals.never += d.skippedMeals!.never;
+    averageSkippedMeals.oncePerWeek += d.skippedMeals!.oncePerWeek;
+    averageSkippedMeals.twoToThreePerWeek += d.skippedMeals!.twoToThreePerWeek;
+    averageSkippedMeals.fourToFivePerWeek += d.skippedMeals!.fourToFivePerWeek;
+    averageSkippedMeals.always += d.skippedMeals!.always;
+    averageSkippedMeals.atLeastOncePerWeek += d.skippedMeals!.atLeastOncePerWeek;
+});
+averageSkippedMeals.never /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.oncePerWeek /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.twoToThreePerWeek /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.fourToFivePerWeek /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.always /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.atLeastOncePerWeek /= countriesWithSkippedMealsData.length;
+
 export const metaData = {
     totalCountries: data.length,
     pisaScores: {
@@ -508,6 +546,7 @@ export const metaData = {
     averageAvailableFood: buket.map((foodTotal, i) => {
         return [foodTotal[0], foodTotal[1] / dataPointsCouter[i]];
     }),
+    averageSkippedMeals,
 
     globalAvailableFood: Object.fromEntries(
         Object.keys(data[0].availableFood).map((foodKey) => [
