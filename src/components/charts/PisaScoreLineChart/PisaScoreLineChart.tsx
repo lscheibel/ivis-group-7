@@ -5,44 +5,37 @@ import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import styles from './PisaScoreLineChart.module.scss';
 import { fromCamelCaseToUserFormat } from '../../../tools/stringsOperators';
 import { useSelectedCountry } from '../../../state/selectedCountry';
+import cn from 'classnames';
 
 export interface PisaScoreLineChartProps {
     data: CountryDatum[];
 }
 
 const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
-    //Filter types: 'average', 'math', 'reading', 'science'
-    const pisaScoresLabels = ['average', 'math', 'science', 'reading'];
-    const pisaScoresIcons = ['📊', '🧮', '🧪', '📚']; //TODO cnage for URL to SVGs.
-    const [activeFilter, setActiveFilter] = useState(pisaScoresLabels[0]);
-    const [filtersState, setFilterState] = useState([1, 0, 0, 0]);
+    const pisaScoreFilters = ['average', 'math', 'science', 'reading'] as const;
+    const pisaScoresIcons = ['📊', '🧮', '🧪', '📚']; // TODO change for URL to SVGs.
+    const [activeFilter, setActiveFilter] = useState<(typeof pisaScoreFilters)[number]>('average');
     const selectedCountry = useSelectedCountry();
-    console.log(selectedCountry);
 
-    function renderFilterButtons(label: string, index: number) {
-        function filterHandler() {
-            let temporalArray = [0, 0, 0, 0];
-            temporalArray[index] = 1;
-            setFilterState(temporalArray);
-            setActiveFilter(label);
-            console.log('activeFilter: ', activeFilter);
-        }
-        return (
-            <button
-                onClick={filterHandler}
-                className={filtersState[index] == 1 ? styles.filterSelected : styles.filterUnselected}
-            >
-                <img src="" alt={`${pisaScoresIcons[index]}`} />
-                {fromCamelCaseToUserFormat(label)}
-            </button>
-        );
-    }
     //TODO update icons
     return (
         <div className={styles.pisaLineChart}>
             <h2>PISA scores over the years</h2>
             <div className={styles.row}>
-                <div className={styles.filterContainer}>{pisaScoresLabels.map(renderFilterButtons)}</div>
+                <div className={styles.filterContainer}>
+                    {pisaScoreFilters.map((filter, index) => {
+                        return (
+                            <button
+                                key={filter}
+                                onClick={() => setActiveFilter(filter)}
+                                className={cn(styles.button, { [styles.filterSelected]: activeFilter === filter })}
+                            >
+                                <img src="" alt={`${pisaScoresIcons[index]}`} />
+                                {fromCamelCaseToUserFormat(filter)}
+                            </button>
+                        );
+                    })}
+                </div>
                 <div className={styles.visualStructureContainer}>
                     <div className={styles.legendsContainer}>
                         <p>PISA score (higher the better)</p>
@@ -69,14 +62,13 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                                     height={dimensions.height}
                                     data={[metaData.pisaScores, ...data.map((d) => d.pisaScores)]}
                                     xAxis={{
-                                        label: 'Todo',
+                                        label: '',
                                         keys: metaData.pisaScores.years,
                                     }}
                                     yAxis={{
                                         label: 'Score',
                                         getValue: (scores, year) => {
-                                            const type = activeFilter;
-                                            return scores[year as PisaScoreYears][type]; //TODO Fix this typeScript ERROR
+                                            return scores[year as PisaScoreYears][activeFilter];
                                         },
                                         from: 0,
                                         to: metaData.pisaScores.maxAverage,
