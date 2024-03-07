@@ -77,9 +77,24 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
     let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), xAxis.to];
     let ticksY = [Math.round(dataMinY), Math.round(dataMaxY), yAxis.to];
 
-    if (pointerValue) {
-        ticksX = [...ticksX.filter((value) => !approxEq(x(value), x(pointerValue.x), 20)), pointerValue.x];
-        ticksY = [...ticksY.filter((value) => !approxEq(y(value), y(pointerValue.y), 20)), pointerValue.y];
+    let snappedPointerValue = pointerValue;
+    if (hoveredCountry) {
+        const xValueHovered = getX(hoveredCountry);
+        const yValueHovered = getY(hoveredCountry);
+        if (xValueHovered != null && yValueHovered != null) {
+            snappedPointerValue = { x: xValueHovered, y: yValueHovered };
+        }
+    }
+
+    if (snappedPointerValue) {
+        ticksX = [
+            ...ticksX.filter((value) => !approxEq(x(value), x(snappedPointerValue!.x), 20)),
+            snappedPointerValue.x,
+        ];
+        ticksY = [
+            ...ticksY.filter((value) => !approxEq(y(value), y(snappedPointerValue!.y), 20)),
+            snappedPointerValue.y,
+        ];
     }
 
     const plotData = useMemo(() => {
@@ -123,11 +138,21 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
             </AxisLabel>
 
             <g style={{ pointerEvents: 'none' }}>
-                {pointerValue && (
-                    <GuideLine x1={x(pointerValue.x)} y1={y(0)} x2={x(pointerValue.x)} y2={y(pointerValue.y)} />
+                {snappedPointerValue && (
+                    <GuideLine
+                        x1={x(snappedPointerValue.x)}
+                        y1={y(0)}
+                        x2={x(snappedPointerValue.x)}
+                        y2={y(snappedPointerValue.y)}
+                    />
                 )}
-                {pointerValue && (
-                    <GuideLine x1={x(0)} y1={y(pointerValue.y)} x2={x(pointerValue.x)} y2={y(pointerValue.y)} />
+                {snappedPointerValue && (
+                    <GuideLine
+                        x1={x(0)}
+                        y1={y(snappedPointerValue.y)}
+                        x2={x(snappedPointerValue.x)}
+                        y2={y(snappedPointerValue.y)}
+                    />
                 )}
             </g>
 
