@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-large);
+}
+
+.titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.chartContainer {
+    position: relative;
+    height: 100%;
+    margin: 0 calc(var(--padding-large) * -1) calc(var(--padding-large) * -1);
+    border-top: 2px solid var(--font-color);
+}
