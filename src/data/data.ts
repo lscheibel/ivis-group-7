@@ -441,10 +441,10 @@ export const getDatumById = (id: CountryDatum['id']) => {
     return data[id];
 };
 
-let buket: Array<[string, number]> = [];
+const buket: Array<[string, number]> = [];
 //buket[0] = new Array<[string, number]>(2);
 
-let dataPointsCouter: number[] = new Array(Object.entries(data[0].availableFood).length).fill(0);
+const dataPointsCouter: number[] = new Array(Object.entries(data[0].availableFood).length).fill(0);
 
 data.forEach((countryDatum) => {
     Object.entries(countryDatum.availableFood).forEach(buketFiller);
@@ -536,6 +536,12 @@ export const metaData = {
         math: data.reduce((acc, c) => acc + c.pisaScores['2022'].math, 0) / data.length,
         reading: data.reduce((acc, c) => acc + c.pisaScores['2022'].reading, 0) / data.length,
         science: data.reduce((acc, c) => acc + c.pisaScores['2022'].science, 0) / data.length,
+        max: {
+            average: Math.max(...data.map((c) => c.pisaScores['2022'].average)),
+            math: Math.max(...data.map((c) => c.pisaScores['2022'].math)),
+            reading: Math.max(...data.map((c) => c.pisaScores['2022'].reading)),
+            science: Math.max(...data.map((c) => c.pisaScores['2022'].science)),
+        },
         maxAverage: Math.max(...data.map((c) => c.pisaScores['2022'].average)),
         maxMath: Math.max(...data.map((c) => c.pisaScores['2022'].math)),
         maxReading: Math.max(...data.map((c) => c.pisaScores['2022'].reading)),
