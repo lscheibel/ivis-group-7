@@ -85,7 +85,7 @@ const DashboardView = () => {
                 <SkippedMealsWaffleChart data={activeCountry} />
             </DashboardCard>
 
-            <DashboardCard area={'line'} color={'beige'}>
+            <DashboardCard area={'line'} color={'green'}>
                 <PisaScoreLineChart data={activeCountry ? [activeCountry] : []} />
             </DashboardCard>
         </MainGrid>
