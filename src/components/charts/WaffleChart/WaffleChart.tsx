@@ -92,7 +92,7 @@ const WaffleChart = ({ width, height, data, minSize, onHover, highlight }: Waffl
     const renderWaffleGroup = (group: DataGroup) => {
         return toWafflePositions(group).map(({ x, y, index }) => {
             return (
-                <>
+                <React.Fragment key={`waffle:${index}`}>
                     {group.data.strength !== 1 && (
                         <Waffle
                             key={`bg:${index}`}
@@ -119,7 +119,7 @@ const WaffleChart = ({ width, height, data, minSize, onHover, highlight }: Waffl
                                 />
                             );
                         })}
-                </>
+                </React.Fragment>
             );
         });
     };

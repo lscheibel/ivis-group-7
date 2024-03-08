@@ -6,11 +6,11 @@ import ScatterPlot from '../../charts/ScatterPlot/ScatterPlot';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import { useActiveCountry } from '../../../state/selectedCountry';
 import { call } from '../../../tools/call';
-import AvailableFoodTreemap from '../../charts/AvailableFoodTreemap/AvailableFoodTreemap';
 import PisaScoreLineChart from '../../charts/PisaScoreLineChart/PisaScoreLineChart';
 import Search from '../../Search/Search';
 import { Link } from 'wouter';
 import SkippedMealsWaffleChart from '../../charts/SkippedMealsWaffleChart/SkippedMealsWaffleChart';
+import FoodCard from '../../FoodCard/FoodCard';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -78,7 +78,7 @@ const DashboardView = () => {
             </DashboardCard>
 
             <DashboardCard area={'food'} color={'black'}>
-                <AvailableFoodTreemap data={activeCountry ? [activeCountry] : []} />
+                <FoodCard />
             </DashboardCard>
 
             <DashboardCard area={'waffle'} color={'white'}>
