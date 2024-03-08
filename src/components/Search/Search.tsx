@@ -9,6 +9,7 @@ import {
     useActiveCountry,
     useSelectedCountry,
 } from '../../state/selectedCountry';
+import sample from 'lodash/sample';
 
 const DropdownIndicator = () => {
     return (
@@ -59,6 +60,22 @@ const Search = () => {
         return [{ value: null, label: 'Global' }, ...countryOptions];
     }, []);
 
+    // Taken from google fonts :)
+    const noOptionsEmojis = [
+        '(;-;)',
+        '(o^^)o',
+        '\\(o_o)/',
+        '(^-^*)',
+        '(˚Δ˚)b',
+        '(>_<)',
+        '(≥o≤)',
+        '(·.·)',
+        '(·_·)',
+        "(='X'=)",
+        '(^_^)b',
+        '\\(^Д^)/',
+    ];
+
     return (
         <div className={styles.container}>
             <Select
@@ -71,7 +88,9 @@ const Search = () => {
                     input: () => styles.input,
                     menuList: () => cn(styles.menuList),
                     option: () => cn(styles.option),
+                    noOptionsMessage: () => styles.noOptionsMessage,
                 }}
+                noOptionsMessage={() => sample(noOptionsEmojis)}
                 isClearable={false}
                 components={{ DropdownIndicator, IndicatorSeparator: null, Option, Menu }}
                 options={options}
