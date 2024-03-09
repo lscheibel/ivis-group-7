@@ -10,6 +10,19 @@ In `src/data` static data sources are stored. You can put you're cleaned .csv fi
 
 ## Development
 
+### The veeeery first time setup (skip if you've worked with react before).
+
+1. Open a terminal anywhere.
+2. Depending on your platform download and install `nvm` (OSX, Linux) or `nvm-windows` as described on their GitHub.
+3. Use `nvm install 18` to install node.
+4. Use `nvm use 18` to use node version 18.
+5. Open a terminal in this directory.
+6. Use `npm i` to install all dependencies.
+7. Use `npm run dev` to start a dev server.
+8. You should now be able to go to http://localhost:2345 to see a preview of the app! 🎉
+
+### Regular Setup
+
 Install dependencies with `npm install`.
 Use `npm run dev` to start the dev server.
 
@@ -18,6 +31,7 @@ Before committing, please make sure that all files have been reformatted with pr
 ### Setup VSCode IDE
 
 Copy `.vscode/settings.json.default` to `.vscode/settings.json`.
+Install Prettier and ESLint VSCode extensions.
 
 ### Setup Intellij IDEs
 

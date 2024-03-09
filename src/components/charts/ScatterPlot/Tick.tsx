@@ -9,9 +9,10 @@ export interface TickProps {
     right?: boolean;
     text: React.ReactNode;
     textMargin?: number;
+    color?: string;
 }
 
-const Tick = ({ x, y, up, down, left, right, text, textMargin = 0 }: TickProps) => {
+const Tick = ({ x, y, up, down, left, right, text, textMargin = 0, color = 'var(--font-color)' }: TickProps) => {
     const tickLength = 6;
 
     const xDir = left ? -1 : right ? 1 : 0;
@@ -28,15 +29,9 @@ const Tick = ({ x, y, up, down, left, right, text, textMargin = 0 }: TickProps) 
 
     return (
         <React.Fragment>
-            <line x1={x} y1={y} x2={x2} y2={y2} strokeWidth={'var(--stroke-width, 2)'} stroke={'var(--font-color)'} />
+            <line x1={x} y1={y} x2={x2} y2={y2} strokeWidth={'var(--stroke-width, 2)'} stroke={color} />
 
-            <text
-                x={textX}
-                y={textY}
-                textAnchor={textAlignX}
-                alignmentBaseline={textAlignY}
-                color={'var(--font-color)'}
-            >
+            <text x={textX} y={textY} textAnchor={textAlignX} alignmentBaseline={textAlignY} fill={color}>
                 {text}
             </text>
         </React.Fragment>

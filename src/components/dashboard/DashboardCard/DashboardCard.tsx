@@ -9,7 +9,7 @@ export interface DashboardCardProps extends React.HTMLAttributes<HTMLDivElement>
     children: React.ReactNode;
 }
 
-export type Theme = 'red' | 'green' | 'pink' | 'black' | 'white';
+export type Theme = 'red' | 'green' | 'pink' | 'black' | 'white' | 'beige';
 export type ThemeVariables = 'background' | 'font-color' | 'font-color-secondary' | 'accent-color';
 export type Themes = {
     [key in Theme]: {
@@ -20,19 +20,19 @@ export type Themes = {
 const themes = {
     red: {
         '--background': 'var(--red)',
-        '--font-color': 'var(--almost-black)',
+        '--font-color': 'var(--black)',
         '--font-color-secondary': 'var(--almost-white)',
         '--accent-color': 'var(--white)',
     },
     green: {
         '--background': 'var(--green)',
-        '--font-color': 'var(--almost-black)',
+        '--font-color': 'var(--black)',
         '--font-color-secondary': 'var(--almost-white)',
         '--accent-color': 'var(--white)',
     },
     pink: {
         '--background': 'var(--pink)',
-        '--font-color': 'var(--almost-black)',
+        '--font-color': 'var(--black)',
         '--font-color-secondary': 'var(--almost-white)',
         '--accent-color': 'var(--white)',
     },
@@ -48,16 +48,22 @@ const themes = {
         '--font-color-secondary': 'var(--red)',
         '--accent-color': 'var(--red)',
     },
+    beige: {
+        '--background': '#F6EEE3',
+        '--font-color': 'var(--almost-black)',
+        '--font-color-secondary': 'var(--red)',
+        '--accent-color': 'var(--red)',
+    },
 } satisfies Themes;
 
-const DashboardCard = (props: DashboardCardProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+const DashboardCard = ({ area, color, ...props }: DashboardCardProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     const [helpOpen, setHelpOpen] = useState(false);
     const toggleHelp = () => setHelpOpen(!helpOpen);
 
     return (
         <div
             {...props}
-            style={{ gridArea: props.area, ...themes[props.color], ...props.style }}
+            style={{ gridArea: area, ...themes[color], ...props.style }}
             className={cn(styles.card, props.className)}
             ref={ref}
         >

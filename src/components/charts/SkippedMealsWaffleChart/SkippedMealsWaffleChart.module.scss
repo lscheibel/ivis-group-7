@@ -1,0 +1,26 @@
+.container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-tiny);
+}
+
+.chartContainer {
+    position: relative;
+    height: 100%;
+    margin-top: auto;
+}
+
+.titles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-tiny);
+    min-height: auto;
+}
+
+.subtitle {
+    color: var(--font-color-secondary);
+    font-style: normal;
+    min-height: 48px; // Double line height. Prevents flickering when subtitle changes.
+}

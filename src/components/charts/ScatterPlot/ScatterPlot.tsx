@@ -77,9 +77,24 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
     let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), xAxis.to];
     let ticksY = [Math.round(dataMinY), Math.round(dataMaxY), yAxis.to];
 
-    if (pointerValue) {
-        ticksX = [...ticksX.filter((value) => !approxEq(x(value), x(pointerValue.x), 20)), pointerValue.x];
-        ticksY = [...ticksY.filter((value) => !approxEq(y(value), y(pointerValue.y), 20)), pointerValue.y];
+    let snappedPointerValue = pointerValue;
+    if (hoveredCountry) {
+        const xValueHovered = getX(hoveredCountry);
+        const yValueHovered = getY(hoveredCountry);
+        if (xValueHovered != null && yValueHovered != null) {
+            snappedPointerValue = { x: xValueHovered, y: yValueHovered };
+        }
+    }
+
+    if (snappedPointerValue) {
+        ticksX = [
+            ...ticksX.filter((value) => !approxEq(x(value), x(snappedPointerValue!.x), 20)),
+            snappedPointerValue.x,
+        ];
+        ticksY = [
+            ...ticksY.filter((value) => !approxEq(y(value), y(snappedPointerValue!.y), 20)),
+            snappedPointerValue.y,
+        ];
     }
 
     const plotData = useMemo(() => {
@@ -112,8 +127,18 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
             }}
             onPointerLeave={() => setPointerValue(null)}
         >
-            <Axis axisScale={x} y={y(0)} ticks={ticksX} formatter={(v) => `${Math.round(v)}%`} />
-            <Axis axisScale={y} x={x(0)} ticks={ticksY} formatter={(v) => Math.round(v)} />
+            <Axis
+                axisScale={x}
+                y={y(0)}
+                ticks={ticksX.map((t) => ({ value: t }))}
+                formatter={(t) => `${Math.round(t.value)}%`}
+            />
+            <Axis
+                axisScale={y}
+                x={x(0)}
+                ticks={ticksY.map((t) => ({ value: t }))}
+                formatter={(t) => Math.round(t.value)}
+            />
 
             <AxisLabel yAxis axisScale={{ x, y }}>
                 {yAxis.label}
@@ -123,11 +148,21 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
             </AxisLabel>
 
             <g style={{ pointerEvents: 'none' }}>
-                {pointerValue && (
-                    <GuideLine x1={x(pointerValue.x)} y1={y(0)} x2={x(pointerValue.x)} y2={y(pointerValue.y)} />
+                {snappedPointerValue && (
+                    <GuideLine
+                        x1={x(snappedPointerValue.x)}
+                        y1={y(0)}
+                        x2={x(snappedPointerValue.x)}
+                        y2={y(snappedPointerValue.y)}
+                    />
                 )}
-                {pointerValue && (
-                    <GuideLine x1={x(0)} y1={y(pointerValue.y)} x2={x(pointerValue.x)} y2={y(pointerValue.y)} />
+                {snappedPointerValue && (
+                    <GuideLine
+                        x1={x(0)}
+                        y1={y(snappedPointerValue.y)}
+                        x2={x(snappedPointerValue.x)}
+                        y2={y(snappedPointerValue.y)}
+                    />
                 )}
             </g>
 
@@ -154,12 +189,16 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
             />
             {call(() => {
                 if (selectedCountry?.id == null) return null;
-                return <DatumCircle x={x(getX(selectedCountry)!)} y={y(getY(selectedCountry)!)} selected />;
+                const pos = { x: getX(selectedCountry), y: getY(selectedCountry) };
+                if (pos.x == null || pos.y == null) return null;
+                return <DatumCircle x={x(pos.x)} y={y(pos.y)} selected />;
             })}
             {call(() => {
                 if (hoveredCountry?.id == null) return null;
-                if (hoveredCountry.id === selectedCountry?.id) return null; // We're already displaying this data point above.
-                return <DatumCircle x={x(getX(hoveredCountry)!)} y={y(getY(hoveredCountry)!)} selected />;
+                if (hoveredCountry.id === selectedCountry?.id) return null; // We're already displaying this data point above.;
+                const pos = { x: getX(hoveredCountry), y: getY(hoveredCountry) };
+                if (pos.x == null || pos.y == null) return null;
+                return <DatumCircle x={x(pos.x)} y={y(pos.y)} selected />;
             })}
         </svg>
     );

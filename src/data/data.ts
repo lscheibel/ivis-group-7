@@ -1,5 +1,6 @@
 import jsonData from './data.json';
 import { StringParser } from './StringParser';
+import { notNullish } from '../tools/notNullish';
 
 export interface RawDataEntry {
     country: string;
@@ -359,6 +360,11 @@ export class CountryDatum {
             twoToThreePerWeek: this.skippedMealsTwoToThreePerWeek!,
             fourToFivePerWeek: this.skippedMealsFourToFivePerWeek!,
             always: this.skippedMealsAlways!,
+            atLeastOncePerWeek:
+                this.skippedMealsOncePerWeek! +
+                this.skippedMealsTwoToThreePerWeek! +
+                this.skippedMealsFourToFivePerWeek! +
+                this.skippedMealsAlways!,
         };
     }
 
@@ -435,10 +441,10 @@ export const getDatumById = (id: CountryDatum['id']) => {
     return data[id];
 };
 
-let buket: Array<[string, number]> = [];
+const buket: Array<[string, number]> = [];
 //buket[0] = new Array<[string, number]>(2);
 
-let dataPointsCouter: number[] = new Array(Object.entries(data[0].availableFood).length).fill(0);
+const dataPointsCouter: number[] = new Array(Object.entries(data[0].availableFood).length).fill(0);
 
 data.forEach((countryDatum) => {
     Object.entries(countryDatum.availableFood).forEach(buketFiller);
@@ -459,23 +465,94 @@ data.forEach((countryDatum) => {
 
 export type PisaScoreYears = '2003' | '2006' | '2009' | '2012' | '2015' | '2018' | '2022';
 
+type PisaScores = Record<
+    PisaScoreYears, // year
+    {
+        average: number | null;
+        math: number | null;
+        reading: number | null;
+        science: number | null;
+    }
+>;
+
+const globalPisaScoreAverages = {} as PisaScores;
+
+['2003', '2006', '2009', '2012', '2015', '2018', '2022'].forEach((year) => {
+    // @ts-ignore
+    globalPisaScoreAverages[year] = {};
+    ['average', 'math', 'reading', 'science'].forEach((type) => {
+        // @ts-ignore
+        const values = data.map((d) => d.pisaScores[year][type as PisaScoreYears]).filter(notNullish);
+
+        if (values.length === 0) {
+            // @ts-ignore
+            globalPisaScoreAverages[year][type] = null;
+            return;
+        }
+
+        // @ts-ignore
+        globalPisaScoreAverages[year][type] = values.reduce((acc, c) => acc + c, 0) / values.length;
+    });
+});
+
+type SkippedMeals = {
+    never: number;
+    oncePerWeek: number;
+    twoToThreePerWeek: number;
+    fourToFivePerWeek: number;
+    always: number;
+    atLeastOncePerWeek: number;
+};
+
+const averageSkippedMeals: SkippedMeals = {
+    never: 0,
+    oncePerWeek: 0,
+    twoToThreePerWeek: 0,
+    fourToFivePerWeek: 0,
+    always: 0,
+    atLeastOncePerWeek: 0,
+};
+const countriesWithSkippedMealsData = data.filter((d) => d.skippedMeals);
+countriesWithSkippedMealsData.forEach((d) => {
+    averageSkippedMeals.never += d.skippedMeals!.never;
+    averageSkippedMeals.oncePerWeek += d.skippedMeals!.oncePerWeek;
+    averageSkippedMeals.twoToThreePerWeek += d.skippedMeals!.twoToThreePerWeek;
+    averageSkippedMeals.fourToFivePerWeek += d.skippedMeals!.fourToFivePerWeek;
+    averageSkippedMeals.always += d.skippedMeals!.always;
+    averageSkippedMeals.atLeastOncePerWeek += d.skippedMeals!.atLeastOncePerWeek;
+});
+averageSkippedMeals.never /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.oncePerWeek /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.twoToThreePerWeek /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.fourToFivePerWeek /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.always /= countriesWithSkippedMealsData.length;
+averageSkippedMeals.atLeastOncePerWeek /= countriesWithSkippedMealsData.length;
+
 export const metaData = {
     totalCountries: data.length,
     pisaScores: {
         years: ['2003', '2006', '2009', '2012', '2015', '2018', '2022'],
-        average: data.reduce((acc, c) => acc + c.pisaScores.average, 0) / data.length,
-        math: data.reduce((acc, c) => acc + c.pisaScores.math, 0) / data.length,
-        reading: data.reduce((acc, c) => acc + c.pisaScores.reading, 0) / data.length,
-        science: data.reduce((acc, c) => acc + c.pisaScores.science, 0) / data.length,
-        maxAverage: Math.max(...data.map((c) => c.pisaScores.average)),
-        maxMath: Math.max(...data.map((c) => c.pisaScores.math)),
-        maxReading: Math.max(...data.map((c) => c.pisaScores.reading)),
-        maxScience: Math.max(...data.map((c) => c.pisaScores.science)),
+        average: data.reduce((acc, c) => acc + c.pisaScores['2022'].average, 0) / data.length,
+        math: data.reduce((acc, c) => acc + c.pisaScores['2022'].math, 0) / data.length,
+        reading: data.reduce((acc, c) => acc + c.pisaScores['2022'].reading, 0) / data.length,
+        science: data.reduce((acc, c) => acc + c.pisaScores['2022'].science, 0) / data.length,
+        max: {
+            average: Math.max(...data.map((c) => c.pisaScores['2022'].average)),
+            math: Math.max(...data.map((c) => c.pisaScores['2022'].math)),
+            reading: Math.max(...data.map((c) => c.pisaScores['2022'].reading)),
+            science: Math.max(...data.map((c) => c.pisaScores['2022'].science)),
+        },
+        maxAverage: Math.max(...data.map((c) => c.pisaScores['2022'].average)),
+        maxMath: Math.max(...data.map((c) => c.pisaScores['2022'].math)),
+        maxReading: Math.max(...data.map((c) => c.pisaScores['2022'].reading)),
+        maxScience: Math.max(...data.map((c) => c.pisaScores['2022'].science)),
+        ...globalPisaScoreAverages,
     },
     nutrientList: data.map((countryDatum) => Object.entries(countryDatum.availableFood)),
     averageAvailableFood: buket.map((foodTotal, i) => {
         return [foodTotal[0], foodTotal[1] / dataPointsCouter[i]];
     }),
+    averageSkippedMeals,
 
     globalAvailableFood: Object.fromEntries(
         Object.keys(data[0].availableFood).map((foodKey) => [
