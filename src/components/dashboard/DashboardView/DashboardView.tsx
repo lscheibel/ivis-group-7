@@ -36,26 +36,7 @@ const DashboardView = () => {
             </DashboardCard>
 
             <DashboardCard area={'stats'} color={'black'}>
-                {call(() => {
-                    activeCountry?.countryName || 'Global';
-                    const data = activeCountry?.pisaScores || metaData.pisaScores;
-                    return <Summary data={activeCountry?.pisaScores || metaData.pisaScores} />;
-                })}
-                {/* Pisa Scores
-                <br />
-                {activeCountry?.countryName || 'Global'}
-                {call(() => {
-                    const data = activeCountry?.pisaScores || metaData.pisaScores;
-
-                    return (
-                        <ul>
-                            <li>Average: {Math.round(data.average)}</li>
-                            <li>Math: {Math.round(data.math)}</li>
-                            <li>Reading: {Math.round(data.reading)}</li>
-                            <li>Science: {Math.round(data.science)}</li>
-                        </ul>
-                    );
-                })} */}
+                <Summary data={activeCountry?.pisaScores || metaData.pisaScores} />
             </DashboardCard>
 
             <DashboardCard area={'scatter'} color={'red'}>
