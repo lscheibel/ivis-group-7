@@ -8,4 +8,4 @@ const pisaScoreTypeAtom = atom<PisaScoreType>('average');
 
 export const usePisaScoreType = () => useAtom(pisaScoreTypeAtom);
 
-export const setSelectedCountry = pisaScoreTypeAtom.set;
+export const setPisaScoreType = pisaScoreTypeAtom.set;
