@@ -127,8 +127,18 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
             }}
             onPointerLeave={() => setPointerValue(null)}
         >
-            <Axis axisScale={x} y={y(0)} ticks={ticksX} formatter={(v) => `${Math.round(v)}%`} />
-            <Axis axisScale={y} x={x(0)} ticks={ticksY} formatter={(v) => Math.round(v)} />
+            <Axis
+                axisScale={x}
+                y={y(0)}
+                ticks={ticksX.map((t) => ({ value: t }))}
+                formatter={(t) => `${Math.round(t.value)}%`}
+            />
+            <Axis
+                axisScale={y}
+                x={x(0)}
+                ticks={ticksY.map((t) => ({ value: t }))}
+                formatter={(t) => Math.round(t.value)}
+            />
 
             <AxisLabel yAxis axisScale={{ x, y }}>
                 {yAxis.label}
