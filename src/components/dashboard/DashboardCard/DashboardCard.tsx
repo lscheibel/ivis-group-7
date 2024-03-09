@@ -67,6 +67,7 @@ const DashboardCard = ({ area, color, ...props }: DashboardCardProps, ref: React
             className={cn(styles.card, props.className)}
             ref={ref}
         >
+            {props.children}
             {props.help && (
                 <>
                     <button className={styles.helpButton} onClick={toggleHelp}>
@@ -74,15 +75,16 @@ const DashboardCard = ({ area, color, ...props }: DashboardCardProps, ref: React
                     </button>
                     {helpOpen && (
                         <div className={cn(styles.helpContainer, { [styles.open]: helpOpen })}>
-                            <span className={styles.help}>{props.help}</span>
+                            <div className={styles.help}>{props.help}</div>
                             <button className={styles.helpDismiss} onClick={toggleHelp}>
                                 okay
                             </button>
+
+                            <button className={styles.secretDismiss} onClick={toggleHelp} />
                         </div>
                     )}
                 </>
             )}
-            {props.children}
         </div>
     );
 };
