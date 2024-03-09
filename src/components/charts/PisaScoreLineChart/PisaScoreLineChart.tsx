@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import LineChart from '../LineChart/LineChart';
 import { CountryDatum, metaData, PisaScoreYears } from '../../../data/data';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import styles from './PisaScoreLineChart.module.scss';
-import { useActiveCountry } from '../../../state/selectedCountry';
+import { usePisaScoreType } from '../../../state/pisaScoreType';
 
 export interface PisaScoreLineChartProps {
     data: CountryDatum[];
 }
 
 const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
-    const pisaScoreFilters = ['average', 'math', 'science', 'reading'] as const;
-    const [activeFilter, setActiveFilter] = useState<(typeof pisaScoreFilters)[number]>('average');
-    const activeCountry = useActiveCountry();
+    const pisaScoreType = usePisaScoreType();
 
     const legendItems = [
         ...data.map((d) => ({ name: d.countryName, color: 'var(--accent-color)' })),
         { name: 'Global', color: 'var(--font-color)' },
     ];
 
-    //TODO update icons
     return (
         <div className={styles.pisaLineChart}>
             <div className={styles.titleContainer}>
@@ -37,20 +34,6 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                     })}
                 </div>
             </div>
-            {/*<div className={styles.filterContainer}>*/}
-            {/*    {pisaScoreFilters.map((filter, index) => {*/}
-            {/*        return (*/}
-            {/*            <button*/}
-            {/*                key={filter}*/}
-            {/*                onClick={() => setActiveFilter(filter)}*/}
-            {/*                className={cn(styles.button, { [styles.filterSelected]: activeFilter === filter })}*/}
-            {/*            >*/}
-            {/*                <img src="" alt={`${pisaScoresIcons[index]}`} />*/}
-            {/*                {fromCamelCaseToUserFormat(filter)}*/}
-            {/*            </button>*/}
-            {/*        );*/}
-            {/*    })}*/}
-            {/*</div>*/}
             <div className={styles.chartContainer}>
                 <ChartsWrapper
                     render={(dimensions) => (
@@ -64,11 +47,9 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
                             }}
                             yAxis={{
                                 label: 'SCORE',
-                                getValue: (scores, year) => {
-                                    return scores[year as PisaScoreYears][activeFilter];
-                                },
+                                getValue: (scores, year) => scores[year as PisaScoreYears][pisaScoreType],
                                 from: 0,
-                                to: metaData.pisaScores.max[activeFilter],
+                                to: metaData.pisaScores.max[pisaScoreType],
                             }}
                         />
                     )}
