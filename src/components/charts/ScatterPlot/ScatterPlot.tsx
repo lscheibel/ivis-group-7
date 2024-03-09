@@ -75,7 +75,7 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
     );
 
     let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), xAxis.to];
-    let ticksY = [Math.round(dataMinY), Math.round(dataMaxY), yAxis.to];
+    let ticksY = [Math.round(dataMinY), Math.round(dataMaxY)];
 
     let snappedPointerValue = pointerValue;
     if (hoveredCountry) {
