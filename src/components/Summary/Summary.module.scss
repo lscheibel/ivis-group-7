@@ -1,50 +1,56 @@
 .summaryCard {
     span {
-        color: orange;
+        color: var(--accent-color);
     }
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 }
 
 .summaryGrid {
     display: flex;
     flex-wrap: wrap;
     padding: 0;
+    margin: 0;
+    height: 100%;
 }
 
 .summaryGrid {
-    li {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        min-width: 50%;
-        align-items: center;
-        padding: 16px 0;
-    }
-    secondary {
-        background: var(--accent-color);
-        color: var(-—font-color);
-    }
-    primary {
-        background: var(-primary-color);
-        color: var(-—font-color);
-    }
-    black {
-        background: var(-—accent-color);
-        color: var(-—font-color);
-    }
     p {
-        font-weight: 200;
+        font-weight: 500;
         line-height: 100%;
         padding: 0;
         margin: 0;
     }
 
-    h4 {
+    .score {
         padding: 0;
         margin: 0;
-        line-height: 100%;
+        line-height: 1;
         font-size: 64px;
         font-family: var(--font-family-mono);
         font-weight: 700;
-        color: var(--font-color);
+        //color: var(--font-color);
+    }
+}
+
+.summaryDetail {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 50%;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+    cursor: pointer;
+
+    &.active {
+        background: var(--accent-color);
+        color: var(--background);
+    }
+
+    &:hover {
+        background: var(--accent-color);
     }
 }
