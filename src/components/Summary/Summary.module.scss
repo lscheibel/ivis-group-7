@@ -1,0 +1,50 @@
+.summaryCard {
+    span {
+        color: orange;
+    }
+}
+
+.summaryGrid {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+.summaryGrid {
+    li {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 50%;
+        align-items: center;
+        padding: 16px 0;
+    }
+    secondary {
+        background: var(--accent-color);
+        color: var(-—font-color);
+    }
+    primary {
+        background: var(-primary-color);
+        color: var(-—font-color);
+    }
+    black {
+        background: var(-—accent-color);
+        color: var(-—font-color);
+    }
+    p {
+        font-weight: 200;
+        line-height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    h4 {
+        padding: 0;
+        margin: 0;
+        line-height: 100%;
+        font-size: 64px;
+        font-family: var(--font-family-mono);
+        font-weight: 700;
+        color: var(--font-color);
+    }
+}

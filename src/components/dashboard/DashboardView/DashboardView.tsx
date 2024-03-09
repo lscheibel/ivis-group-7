@@ -11,6 +11,7 @@ import Search from '../../Search/Search';
 import { Link } from 'wouter';
 import SkippedMealsWaffleChart from '../../charts/SkippedMealsWaffleChart/SkippedMealsWaffleChart';
 import FoodCard from '../../FoodCard/FoodCard';
+import Summary from '../../Summary/Summary';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -35,7 +36,12 @@ const DashboardView = () => {
             </DashboardCard>
 
             <DashboardCard area={'stats'} color={'black'}>
-                Pisa Scores
+                {call(() => {
+                    activeCountry?.countryName || 'Global';
+                    const data = activeCountry?.pisaScores || metaData.pisaScores;
+                    return <Summary data={activeCountry?.pisaScores || metaData.pisaScores} />;
+                })}
+                {/* Pisa Scores
                 <br />
                 {activeCountry?.countryName || 'Global'}
                 {call(() => {
@@ -49,7 +55,7 @@ const DashboardView = () => {
                             <li>Science: {Math.round(data.science)}</li>
                         </ul>
                     );
-                })}
+                })} */}
             </DashboardCard>
 
             <DashboardCard area={'scatter'} color={'red'}>
