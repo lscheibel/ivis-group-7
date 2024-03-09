@@ -5,16 +5,17 @@ import MainGrid from '../../MainGrid/MainGrid';
 import ScatterPlot from '../../charts/ScatterPlot/ScatterPlot';
 import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import { useActiveCountry } from '../../../state/selectedCountry';
-import { call } from '../../../tools/call';
 import PisaScoreLineChart from '../../charts/PisaScoreLineChart/PisaScoreLineChart';
 import Search from '../../Search/Search';
 import { Link } from 'wouter';
 import SkippedMealsWaffleChart from '../../charts/SkippedMealsWaffleChart/SkippedMealsWaffleChart';
 import FoodCard from '../../FoodCard/FoodCard';
 import Summary from '../../Summary/Summary';
+import { usePisaScoreType } from '../../../state/pisaScoreType';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
+    const pisaScoreType = usePisaScoreType();
 
     return (
         <MainGrid>
@@ -55,9 +56,9 @@ const DashboardView = () => {
                             }}
                             yAxis={{
                                 label: 'AVERAGE PISA SCORE',
-                                getValue: (c) => c.pisaScores.average,
+                                getValue: (c) => c.pisaScores[pisaScoreType],
                                 from: 0,
-                                to: metaData.pisaScores.maxAverage,
+                                to: metaData.pisaScores.max[pisaScoreType],
                             }}
                         />
                     )}

@@ -115,7 +115,7 @@ const WaffleChart = ({ width, height, data, minSize, onHover, highlight }: Waffl
                                     xSize={xSize}
                                     ySize={ySize}
                                     offset={(xScale.bandwidth() - xSize) / 2}
-                                    bg={'var(--black)'}
+                                    bg={'var(--font-color)'}
                                 />
                             );
                         })}

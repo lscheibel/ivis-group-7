@@ -29,6 +29,7 @@ const AxisLabel = ({ xAxis, yAxis, axisScale, inlineMargin = 32, blockMargin = 8
             }}
             alignmentBaseline={verticalAlignment}
             textAnchor={'start'}
+            fill={'var(--font-color)'}
         >
             {children}
         </text>

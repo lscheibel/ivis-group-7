@@ -44,7 +44,7 @@ const SkippedMealsWaffleChart = ({ data }: SkippedMealsWaffleChartProps) => {
             value: skippedMealsData![key],
             label: getLabel(key, skippedMealsData![key]),
             strength: index === 0 ? 0 : mapRange(index, 1, dataOrder.length - 1, 0, 1),
-            color: index === 0 ? 'var(--white)' : 'var(--red)',
+            color: index === 0 ? 'var(--white)' : 'var(--accent-color)',
         }));
 
         const activeData = waffleData.find((d) => d.id === activeGroup);
