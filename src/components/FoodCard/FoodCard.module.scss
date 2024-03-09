@@ -13,6 +13,5 @@
 .chartContainer {
     position: relative;
     height: 100%;
-    margin: 0 calc(var(--padding-large) * -1) calc(var(--padding-large) * -1);
-    border-top: 2px solid var(--font-color);
+    border: 2px solid var(--font-color);
 }
