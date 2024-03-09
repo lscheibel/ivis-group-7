@@ -11,7 +11,6 @@ export interface PisaScoreLineChartProps {
 
 const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
     const pisaScoreType = usePisaScoreType();
-
     const legendItems = [
         ...data.map((d) => ({ name: d.countryName, color: 'var(--accent-color)' })),
         { name: 'Global', color: 'var(--font-color)' },
@@ -20,7 +19,7 @@ const PisaScoreLineChart = ({ data }: PisaScoreLineChartProps) => {
     return (
         <div className={styles.pisaLineChart}>
             <div className={styles.titleContainer}>
-                <h2>PISA scores over the years</h2>
+                <h2>{pisaScoreType} PISA scores over the years</h2>
                 <div className={styles.legendContainer}>
                     {legendItems.map(({ name, color }) => {
                         return (
