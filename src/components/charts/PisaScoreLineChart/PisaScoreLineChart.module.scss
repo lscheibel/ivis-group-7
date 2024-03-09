@@ -1,4 +1,35 @@
+.pisaLineChart {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: var(--padding-tiny);
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 16px;
+    flex-grow: 0;
+    justify-content: space-between;
+}
+
+.legendContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: var(--padding-large);
+}
+
+.legendItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--padding-tiny);
+}
+
 .chartContainer {
     position: relative;
+    width: 100%;
     height: 100%;
 }

@@ -1,12 +1,12 @@
 .grid {
     display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(9, minmax(0, 1fr));
     grid-template-rows: repeat(6, minmax(0, 1fr));
     grid-template-areas:
-        'title  title  title   about   search  search search'
-        'stats  stats  scatter scatter scatter food   food'
-        'stats  stats  scatter scatter scatter food   food'
-        'waffle waffle scatter scatter scatter food   food'
-        'waffle waffle line    line    line    food   food'
-        'waffle waffle line    line    line    food   food';
+        'about  title  title   title   title   title   search search search'
+        'stats  stats  scatter scatter scatter scatter food   food   food'
+        'stats  stats  scatter scatter scatter scatter food   food   food'
+        'waffle waffle scatter scatter scatter scatter food   food   food'
+        'waffle waffle line    line    line    line    food   food   food'
+        'waffle waffle line    line    line    line    food   food   food';
 }

@@ -49,7 +49,7 @@ const Treemap = ({ width, height, data }: TreemapProps) => {
                 const nodeBounds = getNodeBounds(node);
 
                 return (
-                    <g key={node.id} data-level="1">
+                    <g key={index} data-level="1">
                         {node.children?.map((node) => {
                             const nodeBounds = getNodeBounds(node);
 
