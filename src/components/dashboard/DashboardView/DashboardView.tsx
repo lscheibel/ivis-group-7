@@ -11,6 +11,8 @@ import Search from '../../Search/Search';
 import { Link } from 'wouter';
 import SkippedMealsWaffleChart from '../../charts/SkippedMealsWaffleChart/SkippedMealsWaffleChart';
 import FoodCard from '../../FoodCard/FoodCard';
+import { HelpTitle } from '../DashboardCard/Help';
+import { usePisaScoreType } from '../../../state/pisaScoreType';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -37,10 +39,12 @@ const DashboardView = () => {
             <DashboardCard
                 area={'stats'}
                 color={'black'}
-                help={<>
-                    <strong>All the pisa scores</strong>
-                    <p>This card shows you things.</p>
-                </>}
+                help={
+                    <>
+                        <HelpTitle>All the pisa scores</HelpTitle>
+                        <p>This card shows you things.</p>
+                    </>
+                }
             >
                 Pisa Scores
                 <br />
@@ -59,7 +63,7 @@ const DashboardView = () => {
                 })}
             </DashboardCard>
 
-            <DashboardCard area={'scatter'} color={'red'}>
+            <DashboardCard area={'scatter'} color={'red'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
                 <ChartsWrapper
                     style={{ inset: 'var(--padding-large)' }}
                     render={(dimensions) => (
@@ -84,15 +88,15 @@ const DashboardView = () => {
                 />
             </DashboardCard>
 
-            <DashboardCard area={'food'} color={'black'}>
+            <DashboardCard area={'food'} color={'black'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
                 <FoodCard />
             </DashboardCard>
 
-            <DashboardCard area={'waffle'} color={'white'}>
+            <DashboardCard area={'waffle'} color={'white'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
                 <SkippedMealsWaffleChart data={activeCountry} />
             </DashboardCard>
 
-            <DashboardCard area={'line'} color={'green'}>
+            <DashboardCard area={'line'} color={'green'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
                 <PisaScoreLineChart data={activeCountry ? [activeCountry] : []} />
             </DashboardCard>
         </MainGrid>
