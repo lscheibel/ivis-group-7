@@ -2,15 +2,20 @@ import React from 'react';
 import * as d3 from 'd3';
 import Tick from './Tick';
 
+export interface TickDefinition {
+    value: number;
+    color?: string;
+}
+
 export interface AxisProps {
     x?: number;
     y?: number;
     axisScale: d3.ScaleContinuousNumeric<any, any>;
-    ticks: number[];
-    formatter?: (value: number) => React.ReactNode;
+    ticks: TickDefinition[];
+    formatter?: (tick: TickDefinition) => React.ReactNode;
 }
 
-const Axis = ({ x, y, axisScale, ticks, formatter = (v) => v }: AxisProps) => {
+const Axis = ({ x, y, axisScale, ticks, formatter = (t) => t.value }: AxisProps) => {
     const [domainStart, domainEnd] = axisScale.domain();
 
     const x1 = x != null ? x : axisScale(domainStart);
@@ -22,6 +27,22 @@ const Axis = ({ x, y, axisScale, ticks, formatter = (v) => v }: AxisProps) => {
 
     return (
         <g>
+            {ticks.map((tick, index) => {
+                const posX = x != null ? x : axisScale(tick.value);
+                const posY = y != null ? y : axisScale(tick.value);
+
+                return (
+                    <Tick
+                        key={index}
+                        x={posX}
+                        y={posY}
+                        {...tickDirection}
+                        text={formatter(tick)}
+                        textMargin={4}
+                        color={tick.color}
+                    />
+                );
+            })}
             <line
                 x1={x1}
                 y1={y1}
@@ -31,12 +52,6 @@ const Axis = ({ x, y, axisScale, ticks, formatter = (v) => v }: AxisProps) => {
                 strokeWidth={2}
                 strokeLinecap={'square'}
             />
-            {ticks.map((tick, index) => {
-                const posX = x != null ? x : axisScale(tick);
-                const posY = y != null ? y : axisScale(tick);
-
-                return <Tick key={index} x={posX} y={posY} {...tickDirection} text={formatter(tick)} textMargin={4} />;
-            })}
         </g>
     );
 };
