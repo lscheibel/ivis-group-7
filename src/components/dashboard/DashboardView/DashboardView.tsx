@@ -10,6 +10,8 @@ import FoodCard from '../../FoodCard/FoodCard';
 import Summary from '../../Summary/Summary';
 import PisaScoreScatterPlot from '../../charts/PisaScoreScatterPlot/PisaScoreScatterPlot';
 import AboutButton from '../../AboutButton/AboutButton';
+import { HelpTitle } from '../DashboardCard/Help';
+import { usePisaScoreType } from '../../../state/pisaScoreType';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -37,23 +39,32 @@ const DashboardView = () => {
                 <AboutButton />
             </DashboardCard>
 
-            <DashboardCard area={'stats'} color={'black'}>
+            <DashboardCard
+                area={'stats'}
+                color={'black'}
+                help={
+                   <>
+                       <HelpTitle>All the pisa scores</HelpTitle>
+                       <p>This card shows you things.</p>
+                   </>
+                }
+            >
                 <Summary data={activeCountry?.pisaScores || metaData.pisaScores} />
             </DashboardCard>
 
-            <DashboardCard area={'scatter'} color={'red'}>
+            <DashboardCard area={'scatter'} color={'red'}  help={<HelpTitle>*Info about this chart*</HelpTitle>}>
                 <PisaScoreScatterPlot />
             </DashboardCard>
 
-            <DashboardCard area={'food'} color={'black'}>
+            <DashboardCard area={'food'} color={'black'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
                 <FoodCard />
             </DashboardCard>
 
-            <DashboardCard area={'waffle'} color={'white'}>
+            <DashboardCard area={'waffle'} color={'white'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
                 <SkippedMealsWaffleChart data={activeCountry} />
             </DashboardCard>
 
-            <DashboardCard area={'line'} color={'green'}>
+            <DashboardCard area={'line'} color={'green'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
                 <PisaScoreLineChart data={activeCountry ? [activeCountry] : []} />
             </DashboardCard>
         </MainGrid>
