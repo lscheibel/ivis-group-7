@@ -30,8 +30,7 @@ const DashboardView = () => {
                 <h2 style={{ fontSize: '42px', textTransform: 'none' }}>Too Hungry to Learn?</h2>
                 <p>
                     Research suggests that acute lack of nutritional resources can lead to reduced learning rates and
-                    hindered cognitive abilities. Using this dashboard we can explore the connection between PISA scores
-                    and various nourishment attributes of several countries.
+                    hindered cognitive abilities.
                 </p>
             </DashboardCard>
 
@@ -43,16 +42,16 @@ const DashboardView = () => {
                 area={'stats'}
                 color={'black'}
                 help={
-                   <>
-                       <HelpTitle>All the pisa scores</HelpTitle>
-                       <p>This card shows you things.</p>
-                   </>
+                    <>
+                        <HelpTitle>All the pisa scores</HelpTitle>
+                        <p>This card shows you things.</p>
+                    </>
                 }
             >
                 <Summary data={activeCountry?.pisaScores || metaData.pisaScores} />
             </DashboardCard>
 
-            <DashboardCard area={'scatter'} color={'red'}  help={<HelpTitle>*Info about this chart*</HelpTitle>}>
+            <DashboardCard area={'scatter'} color={'red'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
                 <PisaScoreScatterPlot />
             </DashboardCard>
 
