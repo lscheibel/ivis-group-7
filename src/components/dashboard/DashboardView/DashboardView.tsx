@@ -1,21 +1,18 @@
 import React from 'react';
 import DashboardCard from '../DashboardCard/DashboardCard';
-import { data, metaData } from '../../../data/data';
+import { metaData } from '../../../data/data';
 import MainGrid from '../../MainGrid/MainGrid';
-import ScatterPlot from '../../charts/ScatterPlot/ScatterPlot';
-import ChartsWrapper from '../../ChartsWrapper/ChartsWrapper';
 import { useActiveCountry } from '../../../state/selectedCountry';
 import PisaScoreLineChart from '../../charts/PisaScoreLineChart/PisaScoreLineChart';
 import Search from '../../Search/Search';
-import { Link } from 'wouter';
 import SkippedMealsWaffleChart from '../../charts/SkippedMealsWaffleChart/SkippedMealsWaffleChart';
 import FoodCard from '../../FoodCard/FoodCard';
 import Summary from '../../Summary/Summary';
-import { usePisaScoreType } from '../../../state/pisaScoreType';
+import PisaScoreScatterPlot from '../../charts/PisaScoreScatterPlot/PisaScoreScatterPlot';
+import AboutButton from '../../AboutButton/AboutButton';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
-    const pisaScoreType = usePisaScoreType();
 
     return (
         <MainGrid>
@@ -23,8 +20,12 @@ const DashboardView = () => {
                 <Search />
             </DashboardCard>
 
-            <DashboardCard area={'title'} color={'white'}>
-                <h2>Food for thoughts?</h2>
+            <DashboardCard
+                area={'title'}
+                color={'white'}
+                style={{ padding: 'var(--padding-large) var(--padding-huge)' }}
+            >
+                <h2 style={{ fontSize: '42px', textTransform: 'none' }}>Too Hungry to Learn?</h2>
                 <p>
                     Research suggests that acute lack of nutritional resources can lead to reduced learning rates and
                     hindered cognitive abilities. Using this dashboard we can explore the connection between PISA scores
@@ -32,8 +33,8 @@ const DashboardView = () => {
                 </p>
             </DashboardCard>
 
-            <DashboardCard area={'about'} color={'pink'} style={{ aspectRatio: '1', height: '100%' }}>
-                <Link href={'/about'}>About</Link>
+            <DashboardCard area={'about'} color={'green'} style={{ aspectRatio: '1', height: '100%' }}>
+                <AboutButton />
             </DashboardCard>
 
             <DashboardCard area={'stats'} color={'black'}>
@@ -41,28 +42,7 @@ const DashboardView = () => {
             </DashboardCard>
 
             <DashboardCard area={'scatter'} color={'red'}>
-                <ChartsWrapper
-                    style={{ inset: 'var(--padding-large)' }}
-                    render={(dimensions) => (
-                        <ScatterPlot
-                            width={dimensions.width}
-                            height={dimensions.height}
-                            data={data}
-                            xAxis={{
-                                label: 'SKIPPED AT LEAST ONE MEAL PER WEEK',
-                                getValue: (c) => c.skippedMealAtLeastOnce,
-                                from: 0,
-                                to: 100,
-                            }}
-                            yAxis={{
-                                label: 'AVERAGE PISA SCORE',
-                                getValue: (c) => c.pisaScores[pisaScoreType],
-                                from: 0,
-                                to: metaData.pisaScores.max[pisaScoreType],
-                            }}
-                        />
-                    )}
-                />
+                <PisaScoreScatterPlot />
             </DashboardCard>
 
             <DashboardCard area={'food'} color={'black'}>
