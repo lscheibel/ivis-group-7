@@ -10,14 +10,14 @@ export interface SummaryProperties {
 }
 
 const Summary = ({ data }: SummaryProperties) => {
-    const selectedConutry = useSelectedCountry();
+    const selectedCountry = useSelectedCountry();
     const selectedType = usePisaScoreType();
 
     return (
         <div className={style.summaryCard}>
             <h1>PISA SCORES</h1>
             <p className={style.subtitle}>
-                Latest scores {selectedConutry ? 'for ' + selectedConutry.countryName : 'globally'}
+                Latest scores {selectedCountry ? 'for ' + selectedCountry.countryName : 'globally'}
             </p>
             <ul className={style.summaryGrid}>
                 {pisaScoreTypes.map((type) => (
