@@ -10,8 +10,10 @@ import FoodCard from '../../FoodCard/FoodCard';
 import Summary from '../../Summary/Summary';
 import PisaScoreScatterPlot from '../../charts/PisaScoreScatterPlot/PisaScoreScatterPlot';
 import AboutButton from '../../AboutButton/AboutButton';
-import { HelpTitle } from '../DashboardCard/Help';
-import { usePisaScoreType } from '../../../state/pisaScoreType';
+import PisaScoreScatterPlotHelp from '../../charts/PisaScoreScatterPlot/PisaScoreScatterPlotHelp';
+import SkippedMealsWaffleChartHelp from '../../charts/SkippedMealsWaffleChart/SkippedMealsWaffleChartHelp';
+import PisaScoreLineChartHelp from '../../charts/PisaScoreLineChart/PisaScoreLineChartHelp';
+import FoodCardHelp from '../../FoodCard/FoodCardHelp';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -29,8 +31,8 @@ const DashboardView = () => {
             >
                 <h2 style={{ fontSize: '42px', textTransform: 'none' }}>Too Hungry to Learn?</h2>
                 <p>
-                    Research suggests that acute lack of nutritional resources can lead to reduced learning rates and
-                    hindered cognitive abilities.
+                    Using this dashboard we can explore the connection between PISA scores and various nourishment
+                    attributes of several countries. Curiosity is rewarded ;)
                 </p>
             </DashboardCard>
 
@@ -38,32 +40,23 @@ const DashboardView = () => {
                 <AboutButton />
             </DashboardCard>
 
-            <DashboardCard
-                area={'stats'}
-                color={'black'}
-                help={
-                    <>
-                        <HelpTitle>All the pisa scores</HelpTitle>
-                        <p>This card shows you things.</p>
-                    </>
-                }
-            >
+            <DashboardCard area={'stats'} color={'black'}>
                 <Summary data={activeCountry?.pisaScores || metaData.pisaScores} />
             </DashboardCard>
 
-            <DashboardCard area={'scatter'} color={'red'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
+            <DashboardCard area={'scatter'} color={'red'} help={<PisaScoreScatterPlotHelp />}>
                 <PisaScoreScatterPlot />
             </DashboardCard>
 
-            <DashboardCard area={'food'} color={'black'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
+            <DashboardCard area={'food'} color={'black'} help={<FoodCardHelp />}>
                 <FoodCard />
             </DashboardCard>
 
-            <DashboardCard area={'waffle'} color={'white'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
+            <DashboardCard area={'waffle'} color={'white'} help={<SkippedMealsWaffleChartHelp />}>
                 <SkippedMealsWaffleChart data={activeCountry} />
             </DashboardCard>
 
-            <DashboardCard area={'line'} color={'green'} help={<HelpTitle>*Info about this chart*</HelpTitle>}>
+            <DashboardCard area={'line'} color={'green'} help={<PisaScoreLineChartHelp />}>
                 <PisaScoreLineChart data={activeCountry ? [activeCountry] : []} />
             </DashboardCard>
         </MainGrid>

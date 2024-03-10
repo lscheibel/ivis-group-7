@@ -48,7 +48,7 @@ const PisaScoreScatterPlot = () => {
                             },
                         ]}
                         yAxis={{
-                            label: 'AVERAGE PISA SCORE',
+                            label: `${pisaScoreType.toLocaleUpperCase()} PISA SCORE`,
                             getValue: (c) => c.pisaScores[pisaScoreType],
                             formatter: (t) => Math.round(t.value),
                             from: 0,
