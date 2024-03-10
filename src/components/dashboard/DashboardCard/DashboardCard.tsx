@@ -8,7 +8,18 @@ export interface DashboardCardProps extends React.HTMLAttributes<HTMLDivElement>
     children: React.ReactNode;
 }
 
-export type Theme = 'red' | 'green' | 'pink' | 'black' | 'white' | 'beige';
+export type Theme =
+    | 'red'
+    | 'green'
+    | 'pink'
+    | 'black'
+    | 'white'
+    | 'rose'
+    | 'purple'
+    | 'deepBlue'
+    | 'turquoise'
+    | 'yellow'
+    | 'blue';
 export type ThemeVariables = 'background' | 'font-color' | 'font-color-secondary' | 'accent-color';
 export type Themes = {
     [key in Theme]: {
@@ -47,11 +58,41 @@ const themes = {
         '--font-color-secondary': 'var(--red)',
         '--accent-color': 'var(--red)',
     },
-    beige: {
-        '--background': '#F6EEE3',
+    rose: {
+        '--background': 'var(--rose)',
+        '--font-color': 'var(--black)',
+        '--font-color-secondary': 'var(--almost-white)',
+        '--accent-color': 'var(--white)',
+    },
+    purple: {
+        '--background': 'var(--purple)',
+        '--font-color': 'var(--almost-white)',
+        '--font-color-secondary': 'var(--black)',
+        '--accent-color': 'var(--yellow)',
+    },
+    deepBlue: {
+        '--background': 'var(--deep-blue)',
+        '--font-color': 'var(--almost-white)',
+        '--font-color-secondary': 'var(--blue)',
+        '--accent-color': 'var(--blue)',
+    },
+    turquoise: {
+        '--background': 'var(--turquoise)',
+        '--font-color': 'var(--black)',
+        '--font-color-secondary': 'var(--almost-white)',
+        '--accent-color': 'var(--white)',
+    },
+    yellow: {
+        '--background': 'var(--yellow)',
         '--font-color': 'var(--almost-black)',
-        '--font-color-secondary': 'var(--red)',
-        '--accent-color': 'var(--red)',
+        '--font-color-secondary': 'var(--white)',
+        '--accent-color': 'var(--white)',
+    },
+    blue: {
+        '--background': 'var(--blue)',
+        '--font-color': 'var(--black)',
+        '--font-color-secondary': 'var(--deep-blue)',
+        '--accent-color': 'var(--almost-white)',
     },
 } satisfies Themes;
 
