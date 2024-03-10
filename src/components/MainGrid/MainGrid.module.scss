@@ -3,7 +3,7 @@
     grid-template-columns: repeat(9, minmax(0, 1fr));
     grid-template-rows: repeat(6, minmax(0, 1fr));
     grid-template-areas:
-        'about  title  title   title   title   title   search search search'
+        'about  title  title   title   title   search  search search search'
         'stats  stats  scatter scatter scatter scatter food   food   food'
         'stats  stats  scatter scatter scatter scatter food   food   food'
         'waffle waffle scatter scatter scatter scatter food   food   food'

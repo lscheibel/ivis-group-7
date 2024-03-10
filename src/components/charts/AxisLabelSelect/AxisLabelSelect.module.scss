@@ -1,0 +1,20 @@
+.selectWrapper {
+    position: relative;
+    white-space: nowrap;
+}
+
+.select {
+    appearance: none;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+
+    option {
+        background-color: var(--background);
+    }
+}
