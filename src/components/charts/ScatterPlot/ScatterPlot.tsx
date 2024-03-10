@@ -9,26 +9,28 @@ import {
     useSelectedCountry,
 } from '../../../state/selectedCountry';
 import { approxEq } from '../../../tools/math';
-import Axis from './Axis';
+import Axis, { TickDefinition } from './Axis';
 import AxisLabel from './AxisLabel';
 import GuideLine from './GuideLine';
 import { notNullish } from '../../../tools/notNullish';
 import InteractiveScatterPoints, { ScatterPlotAttributes } from './InteractiveScatterPoints';
 import { call } from '../../../tools/call';
+import AxisLabelSelect from '../AxisLabelSelect/AxisLabelSelect';
 
 export interface AxisDefinition {
     getValue: (country: CountryDatum) => number | Nullish;
     from: number;
     to: number;
     label: React.ReactNode;
+    formatter?: (tick: TickDefinition) => React.ReactNode;
 }
 
 export interface ScatterPlotProps {
     width: number;
     height: number;
     data: CountryDatum[];
-    xAxis: AxisDefinition;
-    yAxis: AxisDefinition;
+    xAxis: AxisDefinition | AxisDefinition[];
+    yAxis: AxisDefinition | AxisDefinition[];
     margin?: {
         top?: number;
         right?: number;
@@ -37,7 +39,21 @@ export interface ScatterPlotProps {
     };
 }
 
-const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = {} }: ScatterPlotProps) => {
+const ScatterPlot = ({
+    width,
+    height,
+    data,
+    xAxis: xAxes,
+    yAxis: yAxes,
+    margin: maybeMargin = {},
+}: ScatterPlotProps) => {
+    const [selectedAxis, setSelectedAxis] = useState({ x: 0, y: 0 });
+    const xAxis = (Array.isArray(xAxes) ? xAxes : [xAxes])[selectedAxis.x];
+    const yAxis = (Array.isArray(yAxes) ? yAxes : [yAxes])[selectedAxis.y];
+
+    const multipleXAxes = Array.isArray(xAxes) && xAxes.length > 1;
+    const multipleYAxes = Array.isArray(yAxes) && yAxes.length > 1;
+
     const selectedCountry = useSelectedCountry();
     const hoveredCountry = useHoveredCountry();
     const svgRef = useRef<SVGSVGElement | null>(null);
@@ -74,8 +90,8 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
         [yAxis.from, yAxis.to, margin.bottom, margin.top, height]
     );
 
-    let ticksX = [Math.round(dataMinX), Math.round(dataMaxX), xAxis.to];
-    let ticksY = [Math.round(dataMinY), Math.round(dataMaxY), yAxis.to];
+    let ticksX = [dataMinX, dataMaxX, xAxis.to];
+    let ticksY = [dataMinY, dataMaxY];
 
     let snappedPointerValue = pointerValue;
     if (hoveredCountry) {
@@ -129,36 +145,46 @@ const ScatterPlot = ({ width, height, data, xAxis, yAxis, margin: maybeMargin = 
         >
             <Axis
                 axisScale={x}
-                y={y(0)}
+                y={y.range()[0]}
                 ticks={ticksX.map((t) => ({ value: t }))}
-                formatter={(t) => `${Math.round(t.value)}%`}
+                formatter={xAxis.formatter}
             />
             <Axis
                 axisScale={y}
-                x={x(0)}
+                x={x.range()[0]}
                 ticks={ticksY.map((t) => ({ value: t }))}
-                formatter={(t) => Math.round(t.value)}
+                formatter={yAxis.formatter}
             />
 
             <AxisLabel yAxis axisScale={{ x, y }}>
                 {yAxis.label}
             </AxisLabel>
-            <AxisLabel xAxis axisScale={{ x, y }}>
-                {xAxis.label}
-            </AxisLabel>
+            {multipleXAxes ? (
+                <AxisLabelSelect
+                    x={x.range()[0] + 32}
+                    y={y.range()[0] - 2}
+                    value={'' + selectedAxis.x}
+                    onChange={(v) => setSelectedAxis((s) => ({ ...s, x: +v }))}
+                    options={xAxes.map((axis, i) => ({ value: '' + i, label: axis.label }))}
+                />
+            ) : (
+                <AxisLabel xAxis axisScale={{ x, y }}>
+                    {xAxis.label}
+                </AxisLabel>
+            )}
 
             <g style={{ pointerEvents: 'none' }}>
                 {snappedPointerValue && (
                     <GuideLine
                         x1={x(snappedPointerValue.x)}
-                        y1={y(0)}
+                        y1={y.range()[0]}
                         x2={x(snappedPointerValue.x)}
                         y2={y(snappedPointerValue.y)}
                     />
                 )}
                 {snappedPointerValue && (
                     <GuideLine
-                        x1={x(0)}
+                        x1={x.range()[0]}
                         y1={y(snappedPointerValue.y)}
                         x2={x(snappedPointerValue.x)}
                         y2={y(snappedPointerValue.y)}
