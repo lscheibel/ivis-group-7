@@ -66,7 +66,9 @@ const InteractiveScatterPoints = <T extends ScatterPlotAttributes>({
         if (datum) {
             onDatumClick?.(datum);
         } else {
-            onDatumClickMiss?.();
+            const node = e.target as HTMLElement;
+            const clickHandlerNode = node.matches('[data-ignore-miss]') ? node : node.closest('[data-ignore-miss]');
+            if (!clickHandlerNode) onDatumClickMiss?.();
         }
     });
 
