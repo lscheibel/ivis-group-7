@@ -29,7 +29,8 @@ const Summary = ({ data }: SummaryProperties) => {
             <h1>PISA SCORES</h1>
             <p className={style.subtitle}>
                 Latest scores {selectedCountry ? 'for ' + selectedCountry.countryName : 'globally'} <br />
-                {countryRank !== null ? '# ' + countryRank?.ranking + ' out of 81' : null}
+                {countryRank !== null ? '# ' + countryRank?.ranking + ' out of 81' : null} <br />
+                {selectedCountry ? 'OECD countries in PISA ranking 2022' : null}
             </p>
             <ul className={style.summaryGrid}>
                 {pisaScoreTypes.map((type) => (
