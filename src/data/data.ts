@@ -1,7 +1,6 @@
 import jsonData from './data.json';
 import { StringParser } from './StringParser';
 import { notNullish } from '../tools/notNullish';
-import { pisaScoreTypes } from '../state/pisaScoreType';
 
 export interface RawDataEntry {
     country: string;
@@ -97,11 +96,24 @@ export interface RawDataEntry {
     pisaGeneralAverage2022: string;
 }
 
+export type PisaScoreType = 'average' | 'science' | 'math' | 'reading';
+
+export const pisaScoreTypes = ['average', 'science', 'math', 'reading'] as const;
+
+type Ranks = {
+    average: number;
+    math: number;
+    science: number;
+    reading: number;
+};
+
 export class CountryDatum {
     id: number;
 
     countryName: string;
     countryCode: string;
+
+    ranks: Ranks;
 
     /** @deprecated Use year specific scores instead. **/
     private pisaMathScore: number;
@@ -201,6 +213,9 @@ export class CountryDatum {
 
         this.countryName = raw.country;
         this.countryCode = raw.countryCode;
+
+        // Populated after initialization of all countries.
+        this.ranks = {} as Ranks;
 
         this.pisaMathScore = StringParser.parseAsNumber(raw.pisaMathScore)!;
         this.pisaScienceScore = StringParser.parseAsNumber(raw.pisaScienceScore)!;
@@ -438,6 +453,16 @@ export const data = jsonData.map((rawEntry, index) => {
     return new CountryDatum(index, rawEntry);
 });
 
+pisaScoreTypes.forEach((pisaScoreType) => {
+    [...data]
+        .sort((a, b) => {
+            return b.pisaScores[pisaScoreType] - a.pisaScores[pisaScoreType];
+        })
+        .forEach((country, index) => {
+            country.ranks[pisaScoreType] = index + 1;
+        });
+});
+
 export const getDatumById = (id: CountryDatum['id']) => {
     return data[id];
 };
@@ -529,27 +554,6 @@ averageSkippedMeals.fourToFivePerWeek /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.always /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.atLeastOncePerWeek /= countriesWithSkippedMealsData.length;
 
-//console.log(data[0]);
-
-//console.table(createRankingBySubject('reading'));
-
-function createRankingBySubject(subject: string) {
-    function sortCountry(a: CountryDatum, b: CountryDatum) {
-        const aScore = a.pisaScores[subject];
-        const bScore = b.pisaScores[subject];
-        return aScore === bScore ? 0 : aScore > bScore ? -1 : 1;
-    }
-    const pisaScoreGlobalRanking = [...data].sort(sortCountry).map((datum, index) => {
-        return {
-            countryName: datum.countryName,
-            subject: subject,
-            score: datum.pisaScores[subject],
-            ranking: index + 1,
-        };
-    });
-    return pisaScoreGlobalRanking;
-}
-
 export const metaData = {
     totalCountries: data.length,
     pisaScores: {
@@ -582,5 +586,4 @@ export const metaData = {
             data.reduce((acc, c) => acc + ((c.availableFood as any)[foodKey] || 0), 0),
         ])
     ),
-    computeRanking: (subject: string) => createRankingBySubject(subject),
 };

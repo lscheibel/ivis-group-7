@@ -1,8 +1,5 @@
 import { atom, useAtom } from 'react-atomic-state';
-
-export type PisaScoreType = 'average' | 'science' | 'math' | 'reading';
-
-export const pisaScoreTypes = ['average', 'science', 'math', 'reading'] as const;
+import { PisaScoreType } from '../data/data';
 
 const pisaScoreTypeAtom = atom<PisaScoreType>('average');
 
