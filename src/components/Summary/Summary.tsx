@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import style from './Summary.module.scss';
 import { useSelectedCountry } from '../../state/selectedCountry';
 import cn from 'classnames';
 import { usePisaScoreType, setPisaScoreType, PisaScoreType, pisaScoreTypes } from '../../state/pisaScoreType';
 import { fromCamelCaseToUserFormat } from '../../tools/stringsOperators';
+import { CountryDatum } from '../../data/data';
+import { metaData } from '../../data/data';
 
 export interface SummaryProperties {
     data: { average: number; math: number; reading: number; science: number };
@@ -12,12 +14,23 @@ export interface SummaryProperties {
 const Summary = ({ data }: SummaryProperties) => {
     const selectedCountry = useSelectedCountry();
     const selectedType = usePisaScoreType();
+    //const [countryRank, setCountryRank] = useState(); I could not make it work with this hook
+    let countryRank = null;
+
+    if (selectedCountry) {
+        //setCountryRank(ranking.find((country) => country.countryName === selectedCountry.countryName));
+        countryRank = metaData
+            .computeRanking(selectedType)
+            .find((country) => country.countryName === selectedCountry.countryName);
+        console.log(countryRank);
+    }
 
     return (
         <div className={style.summaryCard}>
             <h1>PISA SCORES</h1>
             <p className={style.subtitle}>
-                Latest scores {selectedCountry ? 'for ' + selectedCountry.countryName : 'globally'}
+                Latest scores {selectedCountry ? 'for ' + selectedCountry.countryName : 'globally'} <br />
+                {countryRank !== null ? '# ' + countryRank?.ranking + ' out of 81' : null}
             </p>
             <ul className={style.summaryGrid}>
                 {pisaScoreTypes.map((type) => (
