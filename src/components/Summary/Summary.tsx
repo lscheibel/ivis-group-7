@@ -20,7 +20,7 @@ const Summary = ({ data }: SummaryProperties) => {
             <p className={style.subtitle}>
                 {activeCountry
                     ? `${activeCountry.countryName} ranks #${activeCountry?.ranks[selectedType]} in ${selectedType} scores out of ${metaData.totalCountries} OECD countries.`
-                    : null}
+                    : `Global average${selectedType === 'average' ? '' : ' ' + selectedType} scores.`}
             </p>
             <ul className={style.summaryGrid}>
                 {pisaScoreTypes.map((type) => (
