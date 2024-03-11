@@ -18,9 +18,8 @@ const Summary = ({ data }: SummaryProperties) => {
         <div className={style.summaryCard}>
             <h1>PISA SCORES</h1>
             <p className={style.subtitle}>
-                Latest scores {activeCountry ? 'for ' + activeCountry.countryName : 'globally'} <br />
                 {activeCountry
-                    ? `Ranking #${activeCountry?.ranks[selectedType]} in ${selectedType} out of ${metaData.totalCountries} OECD countries`
+                    ? `${activeCountry.countryName} ranks #${activeCountry?.ranks[selectedType]} in ${selectedType} scores out of ${metaData.totalCountries} OECD countries.`
                     : null}
             </p>
             <ul className={style.summaryGrid}>
