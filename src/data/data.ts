@@ -445,11 +445,7 @@ export const getDatumById = (id: CountryDatum['id']) => {
 const buket: Array<[string, number]> = [];
 //buket[0] = new Array<[string, number]>(2);
 
-console.log(data[0].availableFood);
-console.log(data[0].foodInGrams);
-
 const dataSetSize = data[0].foodInGrams !== null ? Object.entries(data[0].foodInGrams).length : 0;
-//const dataPointsCouter: number[] = new Array(Object.entries(data[0].availableFood).length).fill(0);
 const dataPointsCouter: number[] = new Array(dataSetSize).fill(0);
 
 data.forEach((countryDatum) => {
@@ -534,10 +530,6 @@ averageSkippedMeals.twoToThreePerWeek /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.fourToFivePerWeek /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.always /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.atLeastOncePerWeek /= countriesWithSkippedMealsData.length;
-
-//console.log(data[0]);
-
-//console.table(createRankingBySubject('reading'));
 
 function createRankingBySubject(subject: string) {
     function sortCountry(a: CountryDatum, b: CountryDatum) {
