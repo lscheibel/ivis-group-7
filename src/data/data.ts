@@ -414,7 +414,7 @@ export class CountryDatum {
 
     get foodInGrams() {
         // We always have either all the data or no data.
-        if (this.foodGramsPerDayFruits == null) return 0; //null;
+        if (this.foodGramsPerDayFruits == null) return null;
 
         return {
             fruits: this.foodGramsPerDayFruits!,
@@ -590,7 +590,7 @@ export const metaData = {
     globalAvailableFood: Object.fromEntries(
         Object.keys(foodLabels).map((foodKey) => [
             foodKey,
-            data.reduce((acc, c) => acc + ((c.foodInGrams as any)[foodKey] || 0), 0),
+            data.reduce((acc, c) => acc + ((c.foodInGrams as any)?.[foodKey] || 0), 0),
         ])
     ),
     computeRanking: (subject: string) => createRankingBySubject(subject),
