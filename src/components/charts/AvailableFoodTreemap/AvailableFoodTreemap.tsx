@@ -39,12 +39,14 @@ const AvailableFoodTreemap = ({ data }: AvailableFoodTreemapProps) => {
             datum.children = data.map((country) => ({
                 id: foodKey + ':' + country.id,
                 label: country.countryCode,
-                value: values.keys.reduce((acc, key) => acc + ((country.availableFood as any)[key] || 0), 0),
+                //value: values.keys.reduce((acc, key) => acc + ((country.availableFood as any)[key] || 0), 0),
+                value: values.keys.reduce((acc, key) => acc + ((country.foodInGrams as any)[key] || 0), 0),
                 title: country.countryName,
             }));
         } else if (data.length === 1) {
             const country = data[0];
-            datum.value = values.keys.reduce((acc, key) => acc + ((country.availableFood as any)[key] || 0), 0);
+            //datum.value = values.keys.reduce((acc, key) => acc + ((country.availableFood as any)[key] || 0), 0);
+            datum.value = values.keys.reduce((acc, key) => acc + ((country.foodInGrams as any)[key] || 0), 0);
         } else if (data.length === 0) {
             datum.value = values.keys.reduce((acc, key) => acc + ((metaData.globalAvailableFood as any)[key] || 0), 0);
         }
