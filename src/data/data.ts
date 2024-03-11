@@ -97,11 +97,24 @@ export interface RawDataEntry {
     pisaGeneralAverage2022: string;
 }
 
+export type PisaScoreType = 'average' | 'science' | 'math' | 'reading';
+
+export const pisaScoreTypes = ['average', 'science', 'math', 'reading'] as const;
+
+type Ranks = {
+    average: number;
+    math: number;
+    science: number;
+    reading: number;
+};
+
 export class CountryDatum {
     id: number;
 
     countryName: string;
     countryCode: string;
+
+    ranks: Ranks;
 
     /** @deprecated Use year specific scores instead. **/
     private pisaMathScore: number;
@@ -201,6 +214,9 @@ export class CountryDatum {
 
         this.countryName = raw.country;
         this.countryCode = raw.countryCode;
+
+        // Populated after initialization of all countries.
+        this.ranks = {} as Ranks;
 
         this.pisaMathScore = StringParser.parseAsNumber(raw.pisaMathScore)!;
         this.pisaScienceScore = StringParser.parseAsNumber(raw.pisaScienceScore)!;
@@ -436,6 +452,16 @@ export class CountryDatum {
 
 export const data = jsonData.map((rawEntry, index) => {
     return new CountryDatum(index, rawEntry);
+});
+
+pisaScoreTypes.forEach((pisaScoreType) => {
+    [...data]
+        .sort((a, b) => {
+            return b.pisaScores[pisaScoreType] - a.pisaScores[pisaScoreType];
+        })
+        .forEach((country, index) => {
+            country.ranks[pisaScoreType] = index + 1;
+        });
 });
 
 export const getDatumById = (id: CountryDatum['id']) => {

@@ -1,23 +1,27 @@
 import React from 'react';
 import style from './Summary.module.scss';
-import { useSelectedCountry } from '../../state/selectedCountry';
+import { useActiveCountry } from '../../state/selectedCountry';
 import cn from 'classnames';
-import { usePisaScoreType, setPisaScoreType, PisaScoreType, pisaScoreTypes } from '../../state/pisaScoreType';
+import { setPisaScoreType, usePisaScoreType } from '../../state/pisaScoreType';
 import { fromCamelCaseToUserFormat } from '../../tools/stringsOperators';
+import { metaData, PisaScoreType, pisaScoreTypes } from '../../data/data';
 
 export interface SummaryProperties {
     data: { average: number; math: number; reading: number; science: number };
 }
 
 const Summary = ({ data }: SummaryProperties) => {
-    const selectedCountry = useSelectedCountry();
+    const activeCountry = useActiveCountry();
     const selectedType = usePisaScoreType();
 
     return (
         <div className={style.summaryCard}>
             <h1>PISA SCORES</h1>
             <p className={style.subtitle}>
-                Latest scores {selectedCountry ? 'for ' + selectedCountry.countryName : 'globally'}
+                Latest scores {activeCountry ? 'for ' + activeCountry.countryName : 'globally'} <br />
+                {activeCountry
+                    ? `Ranking #${activeCountry?.ranks[selectedType]} in ${selectedType} out of ${metaData.totalCountries} OECD countries`
+                    : null}
             </p>
             <ul className={style.summaryGrid}>
                 {pisaScoreTypes.map((type) => (
