@@ -1,7 +1,6 @@
 import jsonData from './data.json';
 import { StringParser } from './StringParser';
 import { notNullish } from '../tools/notNullish';
-import { pisaScoreTypes } from '../state/pisaScoreType';
 
 export interface RawDataEntry {
     country: string;
@@ -468,30 +467,6 @@ export const getDatumById = (id: CountryDatum['id']) => {
     return data[id];
 };
 
-const buket: Array<[string, number]> = [];
-//buket[0] = new Array<[string, number]>(2);
-
-const dataSetSize = data[0].foodInGrams !== null ? Object.entries(data[0].foodInGrams).length : 0;
-const dataPointsCouter: number[] = new Array(dataSetSize).fill(0);
-
-data.forEach((countryDatum) => {
-    if (countryDatum.foodInGrams !== null) {
-        Object.entries(countryDatum.foodInGrams).forEach(buketFiller);
-    }
-    function buketFiller(food: [string, number | null], index: number) {
-        if (!buket[index]) {
-            // Initialize the sub-array if it doesn't exist
-            buket[index] = [food[0], 0];
-        }
-
-        const value = food[1] !== null ? food[1] : 0;
-        if (value !== 0) {
-            buket[index][1] += value;
-            dataPointsCouter[index]++;
-        }
-    }
-});
-
 export type PisaScoreYears = '2003' | '2006' | '2009' | '2012' | '2015' | '2018' | '2022';
 
 type PisaScores = Record<
@@ -557,23 +532,6 @@ averageSkippedMeals.fourToFivePerWeek /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.always /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.atLeastOncePerWeek /= countriesWithSkippedMealsData.length;
 
-function createRankingBySubject(subject: string) {
-    function sortCountry(a: CountryDatum, b: CountryDatum) {
-        const aScore = a.pisaScores[subject];
-        const bScore = b.pisaScores[subject];
-        return aScore === bScore ? 0 : aScore > bScore ? -1 : 1;
-    }
-    const pisaScoreGlobalRanking = [...data].sort(sortCountry).map((datum, index) => {
-        return {
-            countryName: datum.countryName,
-            subject: subject,
-            score: datum.pisaScores[subject],
-            ranking: index + 1,
-        };
-    });
-    return pisaScoreGlobalRanking;
-}
-
 const foodLabels = {
     fruits: 0,
     vegetables: 0,
@@ -607,11 +565,6 @@ export const metaData = {
         maxScience: Math.max(...data.map((c) => c.pisaScores['2022'].science)),
         ...globalPisaScoreAverages,
     },
-    //nutrientList: data.map((countryDatum) => Object.entries(countryDatum.availableFood)),
-    nutrientList: data.map((countryDatum) => Object.entries(countryDatum.foodInGrams ? countryDatum.foodInGrams : {})),
-    averageAvailableFood: buket.map((foodTotal, i) => {
-        return [foodTotal[0], foodTotal[1] / dataPointsCouter[i]];
-    }),
     averageSkippedMeals,
     globalAvailableFood: Object.fromEntries(
         Object.keys(foodLabels).map((foodKey) => [
@@ -619,5 +572,4 @@ export const metaData = {
             data.reduce((acc, c) => acc + ((c.foodInGrams as any)?.[foodKey] || 0), 0),
         ])
     ),
-    computeRanking: (subject: string) => createRankingBySubject(subject),
 };
