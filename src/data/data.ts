@@ -467,28 +467,6 @@ export const getDatumById = (id: CountryDatum['id']) => {
     return data[id];
 };
 
-const buket: Array<[string, number]> = [];
-//buket[0] = new Array<[string, number]>(2);
-
-const dataPointsCouter: number[] = new Array(Object.entries(data[0].availableFood).length).fill(0);
-
-data.forEach((countryDatum) => {
-    Object.entries(countryDatum.availableFood).forEach(buketFiller);
-
-    function buketFiller(food: [string, number | null], index: number) {
-        if (!buket[index]) {
-            // Initialize the sub-array if it doesn't exist
-            buket[index] = [food[0], 0];
-        }
-
-        const value = food[1] !== null ? food[1] : 0;
-        if (value !== 0) {
-            buket[index][1] += value;
-            dataPointsCouter[index]++;
-        }
-    }
-});
-
 export type PisaScoreYears = '2003' | '2006' | '2009' | '2012' | '2015' | '2018' | '2022';
 
 type PisaScores = Record<
@@ -554,6 +532,19 @@ averageSkippedMeals.fourToFivePerWeek /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.always /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.atLeastOncePerWeek /= countriesWithSkippedMealsData.length;
 
+const foodLabels = {
+    fruits: 0,
+    vegetables: 0,
+    grains: 0,
+    beans: 0,
+    nuts: 0,
+    meats: 0,
+    seafoods: 0,
+    dairyAndEggs: 0,
+    sugaryDrinks: 0,
+    tea: 0,
+};
+
 export const metaData = {
     totalCountries: data.length,
     pisaScores: {
@@ -574,16 +565,11 @@ export const metaData = {
         maxScience: Math.max(...data.map((c) => c.pisaScores['2022'].science)),
         ...globalPisaScoreAverages,
     },
-    nutrientList: data.map((countryDatum) => Object.entries(countryDatum.availableFood)),
-    averageAvailableFood: buket.map((foodTotal, i) => {
-        return [foodTotal[0], foodTotal[1] / dataPointsCouter[i]];
-    }),
     averageSkippedMeals,
-
     globalAvailableFood: Object.fromEntries(
-        Object.keys(data[0].availableFood).map((foodKey) => [
+        Object.keys(foodLabels).map((foodKey) => [
             foodKey,
-            data.reduce((acc, c) => acc + ((c.availableFood as any)[foodKey] || 0), 0),
+            data.reduce((acc, c) => acc + ((c.foodInGrams as any)?.[foodKey] || 0), 0),
         ])
     ),
 };

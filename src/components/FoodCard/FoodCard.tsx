@@ -9,8 +9,8 @@ const FoodCard = () => {
     return (
         <div className={styles.container} style={{ position: 'relative', height: '100%' }}>
             <div className={styles.titles}>
-                <h2>FOOD AVAILABILITY TREE</h2>
-                <em>Food available for consumption in kilocalories per day per capita</em>
+                <h2>FOOD NUTRITION CHART</h2>
+                <em>Median food available for consumption in grams per day per capita</em>
             </div>
             <div className={styles.chartContainer}>
                 <AvailableFoodTreemap data={activeCountry ? [activeCountry] : []} />
