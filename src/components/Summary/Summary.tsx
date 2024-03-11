@@ -22,7 +22,6 @@ const Summary = ({ data }: SummaryProperties) => {
         countryRank = metaData
             .computeRanking(selectedType)
             .find((country) => country.countryName === selectedCountry.countryName);
-        console.log(countryRank);
     }
 
     return (
