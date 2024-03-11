@@ -1,6 +1,7 @@
 import jsonData from './data.json';
 import { StringParser } from './StringParser';
 import { notNullish } from '../tools/notNullish';
+import { pisaScoreTypes } from '../state/pisaScoreType';
 
 export interface RawDataEntry {
     country: string;
@@ -413,7 +414,7 @@ export class CountryDatum {
 
     get foodInGrams() {
         // We always have either all the data or no data.
-        if (this.foodGramsPerDayFruits == null) return null;
+        if (this.foodGramsPerDayFruits == null) return 0; //null;
 
         return {
             fruits: this.foodGramsPerDayFruits!,
@@ -444,11 +445,17 @@ export const getDatumById = (id: CountryDatum['id']) => {
 const buket: Array<[string, number]> = [];
 //buket[0] = new Array<[string, number]>(2);
 
-const dataPointsCouter: number[] = new Array(Object.entries(data[0].availableFood).length).fill(0);
+console.log(data[0].availableFood);
+console.log(data[0].foodInGrams);
+
+const dataSetSize = data[0].foodInGrams !== null ? Object.entries(data[0].foodInGrams).length : 0;
+//const dataPointsCouter: number[] = new Array(Object.entries(data[0].availableFood).length).fill(0);
+const dataPointsCouter: number[] = new Array(dataSetSize).fill(0);
 
 data.forEach((countryDatum) => {
-    Object.entries(countryDatum.availableFood).forEach(buketFiller);
-
+    if (countryDatum.foodInGrams !== null) {
+        Object.entries(countryDatum.foodInGrams).forEach(buketFiller);
+    }
     function buketFiller(food: [string, number | null], index: number) {
         if (!buket[index]) {
             // Initialize the sub-array if it doesn't exist
@@ -528,6 +535,40 @@ averageSkippedMeals.fourToFivePerWeek /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.always /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.atLeastOncePerWeek /= countriesWithSkippedMealsData.length;
 
+//console.log(data[0]);
+
+//console.table(createRankingBySubject('reading'));
+
+function createRankingBySubject(subject: string) {
+    function sortCountry(a: CountryDatum, b: CountryDatum) {
+        const aScore = a.pisaScores[subject];
+        const bScore = b.pisaScores[subject];
+        return aScore === bScore ? 0 : aScore > bScore ? -1 : 1;
+    }
+    const pisaScoreGlobalRanking = [...data].sort(sortCountry).map((datum, index) => {
+        return {
+            countryName: datum.countryName,
+            subject: subject,
+            score: datum.pisaScores[subject],
+            ranking: index + 1,
+        };
+    });
+    return pisaScoreGlobalRanking;
+}
+
+const foodLabels = {
+    fruits: 0,
+    vegetables: 0,
+    grains: 0,
+    beans: 0,
+    nuts: 0,
+    meats: 0,
+    seafoods: 0,
+    dairyAndEggs: 0,
+    sugaryDrinks: 0,
+    tea: 0,
+};
+
 export const metaData = {
     totalCountries: data.length,
     pisaScores: {
@@ -548,16 +589,17 @@ export const metaData = {
         maxScience: Math.max(...data.map((c) => c.pisaScores['2022'].science)),
         ...globalPisaScoreAverages,
     },
-    nutrientList: data.map((countryDatum) => Object.entries(countryDatum.availableFood)),
+    //nutrientList: data.map((countryDatum) => Object.entries(countryDatum.availableFood)),
+    nutrientList: data.map((countryDatum) => Object.entries(countryDatum.foodInGrams ? countryDatum.foodInGrams : {})),
     averageAvailableFood: buket.map((foodTotal, i) => {
         return [foodTotal[0], foodTotal[1] / dataPointsCouter[i]];
     }),
     averageSkippedMeals,
-
     globalAvailableFood: Object.fromEntries(
-        Object.keys(data[0].availableFood).map((foodKey) => [
+        Object.keys(foodLabels).map((foodKey) => [
             foodKey,
-            data.reduce((acc, c) => acc + ((c.availableFood as any)[foodKey] || 0), 0),
+            data.reduce((acc, c) => acc + ((c.foodInGrams as any)[foodKey] || 0), 0),
         ])
     ),
+    computeRanking: (subject: string) => createRankingBySubject(subject),
 };
