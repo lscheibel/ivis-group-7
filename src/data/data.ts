@@ -1,6 +1,7 @@
 import jsonData from './data.json';
 import { StringParser } from './StringParser';
 import { notNullish } from '../tools/notNullish';
+import { pisaScoreTypes } from '../state/pisaScoreType';
 
 export interface RawDataEntry {
     country: string;
@@ -528,6 +529,27 @@ averageSkippedMeals.fourToFivePerWeek /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.always /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.atLeastOncePerWeek /= countriesWithSkippedMealsData.length;
 
+//console.log(data[0]);
+
+//console.table(createRankingBySubject('reading'));
+
+function createRankingBySubject(subject: string) {
+    function sortCountry(a: CountryDatum, b: CountryDatum) {
+        const aScore = a.pisaScores[subject];
+        const bScore = b.pisaScores[subject];
+        return aScore === bScore ? 0 : aScore > bScore ? -1 : 1;
+    }
+    const pisaScoreGlobalRanking = [...data].sort(sortCountry).map((datum, index) => {
+        return {
+            countryName: datum.countryName,
+            subject: subject,
+            score: datum.pisaScores[subject],
+            ranking: index + 1,
+        };
+    });
+    return pisaScoreGlobalRanking;
+}
+
 export const metaData = {
     totalCountries: data.length,
     pisaScores: {
@@ -560,4 +582,5 @@ export const metaData = {
             data.reduce((acc, c) => acc + ((c.availableFood as any)[foodKey] || 0), 0),
         ])
     ),
+    computeRanking: (subject: string) => createRankingBySubject(subject),
 };
