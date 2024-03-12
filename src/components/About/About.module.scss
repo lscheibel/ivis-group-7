@@ -16,6 +16,8 @@
 
 .portraitFigure {
     img {
+        object-fit: cover;
         width: 256px;
+        height: 256px;
     }
 }

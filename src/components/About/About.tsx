@@ -10,19 +10,19 @@ const About = () => {
             <h2>THE TEAM</h2>
             <ul className={styles.portraits}>
                 <li>
-                    <TeamAvatar name={'Beatrice Galvanetto'} githubAlias={'bopsthepops'} />
+                    <TeamAvatar name={'Beatrice Galvanetto'} imgSrc={'/beatrice.jpeg'} />
                 </li>
                 <li>
-                    <TeamAvatar name={'David Giraldo'} githubAlias={'DavidGiraldoCode'} />
+                    <TeamAvatar name={'David Giraldo'} imgSrc={'https://github.com/DavidGiraldoCode.png?size=320'} />
                 </li>
                 <li>
-                    <TeamAvatar name={'Johannes Granlund'} githubAlias={''} />
+                    <TeamAvatar name={'Johannes Granlund'} imgSrc={'/johannes.jpeg'} />
                 </li>
                 <li>
-                    <TeamAvatar name={'Lennard Scheibel'} githubAlias={'lscheibel'} />
+                    <TeamAvatar name={'Lennard Scheibel'} imgSrc={'https://github.com/lscheibel.png?size=320'} />
                 </li>
                 <li>
-                    <TeamAvatar name={'Sanaa Syed'} githubAlias={''} />
+                    <TeamAvatar name={'Sanaa Syed'} imgSrc={'/sanaa.jpeg'} />
                 </li>
             </ul>
         </div>
@@ -33,13 +33,13 @@ export default About;
 
 export interface TeamAvatarProps {
     name: string;
-    githubAlias: string;
+    imgSrc: string;
 }
 
-const TeamAvatar = ({ name, githubAlias }: TeamAvatarProps) => {
+const TeamAvatar = ({ name, imgSrc }: TeamAvatarProps) => {
     return (
         <figure className={styles.portraitFigure}>
-            <img src={`https://github.com/${githubAlias}.png?size=320`} alt="" />
+            <img src={imgSrc} alt="" />
             <figcaption>{name}</figcaption>
         </figure>
     );
