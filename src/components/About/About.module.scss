@@ -13,9 +13,29 @@
     max-height: 100%;
     overflow: auto;
 
-    h1,
-    h2 {
+    h1 {
+        font-size: 32px;
         margin-bottom: var(--padding-large);
+    }
+
+    h2 {
+        margin: var(--padding-large) 0;
+    }
+
+    p {
+        display: inline-block;
+        margin: 0;
+        margin-bottom: var(--padding-tiny);
+        font-weight: 400;
+    }
+
+    strong {
+        display: inline-block;
+        margin-top: 1.5em;
+    }
+
+    a {
+        text-decoration: underline;
     }
 }
 
