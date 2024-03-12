@@ -5,7 +5,7 @@
         }
 
         &:hover {
-            .level1Content {
+            > [data-content] {
                 display: none;
             }
 
