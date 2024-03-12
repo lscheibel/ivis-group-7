@@ -14,6 +14,7 @@ import PisaScoreScatterPlotHelp from '../../charts/PisaScoreScatterPlot/PisaScor
 import SkippedMealsWaffleChartHelp from '../../charts/SkippedMealsWaffleChart/SkippedMealsWaffleChartHelp';
 import PisaScoreLineChartHelp from '../../charts/PisaScoreLineChart/PisaScoreLineChartHelp';
 import FoodCardHelp from '../../FoodCard/FoodCardHelp';
+import SummaryHelp from '../../Summary/SummaryHelp';
 
 const DashboardView = () => {
     const activeCountry = useActiveCountry();
@@ -40,7 +41,7 @@ const DashboardView = () => {
                 <AboutButton />
             </DashboardCard>
 
-            <DashboardCard area={'stats'} color={'black'}>
+            <DashboardCard area={'stats'} color={'black'} help={<SummaryHelp />}>
                 <Summary data={activeCountry?.pisaScores || metaData.pisaScores} />
             </DashboardCard>
 
