@@ -433,17 +433,21 @@ export class CountryDatum {
 
         return {
             fruits: this.foodGramsPerDayFruits!,
-            vegetables:
-                this.foodGramsPerDayNonStarchyVegetables! +
-                this.foodGramsPerDayPotatoes! +
-                this.foodGramsPerDayOtherStarchyVegetables!,
-            grains: this.foodGramsPerDayRefinedGrains! + this.foodGramsPerDayWholeGrains!,
+            nonStarchyVegetables: this.foodGramsPerDayNonStarchyVegetables!,
+            potatoes: this.foodGramsPerDayPotatoes!,
+            otherStarchyVegetables: this.foodGramsPerDayOtherStarchyVegetables!,
+            refinedGrains: this.foodGramsPerDayRefinedGrains!,
+            wholeGrains: this.foodGramsPerDayWholeGrains!,
             beans: this.foodGramsPerDayBeansAndLegumes!,
             nuts: this.foodGramsPerDayNutsAndSeeds!,
-            meats: this.foodGramsPerDayProcessedMeats! + this.foodGramsPerDayUnprocessedRedMeats!,
+            processedMeats: this.foodGramsPerDayProcessedMeats!,
+            unprocessedRedMeats: this.foodGramsPerDayUnprocessedRedMeats!,
             seafoods: this.foodGramsPerDaySeafoods!,
-            dairyAndEggs: this.foodGramsPerDayEggs! + this.foodGramsPerDayCheese! + this.foodGramsPerDayYoghurt!,
-            sugaryDrinks: this.foodGramsPerDaySugarSweetenedBeverages! + this.foodGramsPerDayFruitJuices!,
+            eggs: this.foodGramsPerDayEggs!,
+            cheese: this.foodGramsPerDayCheese!,
+            yoghurt: this.foodGramsPerDayYoghurt!,
+            sugarSweetenedBeverages: this.foodGramsPerDaySugarSweetenedBeverages!,
+            fruitJuices: this.foodGramsPerDayFruitJuices!,
             tea: this.foodGramsPerDayTea!,
         };
     }
@@ -532,19 +536,6 @@ averageSkippedMeals.fourToFivePerWeek /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.always /= countriesWithSkippedMealsData.length;
 averageSkippedMeals.atLeastOncePerWeek /= countriesWithSkippedMealsData.length;
 
-const foodLabels = {
-    fruits: 0,
-    vegetables: 0,
-    grains: 0,
-    beans: 0,
-    nuts: 0,
-    meats: 0,
-    seafoods: 0,
-    dairyAndEggs: 0,
-    sugaryDrinks: 0,
-    tea: 0,
-};
-
 export const metaData = {
     totalCountries: data.length,
     pisaScores: {
@@ -567,7 +558,7 @@ export const metaData = {
     },
     averageSkippedMeals,
     globalAvailableFood: Object.fromEntries(
-        Object.keys(foodLabels).map((foodKey) => [
+        Object.keys(data[0].foodInGrams!).map((foodKey) => [
             foodKey,
             data.reduce((acc, c) => acc + ((c.foodInGrams as any)?.[foodKey] || 0), 0),
         ])

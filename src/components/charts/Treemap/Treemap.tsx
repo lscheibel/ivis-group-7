@@ -5,7 +5,8 @@ import { Aabb } from '../../../tools/Aabb';
 
 export type TreemapData = {
     id: string;
-    label: React.ReactNode;
+    label: string;
+    valueFormatter: (v: number) => string;
     title?: string;
     value?: number;
     children?: TreemapData[];
@@ -43,15 +44,21 @@ const Treemap = ({ width, height, data }: TreemapProps) => {
         return nodeBounds;
     };
 
+    // Let the spaghetti begin:
     return (
         <svg width={width} height={height} className={styles.svg}>
             {rootNode.children?.map((node, index) => {
                 const nodeBounds = getNodeBounds(node);
+                const valueStr = node.data.valueFormatter(node.value!);
+
+                const minWidthForText = 40;
+                const minHeightForText = 30;
 
                 return (
                     <g key={index} data-level="1">
                         {node.children?.map((node) => {
                             const nodeBounds = getNodeBounds(node);
+                            const valueStr = node.data.valueFormatter(node.value!);
 
                             return (
                                 <g key={node.id} data-level="2">
@@ -60,43 +67,121 @@ const Treemap = ({ width, height, data }: TreemapProps) => {
                                         y={nodeBounds.top}
                                         width={nodeBounds.width}
                                         height={nodeBounds.height}
-                                        stroke={'var(--almost-black)'}
+                                        fill={'transparent'}
+                                        stroke={'var(--font-color)'}
                                         strokeWidth={2}
-                                        fill={'transparent'}
                                     >
-                                        <title>{node.data.title}</title>
+                                        <title>
+                                            {node.data.label} {valueStr}
+                                        </title>
                                     </rect>
-                                    <text
-                                        x={node.x1 - textPadding}
-                                        y={node.y1 - textPadding}
-                                        textAnchor={'end'}
-                                        fill={'transparent'}
-                                        fontSize={'16px'}
-                                    >
-                                        {node.data.label}
-                                    </text>
+                                    {nodeBounds.width > minWidthForText && nodeBounds.height > minHeightForText && (
+                                        <>
+                                            <clipPath id={`sub-clip-${node.data.id}`}>
+                                                <rect
+                                                    x={nodeBounds.left + textPadding / 2}
+                                                    y={nodeBounds.top + textPadding / 2}
+                                                    width={Math.max(0, nodeBounds.width - textPadding)}
+                                                    height={Math.max(0, nodeBounds.height - textPadding)}
+                                                />
+                                            </clipPath>
+                                            <text
+                                                x={node.x0 + textPadding}
+                                                y={node.y0 + textPadding}
+                                                fill={'var(--font-color)'}
+                                                fontSize={'16px'}
+                                                dominantBaseline={'hanging'}
+                                                clipPath={`url(#sub-clip-${node.data.id})`}
+                                            >
+                                                {nodeBounds.width > nodeBounds.height
+                                                    ? node.data.label
+                                                    : node.data.label?.split(' ').map((word, i) => {
+                                                          return (
+                                                              <tspan
+                                                                  key={i}
+                                                                  x={node.x0 + textPadding}
+                                                                  y={node.y0 + textPadding + i * (16 * 1.5)}
+                                                              >
+                                                                  {word}
+                                                              </tspan>
+                                                          );
+                                                      })}
+                                            </text>
+                                            <text
+                                                x={node.x1 - textPadding}
+                                                y={node.y1 - textPadding}
+                                                textAnchor={'end'}
+                                                fill={'var(--font-color)'}
+                                                fontSize={'16px'}
+                                                clipPath={`url(#sub-clip-${node.data.id})`}
+                                            >
+                                                {valueStr}
+                                            </text>
+                                        </>
+                                    )}
                                 </g>
                             );
                         })}
 
-                        <rect
-                            x={nodeBounds.left}
-                            y={nodeBounds.top}
-                            width={nodeBounds.width}
-                            height={nodeBounds.height}
-                            fill={'transparent'}
-                            stroke={'var(--font-color)'}
-                            strokeWidth={2}
-                        />
-                        <text
-                            x={node.x0 + textPadding}
-                            y={node.y0 + textPadding}
-                            fill={'var(--font-color)'}
-                            fontSize={'16px'}
-                            dominantBaseline={'hanging'}
-                        >
-                            {node.data.label}
-                        </text>
+                        <g className={styles.level1Content}>
+                            <rect
+                                x={nodeBounds.left}
+                                y={nodeBounds.top}
+                                width={nodeBounds.width}
+                                height={nodeBounds.height}
+                                fill={'transparent'}
+                                stroke={'var(--font-color)'}
+                                strokeWidth={2}
+                            >
+                                <title>
+                                    {node.data.label} {valueStr}
+                                </title>
+                            </rect>
+                            {nodeBounds.width > minWidthForText && nodeBounds.height > minHeightForText && (
+                                <>
+                                    <clipPath id={`clip-${index}`}>
+                                        <rect
+                                            x={nodeBounds.left + textPadding / 2}
+                                            y={nodeBounds.top + textPadding / 2}
+                                            width={Math.max(0, nodeBounds.width - textPadding)}
+                                            height={Math.max(0, nodeBounds.height - textPadding)}
+                                            fill={'black'}
+                                        />
+                                    </clipPath>
+                                    <text
+                                        id={`url(#text-${index})`}
+                                        x={node.x0 + textPadding}
+                                        y={node.y0 + textPadding}
+                                        fill={'var(--font-color)'}
+                                        fontSize={'16px'}
+                                        dominantBaseline={'hanging'}
+                                        clipPath={`url(#clip-${index})`}
+                                    >
+                                        {node.data.label?.split(' ').map((word, i) => {
+                                            return (
+                                                <tspan
+                                                    key={i}
+                                                    x={node.x0 + textPadding}
+                                                    y={node.y0 + textPadding + i * (16 * 1.5)}
+                                                >
+                                                    {word}
+                                                </tspan>
+                                            );
+                                        })}
+                                    </text>
+                                    <text
+                                        x={node.x1 - textPadding}
+                                        y={node.y1 - textPadding}
+                                        textAnchor={'end'}
+                                        fill={'var(--font-color)'}
+                                        fontSize={'16px'}
+                                        clipPath={`url(#clip-${index})`}
+                                    >
+                                        {valueStr}
+                                    </text>
+                                </>
+                            )}
+                        </g>
                     </g>
                 );
             })}

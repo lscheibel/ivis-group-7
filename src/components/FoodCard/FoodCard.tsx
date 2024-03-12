@@ -13,7 +13,7 @@ const FoodCard = () => {
                 <em>Median food available for consumption in grams per day per capita.</em>
             </div>
             <div className={styles.chartContainer}>
-                <AvailableFoodTreemap data={activeCountry ? [activeCountry] : []} />
+                <AvailableFoodTreemap data={activeCountry} />
             </div>
         </div>
     );
