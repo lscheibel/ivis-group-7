@@ -60,7 +60,7 @@ const SkippedMealsWaffleChart = ({ data }: SkippedMealsWaffleChartProps) => {
     return (
         <div className={styles.container}>
             <div className={styles.titles}>
-                <span>Meals skipped per week</span>
+                <span>MEALS SKIPPED PER WEEK</span>
                 {subtitle && <em className={styles.subtitle}>{subtitle}</em>}
             </div>
 

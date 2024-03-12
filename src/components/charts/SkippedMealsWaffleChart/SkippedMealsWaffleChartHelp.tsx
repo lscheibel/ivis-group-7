@@ -8,9 +8,9 @@ const SkippedMealsWaffleChartHelp = () => {
             <HelpTitle>Meals skipped per week</HelpTitle>
             <strong>About this chart:</strong>
             <p>
-                This shows the percentage of students skipping one or more meals per week. Skipping meals can be the
-                result of many different reasons, the PISA study does not take into consideration the reason for a
-                skipped meal, only the amount of skipped meals per week.
+                This shows the percentage of students skipping one or more meals per week. Skipping meals can result
+                from many different reasons. In this case, the PISA study asked the students: &quot;In the past 30 days,
+                how often did you not eat because there was not enough money to buy food?&quot;
             </p>
         </Help>
     );
