@@ -12,6 +12,11 @@
     margin: 0 auto;
     max-height: 100%;
     overflow: auto;
+
+    h1,
+    h2 {
+        margin-bottom: var(--padding-large);
+    }
 }
 
 .portraits {
@@ -23,6 +28,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    margin-bottom: var(--padding-large);
 }
 
 .portraitFigure {
