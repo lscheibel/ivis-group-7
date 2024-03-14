@@ -224,7 +224,7 @@ const ScatterPlot = ({
                 if (hoveredCountry.id === selectedCountry?.id) return null; // We're already displaying this data point above.;
                 const pos = { x: getX(hoveredCountry), y: getY(hoveredCountry) };
                 if (pos.x == null || pos.y == null) return null;
-                return <DatumCircle x={x(pos.x)} y={y(pos.y)} selected title={hoveredCountry.countryName} />;
+                return <DatumCircle x={x(pos.x)} y={y(pos.y)} highlight title={hoveredCountry.countryName} />;
             })}
         </svg>
     );
@@ -243,7 +243,7 @@ export interface DatumCircleProps {
 const DatumCircle = ({ x, y, title, highlight, selected }: DatumCircleProps) => {
     return (
         <>
-            {selected && (
+            {(highlight || selected) && (
                 <circle cx={x} cy={y} r={5} fill={'var(--background)'}>
                     {title && <title>{title}</title>}
                 </circle>

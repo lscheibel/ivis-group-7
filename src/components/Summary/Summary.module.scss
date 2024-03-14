@@ -39,6 +39,11 @@
     padding: 24px 0;
     cursor: pointer;
 
+    h2 {
+        text-transform: none;
+        margin-bottom: -4px;
+    }
+
     &.active {
         background: var(--accent-color);
         color: var(--background);
