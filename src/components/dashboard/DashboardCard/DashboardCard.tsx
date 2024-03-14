@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useImperativeHandle, useRef, useState } from 'react';
 import styles from './DashboardCard.module.scss';
 import cn from 'classnames';
+import { useHotkey } from '../../../tools/useHotkey';
+import { getPointerPosition } from '../../../state/pointerPosition';
 
 export interface DashboardCardProps extends React.HTMLAttributes<HTMLDivElement> {
     area: string;
@@ -97,9 +99,29 @@ const themes = {
     },
 } satisfies Themes;
 
-const DashboardCard = ({ area, color, ...props }: DashboardCardProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+const DashboardCard = (
+    { area, color, ...props }: DashboardCardProps,
+    forwardedRef: React.ForwardedRef<HTMLDivElement>
+) => {
+    const ref = useRef<HTMLDivElement | null>(null);
+    useImperativeHandle(forwardedRef, () => ref.current as HTMLDivElement);
+
     const [helpOpen, setHelpOpen] = useState(false);
     const toggleHelp = () => setHelpOpen(!helpOpen);
+
+    useHotkey('Escape', () => {
+        const wrapper = ref.current;
+        if (!wrapper) return;
+        if (!helpOpen) return;
+
+        const focusWithin = wrapper.contains(document.activeElement);
+
+        const pointerPos = getPointerPosition();
+        const hoveredElement = pointerPos && document.elementFromPoint(pointerPos.screen.x, pointerPos.screen.y);
+        const isHoveringHelp = wrapper === hoveredElement || wrapper.contains(hoveredElement);
+
+        if (focusWithin || isHoveringHelp) setHelpOpen(false);
+    });
 
     return (
         <div

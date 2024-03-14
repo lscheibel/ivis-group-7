@@ -1,7 +1,12 @@
 import React from 'react';
 import styles from './About.module.scss';
+import { useHotkey } from '../../tools/useHotkey';
+import { useLocation } from 'wouter';
 
 const About = () => {
+    const [, setLocation] = useLocation();
+    useHotkey('Escape', () => setLocation('/'));
+
     return (
         <div className={styles.container}>
             <div className={styles.wrapper}>
