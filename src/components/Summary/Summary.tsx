@@ -45,6 +45,9 @@ const SummaryDetail = ({ type, value, selectedType }: SummaryDetailProperties) =
             onClick={() => setPisaScoreType(type)}
             className={cn(style.summaryDetail, { [style.active]: type === selectedType })}
         >
+            <div className={style.radioButtonContainer}>
+                <input type="radio" id="" name="" value="" checked={type === selectedType ? true : false} />
+            </div>
             <h2>{fromCamelCaseToUserFormat(type)}</h2>
             <p className={style.score}>{Math.round(value)}</p>
         </li>
