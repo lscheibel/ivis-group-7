@@ -5,13 +5,13 @@
     padding: var(--padding-large);
     background: var(--almost-white);
     color: var(--almost-black);
+    overflow: auto;
 }
 
 .wrapper {
     max-width: 80ch;
     margin: 0 auto;
     max-height: 100%;
-    overflow: auto;
 
     h1 {
         font-size: 32px;
@@ -47,8 +47,7 @@
 
     list-style: none;
     padding: 0;
-    margin: 0;
-    margin-bottom: var(--padding-large);
+    margin: 0 -64px var(--padding-large);
 }
 
 .portraitFigure {
@@ -61,4 +60,22 @@
         max-width: 256px;
         max-height: 256px;
     }
+}
+
+.caption {
+    line-height: 1.2;
+
+    a {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.name {
+    font-weight: 700;
+}
+
+.work {
+    font-weight: 400;
 }
