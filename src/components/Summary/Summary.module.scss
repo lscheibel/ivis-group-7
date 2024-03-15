@@ -49,3 +49,28 @@
         color: var(--background);
     }
 }
+.radioButtonContainer {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding: 0 16px;
+}
+
+/* Experiemnts with the radio buttons styling*/
+input {
+    appearance: none;
+
+    width: 16px;
+    height: 16px;
+    position: absolute;
+
+    border-radius: 80%;
+    border: 2px solid red;
+    background-color: black;
+}
+
+input[type='radio']:checked {
+    background-color: white;
+    color: black;
+    outline: 1px solid white;
+}
