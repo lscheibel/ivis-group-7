@@ -108,6 +108,9 @@ const About = () => {
                     Due to the time constraint of this project, there are a few things that weren’t able to be
                     implemented. Below are some things we would like to implement in the future.
                 </p>
+                <video controls>
+                    <source src="/demo.mp4" type="video/mp4" />
+                </video>
                 <ol className={styles.aboutLists}>
                     <li>
                         <p>
