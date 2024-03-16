@@ -133,6 +133,16 @@ const DataRect = ({ node, x, y, width, height, level, children }: DataRectProps)
                             />
                         </clipPath>
                         <text
+                            x={node.x1 - textPadding}
+                            y={node.y1 - textPadding}
+                            textAnchor={'end'}
+                            fill={'var(--font-color)'}
+                            fontSize={'16px'}
+                            clipPath={`url(#clip-${node.data.id})`}
+                        >
+                            {valueStr}
+                        </text>
+                        <text
                             id={`url(#text-${node.data.id})`}
                             x={node.x0 + textPadding}
                             y={node.y0 + textPadding}
@@ -140,6 +150,9 @@ const DataRect = ({ node, x, y, width, height, level, children }: DataRectProps)
                             fontSize={'16px'}
                             dominantBaseline={'hanging'}
                             clipPath={`url(#clip-${node.data.id})`}
+                            stroke={'var(--background)'}
+                            strokeWidth={6}
+                            paintOrder={'stroke'}
                         >
                             {width > height
                                 ? node.data.label
@@ -154,16 +167,6 @@ const DataRect = ({ node, x, y, width, height, level, children }: DataRectProps)
                                           </tspan>
                                       );
                                   })}
-                        </text>
-                        <text
-                            x={node.x1 - textPadding}
-                            y={node.y1 - textPadding}
-                            textAnchor={'end'}
-                            fill={'var(--font-color)'}
-                            fontSize={'16px'}
-                            clipPath={`url(#clip-${node.data.id})`}
-                        >
-                            {valueStr}
                         </text>
                     </>
                 )}
