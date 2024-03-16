@@ -35,7 +35,7 @@ const WaffleChart = ({ width, height, data, minSize, onHover, highlight }: Waffl
     const xRange = range(xCount).map((n) => '' + n);
     const xScale = d3
         .scaleBand()
-        .paddingInner(0)
+        .paddingInner(0.15)
         .domain(xRange)
         .range([margin.left, width - margin.right])
         .round(false);
@@ -43,7 +43,7 @@ const WaffleChart = ({ width, height, data, minSize, onHover, highlight }: Waffl
     const yRange = range(yCount).map((n) => '' + n);
     const yScale = d3
         .scaleBand()
-        .paddingInner(0)
+        .paddingInner(0.15)
         .domain(yRange)
         .range([margin.top + yRemainder, height - margin.bottom])
         .round(false);
