@@ -120,15 +120,15 @@ const About = () => {
                             application, and creates a closer connection to the message and feel of an education-related
                             application.
                         </p>
-                        <ContentImage imgSrc={'public/final_design.png'} />
+                        <ContentImage imgSrc={'/final_design.png'} />
                     </li>
                     <li>
                         <p>
                             A small info box that showcases the PISA score for each country next to the cursor on hover.
                         </p>
 
-                        <ContentImage imgSrc={'public/final_design_hover_box_focus.png'} />
-                        <ContentImage imgSrc={'public/final_design_hover_box.png'} />
+                        <ContentImage imgSrc={'/final_design_hover_box_focus.png'} />
+                        <ContentImage imgSrc={'/final_design_hover_box.png'} />
                     </li>
                 </ol>
                 <strong>Citations and references</strong>
