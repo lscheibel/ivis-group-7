@@ -79,3 +79,16 @@
 .work {
     font-weight: 400;
 }
+
+.contentImage {
+    img {
+        object-fit: cover;
+        width: 100%;
+    }
+}
+
+.aboutLists {
+    p {
+        display: inline;
+    }
+}

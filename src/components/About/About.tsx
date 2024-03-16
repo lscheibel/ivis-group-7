@@ -96,12 +96,65 @@ const About = () => {
                     entry. Allowing for more people to be able to see which factors affect their student&apos;s grades.
                 </p>
                 <strong>Limitations</strong>
+                <br />
                 <p>
                     The data provided by PISA covers a vast array of data points. To narrow the scope, this project
                     specifically focuses on examining the correlation between students&apos; grades and their food
                     security. Secondary data points pertain to students&apos; perceived support and perceived safety.
                     The remaining data set from PISA is not addressed in this project
                 </p>
+                <strong>Future implementations: Design/Usability</strong>
+                <p>
+                    Due to the time constraint of this project, there are a few things that weren’t able to be
+                    implemented. Below are some things we would like to implement in the future.
+                </p>
+                <ol className={styles.aboutLists}>
+                    <li>
+                        <p>
+                            The user interface currently displayed is the remnant of our first iteration. We chose to
+                            focus on functionality and usability when finishing this project and therefore the new
+                            design had to be postponed. We believe that this design increases the usability of the
+                            application, and creates a closer connection to the message and feel of an education-related
+                            application.
+                        </p>
+                        <ContentImage imgSrc={'public/final_design.png'} />
+                    </li>
+                    <li>
+                        <p>
+                            A small info box that showcases the PISA score for each country next to the cursor on hover.
+                        </p>
+
+                        <ContentImage imgSrc={'public/final_design_hover_box_focus.png'} />
+                        <ContentImage imgSrc={'public/final_design_hover_box.png'} />
+                    </li>
+                </ol>
+                <strong>Citations and references</strong>
+                <ul className={styles.aboutLists}>
+                    <li>
+                        <p>
+                            Gerald J., Dorothy R. Friedman. (2019). School of Nutrition Science and Policy at Tufts
+                            University. "Download 2018 Final Estimates." Published online at globaldietarydatabase.org.
+                            Retrieved from: ‘https://www.globaldietarydatabase.org/data-download’ [Online Resource]
+                        </p>
+                    </li>
+                    <br />
+                    <li>
+                        <p>
+                            Andreas Schleicher PISA 2022 Insights to interpretations
+                            https://www.oecd.org/pisa/PISA%202022%20Insights%20and%20Interpretations.pdf
+                        </p>
+                    </li>
+                    <br />
+                    <li>
+                        <p>
+                            Schultz, L., Bundy, D. A. P., "School Health and Nutrition Monitoring: What Practitioners
+                            and Policy Makers Can Learn from China," The Lancet Regional Health - Western Pacific, vol.
+                            19, 2022, article number 100368, ISSN 2666-6065,
+                            https://doi.org/10.1016/j.lanwpc.2021.100368.
+                            (https://www.sciencedirect.com/science/article/pii/S2666606521002777)
+                        </p>
+                    </li>
+                </ul>
             </div>
         </div>
     );
@@ -137,6 +190,18 @@ const TeamAvatar = ({ name, imgSrc, work, website, linkedin }: TeamAvatarProps) 
                     </a>
                 )}
             </figcaption>
+        </figure>
+    );
+};
+
+export interface ContentImageProps {
+    imgSrc: string;
+}
+
+const ContentImage = ({ imgSrc }: ContentImageProps) => {
+    return (
+        <figure className={styles.contentImage}>
+            <img src={imgSrc} alt="" />
         </figure>
     );
 };
