@@ -62,3 +62,12 @@
         max-height: 256px;
     }
 }
+.contentImage {
+    img {
+        object-fit: cover;
+        width: 100%;
+        // aspect-ratio: 1;
+        // max-width: 256px;
+        // max-height: 256px;
+    }
+}

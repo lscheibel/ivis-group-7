@@ -71,6 +71,31 @@ const About = () => {
                     security. Secondary data points pertain to students&apos; perceived support and perceived safety.
                     The remaining data set from PISA is not addressed in this project
                 </p>
+                <strong>Future implementations: Design/Usability</strong>
+                <p>
+                    Due to the time constraint of this project, there are a few things that weren’t able to be
+                    implemented. Below are some things we would like to implement in the future.
+                </p>
+                <ol>
+                    <li>
+                        <p>
+                            The user interface currently displayed is the remnant of our first iteration. We chose to
+                            focus on functionality and usability when finishing this project and therefore the new
+                            design had to be postponed. We believe that this design increases the usability of the
+                            application, and creates a closer connection to the message and feel of an education-related
+                            application.
+                        </p>
+                        <ContentImage imgSrc={'public/final_design.png'} />
+                    </li>
+                    <li>
+                        <p>
+                            A small info box that showcases the PISA score for each country next to the cursor on hover.
+                        </p>
+
+                        <ContentImage imgSrc={'public/final_design_hover_box_focus.png'} />
+                        <ContentImage imgSrc={'public/final_design_hover_box.png'} />
+                    </li>
+                </ol>
             </div>
         </div>
     );
@@ -88,6 +113,18 @@ const TeamAvatar = ({ name, imgSrc }: TeamAvatarProps) => {
         <figure className={styles.portraitFigure}>
             <img src={imgSrc} alt="" />
             <figcaption>{name}</figcaption>
+        </figure>
+    );
+};
+
+export interface ContentImageProps {
+    imgSrc: string;
+}
+
+const ContentImage = ({ imgSrc }: ContentImageProps) => {
+    return (
+        <figure className={styles.contentImage}>
+            <img src={imgSrc} alt="" />
         </figure>
     );
 };
