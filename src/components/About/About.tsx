@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './About.module.scss';
 import { useHotkey } from '../../tools/useHotkey';
 import { useLocation } from 'wouter';
 import IconGlobe from '../icons/IconGlobe';
 import IconLinkedin from '../icons/IconLinkedin';
+import { useWindowEvent } from '../../tools/useWindowEvent';
 
 const About = () => {
     const [, setLocation] = useLocation();
-    useHotkey('Escape', () => setLocation('/'));
+    const goHome = () => setLocation('/');
+    useHotkey('Escape', goHome);
+
+    const ref = useRef<HTMLDivElement | null>(null);
+    useWindowEvent('click', (e) => {
+        // Todo: Hacky.
+        const target = e.target as HTMLElement;
+        if (target.matches('a')) return;
+        if (e.target && !ref.current?.contains(e.target as HTMLElement)) goHome();
+    });
 
     return (
-        <div className={styles.container}>
+        <div ref={ref} className={styles.container}>
+            <button className={styles.closeButton} onClick={goHome}>
+                x
+            </button>
             <div className={styles.wrapper}>
                 <h1>About us</h1>
                 <em>This project is part of the Information Visualization course at KTH.</em>
