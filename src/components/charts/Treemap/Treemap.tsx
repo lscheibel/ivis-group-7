@@ -32,7 +32,6 @@ const Treemap = ({ width, height, data }: TreemapProps) => {
 
     const treemapBounds = { left: 0, top: 0, right: Math.round(width), bottom: Math.round(height) };
     const margin = -1;
-    const textPadding = 16;
 
     // Todo: Instead of drawing rects with strokes just draw individual lines and if both points lie on the svg bounds skip that line. This should avoid all of these weird margin shenanigans.
     const getNodeBounds = (node: d3.HierarchyRectangularNode<TreemapData>) => {
@@ -47,7 +46,7 @@ const Treemap = ({ width, height, data }: TreemapProps) => {
     // Let the spaghetti begin:
     return (
         <svg width={width} height={height} className={styles.svg}>
-            {rootNode.children?.map((node, index) => {
+            {rootNode.children?.map((node) => {
                 const nodeBounds = getNodeBounds(node);
 
                 return (
@@ -134,6 +133,16 @@ const DataRect = ({ node, x, y, width, height, level, children }: DataRectProps)
                             />
                         </clipPath>
                         <text
+                            x={node.x1 - textPadding}
+                            y={node.y1 - textPadding}
+                            textAnchor={'end'}
+                            fill={'var(--font-color)'}
+                            fontSize={'16px'}
+                            clipPath={`url(#clip-${node.data.id})`}
+                        >
+                            {valueStr}
+                        </text>
+                        <text
                             id={`url(#text-${node.data.id})`}
                             x={node.x0 + textPadding}
                             y={node.y0 + textPadding}
@@ -141,6 +150,9 @@ const DataRect = ({ node, x, y, width, height, level, children }: DataRectProps)
                             fontSize={'16px'}
                             dominantBaseline={'hanging'}
                             clipPath={`url(#clip-${node.data.id})`}
+                            stroke={'var(--background)'}
+                            strokeWidth={6}
+                            paintOrder={'stroke'}
                         >
                             {width > height
                                 ? node.data.label
@@ -155,16 +167,6 @@ const DataRect = ({ node, x, y, width, height, level, children }: DataRectProps)
                                           </tspan>
                                       );
                                   })}
-                        </text>
-                        <text
-                            x={node.x1 - textPadding}
-                            y={node.y1 - textPadding}
-                            textAnchor={'end'}
-                            fill={'var(--font-color)'}
-                            fontSize={'16px'}
-                            clipPath={`url(#clip-${node.data.id})`}
-                        >
-                            {valueStr}
                         </text>
                     </>
                 )}

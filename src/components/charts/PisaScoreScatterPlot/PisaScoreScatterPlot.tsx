@@ -46,6 +46,13 @@ const PisaScoreScatterPlot = () => {
                                 from: -0.5,
                                 to: 0.5,
                             },
+                            {
+                                label: 'SCHOOL TIME SPENT USING DIGITAL DEVICES',
+                                getValue: (c) => c.percentageOfSchoolTimeSpentUsingDigitalDevices,
+                                formatter: (t) => `${Math.round(t.value)}%`,
+                                from: 0,
+                                to: 100,
+                            },
                         ]}
                         yAxis={{
                             label: `${pisaScoreType.toLocaleUpperCase()} PISA SCORE`,

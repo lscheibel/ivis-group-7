@@ -23,7 +23,7 @@ export const useActiveCountry = () => {
     return id == null ? null : getDatumById(id);
 };
 
-export const setSelectedCountry = (countryId: CountryId) => {
+export const setSelectedCountry = (countryId: CountryId | null) => {
     selectedCountryAtom.set(countryId);
     hoveredCountryAtom.set(null);
 };

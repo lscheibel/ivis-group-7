@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './About.module.scss';
+import { useHotkey } from '../../tools/useHotkey';
+import { useLocation } from 'wouter';
+import IconGlobe from '../icons/IconGlobe';
+import IconLinkedin from '../icons/IconLinkedin';
 
 const About = () => {
+    const [, setLocation] = useLocation();
+    useHotkey('Escape', () => setLocation('/'));
+
     return (
         <div className={styles.container}>
             <div className={styles.wrapper}>
@@ -10,22 +17,46 @@ const About = () => {
                 <h2>THE TEAM</h2>
                 <ul className={styles.portraits}>
                     <li>
-                        <TeamAvatar name={'Beatrice Galvanetto'} imgSrc={'/beatrice.jpeg'} />
+                        <TeamAvatar
+                            name={'Beatrice Galvanetto'}
+                            work={'Data Processing'}
+                            imgSrc={'/beatrice.jpeg'}
+                            linkedin={'https://www.linkedin.com/in/beatricegalvanetto/'}
+                        />
                     </li>
                     <li>
                         <TeamAvatar
                             name={'David Giraldo'}
+                            work={'Development'}
                             imgSrc={'https://github.com/DavidGiraldoCode.png?size=320'}
+                            website={'https://how-to-find-me.netlify.app/'}
+                            linkedin={'https://www.linkedin.com/in/davidgiraldodesign/'}
                         />
                     </li>
                     <li>
-                        <TeamAvatar name={'Johannes Granlund'} imgSrc={'/johannes.jpeg'} />
+                        <TeamAvatar
+                            name={'Johannes Granlund'}
+                            work={'Design'}
+                            imgSrc={'/johannes.jpeg'}
+                            linkedin={'https://www.linkedin.com/in/jgranlund/'}
+                        />
                     </li>
                     <li>
-                        <TeamAvatar name={'Lennard Scheibel'} imgSrc={'https://github.com/lscheibel.png?size=320'} />
+                        <TeamAvatar
+                            name={'Lennard Scheibel'}
+                            work={'Development'}
+                            imgSrc={'https://github.com/lscheibel.png?size=320'}
+                            website={'https://lennardscheibel.de'}
+                            linkedin={'https://www.linkedin.com/in/lennard-scheibel/'}
+                        />
                     </li>
                     <li>
-                        <TeamAvatar name={'Sanaa Syed'} imgSrc={'/sanaa.jpeg'} />
+                        <TeamAvatar
+                            name={'Sanaa Syed'}
+                            work={'Design'}
+                            imgSrc={'/sanaa.jpeg'}
+                            linkedin={'https://www.linkedin.com/in/sanaa-syed-xr-productmanagement-design-ai-ml/'}
+                        />
                     </li>
                 </ul>
                 <p>
@@ -133,14 +164,32 @@ export default About;
 
 export interface TeamAvatarProps {
     name: string;
+    work: string;
     imgSrc: string;
+    website?: string;
+    linkedin?: string;
 }
 
-const TeamAvatar = ({ name, imgSrc }: TeamAvatarProps) => {
+const TeamAvatar = ({ name, imgSrc, work, website, linkedin }: TeamAvatarProps) => {
     return (
         <figure className={styles.portraitFigure}>
             <img src={imgSrc} alt="" />
-            <figcaption>{name}</figcaption>
+            <figcaption className={styles.caption}>
+                <span className={styles.name}>{name}</span>
+                <br />
+                <span className={styles.work}>{work}</span>
+                <br />
+                {website && (
+                    <a href={website} target={'_blank'} rel="noreferrer" title={'Website'}>
+                        <IconGlobe style={{ transform: 'scale(0.9)' }} />
+                    </a>
+                )}
+                {linkedin && (
+                    <a href={linkedin} target={'_blank'} rel="noreferrer" title={'LinkedIn'}>
+                        <IconLinkedin />
+                    </a>
+                )}
+            </figcaption>
         </figure>
     );
 };
