@@ -24,3 +24,28 @@
     font-style: normal;
     min-height: 48px; // Double line height. Prevents flickering when subtitle changes.
 }
+
+.legend {
+    min-height: min-content;
+}
+
+.legendItem {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--padding-tiny);
+}
+
+.legendIcon {
+    flex-shrink: 0;
+
+    --strength: 0;
+    --bg: var(--almost-black);
+    --size: 16px;
+
+    width: var(--size);
+    height: var(--size);
+
+    background: var(--bg);
+    border: calc(var(--strength) * (var(--size) / 2)) solid var(--red);
+}

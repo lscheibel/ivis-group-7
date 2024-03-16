@@ -63,6 +63,27 @@ const SkippedMealsWaffleChart = ({ data }: SkippedMealsWaffleChartProps) => {
                 <span>MEALS SKIPPED PER WEEK</span>
                 {subtitle && <em className={styles.subtitle}>{subtitle}</em>}
             </div>
+            <div className={styles.legend}>
+                <div className={styles.legendItem}>
+                    <div className={styles.legendIcon} style={{ '--bg': 'var(--white)', '--strength': 0 }} /> % never
+                    skip a meal.
+                </div>
+                <div className={styles.legendItem}>
+                    <div className={styles.legendIcon} style={{ '--strength': 3 / 3 }} /> % skip a meal once per week.
+                </div>
+                <div className={styles.legendItem}>
+                    <div className={styles.legendIcon} style={{ '--strength': 2 / 3 }} /> % skip a meal two to three
+                    times per week.
+                </div>
+                <div className={styles.legendItem}>
+                    <div className={styles.legendIcon} style={{ '--strength': 1 / 3 }} /> % skip a meal four to five
+                    times per week.
+                </div>
+                <div className={styles.legendItem}>
+                    <div className={styles.legendIcon} style={{ '--strength': 0 / 3 }} /> % skip a meal every day of the
+                    week.
+                </div>
+            </div>
 
             <div className={styles.chartContainer}>
                 {!waffleData ? (
