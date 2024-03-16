@@ -71,6 +71,12 @@ const About = () => {
                     gap, inequalities in access to quality education and food security persist, limiting opportunities
                     for many individuals, particularly those from disadvantaged backgrounds.
                 </p>
+
+                <strong>Demo</strong>
+                <video controls>
+                    <source src="/demo.mp4" type="video/mp4" />
+                </video>
+
                 <strong>The PISA project</strong>
                 <p>
                     The PISA (Programme for International Student Assessment) project is an international assessment
@@ -108,9 +114,6 @@ const About = () => {
                     Due to the time constraint of this project, there are a few things that weren’t able to be
                     implemented. Below are some things we would like to implement in the future.
                 </p>
-                <video controls>
-                    <source src="/demo.mp4" type="video/mp4" />
-                </video>
                 <ol className={styles.aboutLists}>
                     <li>
                         <p>
