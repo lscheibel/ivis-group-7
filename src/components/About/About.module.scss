@@ -10,8 +10,7 @@
 .wrapper {
     max-width: 80ch;
     margin: 0 auto;
-    max-height: 95vh;
-    overflow: auto;
+    max-height: 100%;
 
     h1 {
         font-size: 32px;
@@ -62,15 +61,14 @@
         max-height: 256px;
     }
 }
+
 .contentImage {
     img {
         object-fit: cover;
         width: 100%;
-        // aspect-ratio: 1;
-        // max-width: 256px;
-        // max-height: 256px;
     }
 }
+
 .aboutLists {
     p {
         display: inline;
