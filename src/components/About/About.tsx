@@ -29,6 +29,7 @@ const About = () => {
                             name={'David Giraldo'}
                             work={'Development'}
                             imgSrc={'https://github.com/DavidGiraldoCode.png?size=320'}
+                            website={'https://how-to-find-me.netlify.app/'}
                             linkedin={'https://www.linkedin.com/in/davidgiraldodesign/'}
                         />
                     </li>
