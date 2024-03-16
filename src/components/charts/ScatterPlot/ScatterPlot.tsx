@@ -241,14 +241,16 @@ export interface DatumCircleProps {
 }
 
 const DatumCircle = ({ x, y, title, highlight, selected }: DatumCircleProps) => {
+    const size = selected ? 6 : 3;
+
     return (
         <>
             {(highlight || selected) && (
-                <circle cx={x} cy={y} r={5} fill={'var(--background)'}>
+                <circle cx={x} cy={y} r={size + 2} fill={'var(--background)'}>
                     {title && <title>{title}</title>}
                 </circle>
             )}
-            <circle cx={x} cy={y} r={3} fill={highlight || selected ? 'var(--accent-color)' : 'var(--font-color)'}>
+            <circle cx={x} cy={y} r={size} fill={highlight || selected ? 'var(--accent-color)' : 'var(--font-color)'}>
                 {title && <title>{title}</title>}
             </circle>
         </>
