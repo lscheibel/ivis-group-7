@@ -148,29 +148,34 @@ const About = () => {
                     </li>
                 </ol>
                 <strong>Citations and references</strong>
+
+                <strong>References</strong>
                 <ul className={styles.aboutLists}>
+                    <li>
+                        <p>
+                            OECD. (2022). Programme for International Student Assessment (PISA) 2022 Database. Retrieved
+                            from https://www.oecd.org/pisa/data/2022database/
+                        </p>
+                    </li>
                     <li>
                         <p>
                             Gerald J., Dorothy R. Friedman. (2019). School of Nutrition Science and Policy at Tufts
                             University. "Download 2018 Final Estimates." Published online at globaldietarydatabase.org.
-                            Retrieved from: ‘https://www.globaldietarydatabase.org/data-download’ [Online Resource]
+                            Retrieved from: https://www.globaldietarydatabase.org/data-download [Online Resource]
                         </p>
                     </li>
-                    <br />
                     <li>
                         <p>
-                            Andreas Schleicher PISA 2022 Insights to interpretations
+                            Andreas Schleicher. PISA 2022 Insights to interpretations. Retrieved from:
                             https://www.oecd.org/pisa/PISA%202022%20Insights%20and%20Interpretations.pdf
                         </p>
                     </li>
-                    <br />
                     <li>
                         <p>
-                            Schultz, L., Bundy, D. A. P., "School Health and Nutrition Monitoring: What Practitioners
-                            and Policy Makers Can Learn from China," The Lancet Regional Health - Western Pacific, vol.
-                            19, 2022, article number 100368, ISSN 2666-6065,
-                            https://doi.org/10.1016/j.lanwpc.2021.100368.
-                            (https://www.sciencedirect.com/science/article/pii/S2666606521002777)
+                            Schultz, L., Bundy, D. A. P. (2022). "School Health and Nutrition Monitoring: What
+                            Practitioners and Policy Makers Can Learn from China." The Lancet Regional Health - Western
+                            Pacific, 19, article number 100368. https://doi.org/10.1016/j.lanwpc.2021.100368. Retrieved
+                            from: https://www.sciencedirect.com/science/article/pii/S2666606521002777
                         </p>
                     </li>
                 </ul>

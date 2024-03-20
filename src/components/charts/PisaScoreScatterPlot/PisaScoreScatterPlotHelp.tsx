@@ -39,6 +39,11 @@ const PisaScoreScatterPlotHelp = () => {
                 to what degree the children feel a sense of belonging at school and that the school feels like a safe
                 study environment.
             </p>
+            <strong>School time spent using digital devices:</strong>
+            <p>
+                PISA gathers data on how much time students spend on digital devices while in school, and this axis
+                shows the amount of time spent on digital devices during school hours.
+            </p>
         </Help>
     );
 };
